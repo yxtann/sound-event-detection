@@ -1,0 +1,3 @@
+[submodule "external/soxbindings"]
+	path = external/soxbindings
+	url = https://github.com/pseeth/soxbindings
