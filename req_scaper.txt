@@ -1,0 +1,4 @@
+numpy==1.26.4 # Note that this is DIFFERENT from the main reqs.txt. Required for scaper to work
+datasets==2.16.1
+loguru==0.7.3
+scaper==1.6.5 # Requires soxbindings and sox to be installed. For synthetic soundscape generation, so can be skipped

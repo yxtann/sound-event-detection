@@ -13,7 +13,7 @@ def add_duration(example):
     example["duration"] = librosa.get_duration(path=example["file_path"])
     return example
 
-def upload_detection_dataset(data_dir: Path):
+def upload_classification_dataset(data_dir: Path):
 
     filepaths = []
     labels = []
@@ -57,4 +57,4 @@ def upload_detection_dataset(data_dir: Path):
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
     login(token=os.getenv("HF_TOKEN"))
-    upload_detection_dataset(data_dir = Path("data/raw/final_dataset/classification"))
+    upload_classification_dataset(data_dir = Path("data/raw/final_dataset/classification"))

@@ -12,3 +12,6 @@ i.e.
 # .env
 HF_TOKEN = xxxx
 ```
+
+### Generating soundscapes
+To generate, scaper and soxbindings (from submodule, and install from source) is required. Otherwise, this can be ignored.
