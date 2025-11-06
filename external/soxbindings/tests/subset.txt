@@ -1,0 +1,1 @@
+sox -D -V3 tests/data/input.wav -r 1000.000000 tests/data/output.wav
