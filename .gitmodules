@@ -1,0 +1,3 @@
+[submodule "external/hts_audio_transformer"]
+	path = external/hts_audio_transformer
+	url = git@github.com:RetroCirce/HTS-Audio-Transformer.git
