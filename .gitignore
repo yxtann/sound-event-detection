@@ -11,3 +11,6 @@ data/
 *.mp3
 *.ogg
 *.json
+
+# ignore model checkpoints
+*.pth
