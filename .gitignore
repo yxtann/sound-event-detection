@@ -11,3 +11,7 @@ data/
 *.mp3
 *.ogg
 *.json
+*.npz
+
+# folders
+feat_folder
