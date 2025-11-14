@@ -15,16 +15,13 @@ def get_stft_spec(filename, path, sr):
     S_db = librosa.amplitude_to_db(D, ref=np.max)
     return S_db
 
-def display_spectrogram(S_db, sr, annot_filter = None, filename = None):
+def display_spectrogram(S_db, sr, onset = None, offset = None):
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(S_db, sr=sr, x_axis='time', y_axis='hz')
     plt.colorbar(format='%+2.0f dB')
     plt.title('Spectrogram')
-    if annot_filter is not None:
-        if filename is None:
-            raise Exception('Please specify file name')
-        annot_file = annot_filter.query(f'filename == "{filename}"')
-        plt.axvline(annot_file['onset'].iloc[0])
-        plt.axvline(annot_file['offset'].iloc[0])
+    if (onset is not None) & (offset is not None):
+        plt.axvline(onset)
+        plt.axvline(offset)
     plt.tight_layout()
     plt.show()
