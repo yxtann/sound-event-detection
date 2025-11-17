@@ -7,65 +7,65 @@ from loguru import logger
 from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
 from huggingface_hub import login, upload_folder
-
-from src.constants import REGENERATE_AUDIO_DETECTION_SET
-from src.utils import generate_audio_events
+from datasets import DatasetDict, Dataset
 
 
 def upload_detection_dataset():
 
-    JAMS_PATH = "data/detection/audio"
-    OUTPUT_FILE = "data/detection/audio/annotations.csv"
+    ds_dict = DatasetDict()
 
-    all_annotations = []
+    for split in ["train", "test"]:
 
-    # Find all .jams files
-    jams_files = glob.glob(os.path.join(JAMS_PATH, "*.jams"))
+        JAMS_PATH = f"data/processed/detection/{split}"
+        OUTPUT_FILE = f"data/processed/detection/{split}/annotations.csv"
 
-    for jams_file in jams_files:
-        # Load the jams annotation
-        jam = jams.load(jams_file)
+        all_annotations = []
 
-        # Get the audio filename (e.g., "audio/scene_0000.wav")
-        # We add the 'audio/' prefix to match the HF repo structure
-        audio_filename = "audio/" + os.path.basename(jams_file).replace(".jams", ".wav")
+        # Find all .jams files
+        jams_files = glob.glob(os.path.join(JAMS_PATH, "*.jams"))
 
-        # Find the 'scaper' annotations
-        scaper_anns = jam.annotations.search(namespace="scaper")
-        if not scaper_anns:
-            continue
+        for jams_file in jams_files:
+            # Load the jams annotation
+            jam = jams.load(jams_file)
 
-        # Iterate over every event scaper logged
-        for obs in scaper_anns[0].data:
-            event = obs.value
-
-            all_annotations.append(
-                {
-                    "filename": audio_filename,
-                    "onset": obs.time,
-                    "offset": obs.time + obs.duration,
-                    "event_label": event["label"],
-                }
+            # Get the audio filename (e.g., "audio/scene_0000.wav")
+            # We add the 'audio/' prefix to match the HF repo structure
+            audio_filename = "audio/" + os.path.basename(jams_file).replace(
+                ".jams", ".wav"
             )
 
-    # Create a DataFrame and save to CSV
-    df = pd.DataFrame(all_annotations)
-    df.to_csv(OUTPUT_FILE, index=False)
+            # Find the 'scaper' annotations
+            scaper_anns = jam.annotations.search(namespace="scaper")
+            if not scaper_anns:
+                continue
 
-    logger.info(f"Successfully created {OUTPUT_FILE} with {len(df)} annotations.")
+            # Iterate over every event scaper logged
+            for obs in scaper_anns[0].data:
+                event = obs.value
 
-    upload_folder(
-        folder_path="data/detection/audio",
-        repo_id="kuross/dl-proj-detection",
-        repo_type="dataset",
-    )
+                all_annotations.append(
+                    {
+                        "filename": audio_filename,
+                        "onset": obs.time,
+                        "offset": obs.time + obs.duration,
+                        "event_label": event["label"],
+                    }
+                )
+
+            # Create a DataFrame and save to CSV
+            df = pd.DataFrame(all_annotations)
+            df.to_csv(OUTPUT_FILE, index=False)
+
+            logger.info(
+                f"Successfully created {OUTPUT_FILE} with {len(df)} annotations for split {split}."
+            )
+
+        ds_dict[split] = Dataset.from_pandas(df)
+
+    ds_dict.push_to_hub("kuross/dl-proj-detection")
 
 
 if __name__ == "__main__":
-    if REGENERATE_AUDIO_DETECTION_SET:
-        logger.info("Regenerating audio detection set...")
-        generate_audio_events()
-
     load_dotenv(find_dotenv())
     login(token=os.getenv("HF_TOKEN"))
     upload_detection_dataset()

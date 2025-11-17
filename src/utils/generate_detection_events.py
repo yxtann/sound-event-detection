@@ -1,8 +1,13 @@
 import scaper
 import os
-import glob
 import numpy as np
+import soundfile as sf
+
 from loguru import logger
+from dotenv import load_dotenv, find_dotenv
+from huggingface_hub import login
+
+from src.utils.download_classification_dataset import download_classification_dataset
 
 from src.constants import (
     FG_PATH,
@@ -11,20 +16,21 @@ from src.constants import (
     N_SCENES,
     SCENE_DURATION,
     START_SEED,
+    CLASSES,
 )
 
 
-def generate_audio_events():
+def generate_detection_events(split: str, num_scenes: int):
 
-    AUDIO_OUTPUT_PATH = os.path.join(OUTPUT_PATH, "audio")
+    AUDIO_OUTPUT_PATH = os.path.join(OUTPUT_PATH, split)
     os.makedirs(AUDIO_OUTPUT_PATH, exist_ok=True)
 
-    for n in range(N_SCENES):
-        logger.info(f"Generating scene {n+1}/{N_SCENES}...")
+    for n in range(num_scenes):
+        logger.info(f"Generating scene {n+1}/{num_scenes}...")
 
         sc = scaper.Scaper(
             SCENE_DURATION,
-            fg_path=FG_PATH,
+            fg_path=f"{FG_PATH}/{split}",
             bg_path=BG_PATH,
             random_state=START_SEED + n,
         )
@@ -41,7 +47,7 @@ def generate_audio_events():
         n_events = np.random.randint(1, 2)
         for _ in range(n_events):
             sc.add_event(
-                label=("choose", []),  # Randomly choose a label
+                label=("choose", []),
                 source_file=("choose", []),  # Randomly choose a file from that label
                 source_time=("const", 0),
                 event_time=(
@@ -70,8 +76,21 @@ def generate_audio_events():
             allow_repeated_source=True,
         )
 
-    logger.info("Done generating scenes.")
+    logger.info(f"Done generating scenes for {split} split.")
 
 
 if __name__ == "__main__":
-    generate_audio_events()
+    load_dotenv(find_dotenv())
+    login(token=os.getenv("HF_TOKEN"))
+
+    for split in ["train", "test"]:
+
+        # Skip download if already exists
+        if os.path.exists(f"data/processed/classification/{split}"):
+            continue
+        else:
+            download_classification_dataset(
+                "kuross/dl-proj-classification", "data/processed/classification", split
+            )
+
+        generate_detection_events(split, N_SCENES)
