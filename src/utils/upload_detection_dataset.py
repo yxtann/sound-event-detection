@@ -6,7 +6,7 @@ import os
 from loguru import logger
 from dotenv import load_dotenv, find_dotenv
 from datasets import DatasetDict, Dataset
-from huggingface_hub import login, upload_folder # Ensure upload_folder is used
+from huggingface_hub import login, upload_folder
 
 os.environ["HF_HUB_HTTP_TIMEOUT"] = "10000"
 
@@ -38,7 +38,7 @@ def upload_detection_dataset():
                 jam = jams.load(jams_file)
 
                 # Get the audio filename relative to the repo root
-                audio_filename = "audio/" + os.path.basename(jams_file).replace(".jams", ".wav")
+                audio_filename = os.path.basename(jams_file).replace(".jams", ".wav")
 
                 # Find the 'scaper' annotations
                 scaper_anns = jam.annotations.search(namespace="scaper")
@@ -72,7 +72,7 @@ def upload_detection_dataset():
         upload_folder(
             folder_path=AUDIO_DIR,
             repo_id=REPO_ID,
-            path_in_repo="audio",
+            path_in_repo=".",
             repo_type="dataset"
         )
     else:
