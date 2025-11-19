@@ -66,8 +66,8 @@ def generate_detection_events(split: str, num_scenes: int):
             )
 
         # Generate the audio and annotation; annotation in jams format
-        audio_file = os.path.join(AUDIO_OUTPUT_PATH, f"scene_{n:04d}.wav")
-        jams_file = os.path.join(AUDIO_OUTPUT_PATH, f"scene_{n:04d}.jams")
+        audio_file = os.path.join(AUDIO_OUTPUT_PATH, f"{split}_scene_{n:04d}.wav")
+        jams_file = os.path.join(AUDIO_OUTPUT_PATH, f"{split}_scene_{n:04d}.jams")
 
         sc.generate(
             audio_file,
@@ -82,12 +82,12 @@ def generate_detection_events(split: str, num_scenes: int):
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
     login(token=os.getenv("HF_TOKEN"))
-
+    
     for split in ["train", "test"]:
 
         # Skip download if already exists
         if os.path.exists(f"data/processed/classification/{split}"):
-            continue
+            pass
         else:
             download_classification_dataset(
                 "kuross/dl-proj-classification", "data/processed/classification", split
