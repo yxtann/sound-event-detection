@@ -5,67 +5,84 @@ import os
 
 from loguru import logger
 from dotenv import load_dotenv, find_dotenv
-from pathlib import Path
-from huggingface_hub import login, upload_folder
 from datasets import DatasetDict, Dataset
+from huggingface_hub import login, upload_folder # Ensure upload_folder is used
 
+os.environ["HF_HUB_HTTP_TIMEOUT"] = "10000"
 
 def upload_detection_dataset():
+
+    REPO_ID = "kuross/dl-proj-detection"
+    AUDIO_DIR = "data/processed/detection/" 
 
     ds_dict = DatasetDict()
 
     for split in ["train", "test"]:
 
-        JAMS_PATH = f"data/processed/detection/{split}"
-        OUTPUT_FILE = f"data/processed/detection/{split}/annotations.csv"
-
+        BASE_PATH = os.path.join("data", "processed", "detection", split)
+        JAMS_PATH = BASE_PATH 
+        OUTPUT_FILE = os.path.join(BASE_PATH, "annotations.csv")
         all_annotations = []
-
+        
         # Find all .jams files
         jams_files = glob.glob(os.path.join(JAMS_PATH, "*.jams"))
+        if not jams_files:
+            logger.warning(f"No .jams files found in {JAMS_PATH}. Skipping split.")
+            continue
+
+        logger.info(f"Processing {len(jams_files)} files for split {split}...")
 
         for jams_file in jams_files:
-            # Load the jams annotation
-            jam = jams.load(jams_file)
+            try:
+                # Load the jams annotation
+                jam = jams.load(jams_file)
 
-            # Get the audio filename (e.g., "audio/scene_0000.wav")
-            # We add the 'audio/' prefix to match the HF repo structure
-            audio_filename = "audio/" + os.path.basename(jams_file).replace(
-                ".jams", ".wav"
-            )
+                # Get the audio filename relative to the repo root
+                audio_filename = "audio/" + os.path.basename(jams_file).replace(".jams", ".wav")
 
-            # Find the 'scaper' annotations
-            scaper_anns = jam.annotations.search(namespace="scaper")
-            if not scaper_anns:
-                continue
+                # Find the 'scaper' annotations
+                scaper_anns = jam.annotations.search(namespace="scaper")
+                
+                if scaper_anns:
+                    for obs in scaper_anns[0].data:
+                        event = obs.value
+                        all_annotations.append({
+                            "filename": audio_filename,
+                            "onset": obs.time,
+                            "offset": obs.time + obs.duration,
+                            "event_label": event["label"],
+                        })
+            except Exception as e:
+                logger.error(f"Failed to process {jams_file}: {e}")
 
-            # Iterate over every event scaper logged
-            for obs in scaper_anns[0].data:
-                event = obs.value
-
-                all_annotations.append(
-                    {
-                        "filename": audio_filename,
-                        "onset": obs.time,
-                        "offset": obs.time + obs.duration,
-                        "event_label": event["label"],
-                    }
-                )
-
-            # Create a DataFrame and save to CSV
+        if all_annotations:
             df = pd.DataFrame(all_annotations)
             df.to_csv(OUTPUT_FILE, index=False)
+            ds_dict[split] = Dataset.from_pandas(df)
+            logger.info(f"Finished split {split}: {len(df)} annotations.")
+        else:
+            logger.warning(f"No annotations found for split {split}.")
 
-            logger.info(
-                f"Successfully created {OUTPUT_FILE} with {len(df)} annotations for split {split}."
-            )
-
-        ds_dict[split] = Dataset.from_pandas(df)
-
-    ds_dict.push_to_hub("kuross/dl-proj-detection")
-
+    if ds_dict:
+        logger.info("Pushing dataset metadata to Hub...")
+        ds_dict.push_to_hub(REPO_ID)
+    
+    if os.path.exists(AUDIO_DIR):
+        logger.info("Uploading audio files...")
+        upload_folder(
+            folder_path=AUDIO_DIR,
+            repo_id=REPO_ID,
+            path_in_repo="audio",
+            repo_type="dataset"
+        )
+    else:
+        logger.warning(f"Audio directory {AUDIO_DIR} not found. Audio files were not uploaded.")
 
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
-    login(token=os.getenv("HF_TOKEN"))
-    upload_detection_dataset()
+    token = os.getenv("HF_TOKEN")
+    if token:
+        login(token=token)
+        upload_detection_dataset()
+    else:
+        logger.error("HF_TOKEN not found in .env file.")
