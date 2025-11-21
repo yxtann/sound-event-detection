@@ -1,14 +1,20 @@
+from pathlib import Path
+
 # General settings
 CLASSES = ["cough", "dog_bark", "gun_shot", "siren", "car_horn"]
 
 # Data
-DOWNLOAD_PATH = "data/raw"
-AUDIO_DETECTION_ANNOT_PATH = ""
+DOWNLOAD_PATH = Path("data") / "raw"
+AUDIO_DETECTION_ANNOT_PATH = Path("")
+DETECTION_TRAIN_PATH = Path("data") / "processed" / "detection" / "train"
+DETECTION_TEST_PATH = Path("data") / "processed" / "detection" / "test"
+
+YAMNET_DATA_PATH = Path("data") / "processed" / "yamnet"
 
 # Scaper (soundscape generator) settings
-FG_PATH = "data/processed/classification/"
-BG_PATH = "data/raw/background/"
-OUTPUT_PATH = "data/processed/detection"
+FG_PATH = Path("data") / "processed" / "classification"
+BG_PATH = Path("data") / "raw" / "background"
+OUTPUT_PATH = Path("data") / "processed" / "detection"
 N_SCENES = 500
 SCENE_DURATION = 10.0
 START_SEED = 42
