@@ -12,5 +12,7 @@ data/
 *.ogg
 *.json
 
-# ignore model checkpoints
+# ignore large files
 *.pth
+*.png
+*.pkl
