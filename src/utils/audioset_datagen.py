@@ -1,6 +1,6 @@
 from audioset_download import Downloader
 from tqdm import tqdm
-from src.constants import CLASSES, DOWNLOAD_PATH
+from src.config import CLASSES, DOWNLOAD_PATH
 
 
 def download_audioset(labels, root_path="raw/test"):

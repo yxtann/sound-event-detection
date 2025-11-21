@@ -9,7 +9,7 @@ from huggingface_hub import login
 
 from src.utils.download_classification_dataset import download_classification_dataset
 
-from src.constants import (
+from src.config import (
     FG_PATH,
     BG_PATH,
     OUTPUT_PATH,

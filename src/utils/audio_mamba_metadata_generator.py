@@ -8,7 +8,7 @@ from pathlib import Path
 from loguru import logger
 from tqdm import tqdm
 
-from src.constants import AUDIO_MAMBA_INDEX_LIST, CLASSES
+from src.config import AUDIO_MAMBA_INDEX_LIST, CLASSES
 
 
 class AudioMambaMetadataGenerator:
