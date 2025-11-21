@@ -211,7 +211,6 @@ class Solver(object):
             )
 
             if plot_detection_viz:
-                assert output_folder != None, "Specify an output folder!!"
                 plot_detection(
                     audio,
                     self.sr,
@@ -281,6 +280,7 @@ def plot_detection(
         plt.savefig(os.path.join(output_folder, f"{title}.png"))
         plt.close()
     else:
+        # Likely running on Jupyter notebook
         plt.show()
 
 
