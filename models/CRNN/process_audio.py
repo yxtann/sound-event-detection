@@ -40,9 +40,6 @@ def load_desc_from_csv(csv_file, class_labels_dict):
     _desc_dict = dict()
     df = pd.read_csv(csv_file)
     
-    # --- IMPORTANT ---
-    # Ddjust these column names if your .csv
-    # headers are different.
     filename_col = 'filename' 
     start_time_col = 'onset'   
     end_time_col = 'offset'
@@ -52,7 +49,7 @@ def load_desc_from_csv(csv_file, class_labels_dict):
     for index, row in df.iterrows():
         name = os.path.basename(row[filename_col])
         
-        # Get the class index (e.g., 1) from the class name (e.g., "car")
+        # Get the class index (e.g., 1) from the class name
         class_name = row[class_name_col]
         if class_name not in class_labels_dict:
             continue
@@ -103,92 +100,16 @@ def process_file(audio_filename, audio_folder, desc_dict, sr, nfft, hop_len, nb_
     
     except Exception as e:
         return f"ERROR processing {audio_filename}: {e}"
-
-# ###################################################################
-# Main script
-# ###################################################################
-
-if __name__ == '__main__':
-    is_mono = True
-    __class_labels = {
-        'gun_shot': 0,
-        'doorbell': 1,
-        'cough': 2,
-        'siren': 3,
-        'traffic': 4,
-        'airport' : 5,
-        'forest' : 6,
-        'dog_bark' : 7,
-        'coffee_shop' : 8
-    }
     
-    # -----------------------------------------------------------------
-    # Download the repo from the Hub
-    # -----------------------------------------------------------------
-    
-    REPO_ID = "kuross/dl-proj-detection" 
-    
-    print(f"Downloading dataset from Hugging Face Hub: {REPO_ID}...")
-    
-    # This function downloads the entire repo to a local cache
-    # and returns the path to that folder.
-    data_folder = snapshot_download(
-        repo_id=REPO_ID, 
-        repo_type="dataset"
-    ) 
-    
-    print(f"Dataset downloaded to: {data_folder}")
-    # -----------------------------------------------------------------
-    
-    # Output folder for features (now inside the downloaded folder)
-    feat_folder = os.path.join('.', 'feat_folder')
-    utils.create_folder(feat_folder) 
-    
-    # User set parameters 
-    nfft = 2048
-    hop_len = nfft // 2
-    nb_mel_bands = 40
-    sr = 44100
-    
-    # -----------------------------------------------------------------
-    # 1. Feature extraction and label generation
-    # -----------------------------------------------------------------
-    
-    # Load ALL labels from the single annotations.csv file
-    print("Loading labels from annotations.csv...")
-    annotations_file = os.path.join(data_folder, 'annotations.csv')
-    desc_dict = load_desc_from_csv(annotations_file, __class_labels)
-    print(f"Loaded labels for {len(desc_dict)} audio files.")
-
-    # Get list of all .wav files in the data folder
-    audio_files_list = [f for f in os.listdir(data_folder) if f.endswith('.wav')]
-    print(f"Found {len(audio_files_list)} .wav files to process.")
-    
-    # Process all files in parallel
-    print("Starting parallel feature extraction...")
-    results = Parallel(n_jobs=-1, backend="threading", verbose=10)(
-        delayed(process_file)(
-            audio_filename,
-            data_folder,  # Use the single data folder
-            desc_dict,
-            sr, nfft, hop_len, nb_mel_bands, is_mono,
-            __class_labels, feat_folder
-        ) for audio_filename in audio_files_list
-    )
-    print("Feature extraction complete.")
-
-    # -----------------------------------------------------------------
-    # Feature Normalization
-    # -----------------------------------------------------------------
-    print("Starting feature normalization...")
-    
+# -----------------------------------------------------------------------
+# HELPER: GATHER FEATURES
+# -----------------------------------------------------------------------
+def gather_features(file_list, feat_folder, is_mono):
     X_all, Y_all = None, None
     
-    # Load ALL the .npz files we just saved
-    for audio_filename in audio_files_list:
+    for audio_filename in file_list:
         tmp_feat_file = os.path.join(feat_folder, '{}_{}.npz'.format(audio_filename, 'mon' if is_mono else 'bin'))
         if not os.path.exists(tmp_feat_file):
-            print(f"Warning: Missing feature file {tmp_feat_file}")
             continue
             
         try:
@@ -202,14 +123,116 @@ if __name__ == '__main__':
                 Y_all = np.concatenate((Y_all, tmp_label), 0)
         except Exception as e:
             print(f"Error loading {tmp_feat_file}: {e}")
+            
+    return X_all, Y_all
 
-    # Normalize ALL the data
-    print("Fitting StandardScaler on all data...")
-    scaler = preprocessing.StandardScaler()
-    X_all = scaler.fit_transform(X_all)
+# ###################################################################
+# Main script
+# ###################################################################
+
+if __name__ == '__main__':
+    is_mono = True
+    __class_labels = {
+        'car_horn': 0,
+        'cough': 1,
+        'dog_bark': 2,
+        'siren': 3,
+        'gun_shot': 4
+    }
     
-    # Save the final, normalized .npz file
-    normalized_feat_file = os.path.join(feat_folder, 'mbe_mon_all.npz')
-    np.savez(normalized_feat_file, X_all, Y_all)
-    print('Normalized feature file saved: {}'.format(normalized_feat_file))
-    print("All processing complete.")
+    # -----------------------------------------------------------------
+    # Download the repo from the Hub
+    # -----------------------------------------------------------------
+    
+    REPO_ID = "kuross/dl-proj-detection" 
+    print(f"Downloading dataset from Hugging Face Hub: {REPO_ID}...")
+
+    root_folder = snapshot_download(repo_id=REPO_ID, repo_type="dataset")
+    print(f"Dataset downloaded to: {root_folder}")
+
+    # Define specific subfolders
+    train_dir = os.path.join(root_folder, 'train')
+    test_dir = os.path.join(root_folder, 'test')
+
+    # Specific Paths to CSVs
+    train_csv = os.path.join(train_dir, 'annotations.csv')
+    test_csv = os.path.join(test_dir, 'annotations.csv')
+    
+    # Output folder for features (now inside the downloaded folder)
+    feat_folder = os.path.join('.', 'feat_folder')
+    utils.create_folder(feat_folder) 
+    
+    # User set parameters 
+    nfft = 2048
+    hop_len = nfft // 2
+    nb_mel_bands = 40
+    sr = 44100
+    
+    # -----------------------------------------------------------------
+    # Feature extraction and label generation
+    # -----------------------------------------------------------------
+    
+    # LOAD LABELS FROM TRAIN AND TEST
+    print(f"Loading Train labels from {train_csv}...")
+    train_desc_dict = load_desc_from_csv(train_csv, __class_labels)
+    
+    print(f"Loading Test labels from {test_csv}...")
+    test_desc_dict = load_desc_from_csv(test_csv, __class_labels)
+
+    # Get file lists (exclude the csv files themselves from the wav list)
+    train_files = [f for f in os.listdir(train_dir) if f.endswith('.wav')]
+    test_files  = [f for f in os.listdir(test_dir) if f.endswith('.wav')]
+    
+    print(f"Found {len(train_files)} Train files and {len(test_files)} Test files.")
+    
+    # PROCESS TRAINING DATA
+    print("Processing TRAINING files...")
+    Parallel(n_jobs=-1, backend="threading", verbose=5)(
+        delayed(process_file)(
+            f, train_dir, train_desc_dict, sr, nfft, hop_len, nb_mel_bands, is_mono, __class_labels, feat_folder
+        ) for f in train_files
+    )
+
+    # PROCESS TEST DATA
+    print("Processing TEST files...")
+    Parallel(n_jobs=-1, backend="threading", verbose=5)(
+        delayed(process_file)(
+            f, test_dir, test_desc_dict, sr, nfft, hop_len, nb_mel_bands, is_mono, __class_labels, feat_folder
+        ) for f in test_files
+    )
+
+    # -----------------------------------------------------------------
+    # Feature Normalization
+    # -----------------------------------------------------------------
+    print("Starting feature normalization...")
+    
+    X_all, Y_all = None, None
+    
+    print("Gathering Training Features...")
+    X_train, Y_train = gather_features(train_files, feat_folder, is_mono)
+    
+    print("Gathering Test Features...")
+    X_test, Y_test = gather_features(test_files, feat_folder, is_mono)
+
+    if X_train is not None and X_test is not None:
+        print("Fitting StandardScaler on TRAINING data only...")
+        scaler = preprocessing.StandardScaler()
+        
+        # FIT on Train
+        X_train = scaler.fit_transform(X_train)
+        
+        # TRANSFORM Test (using Train stats)
+        X_test = scaler.transform(X_test)
+        
+        # --- SAVE ---
+        train_out = os.path.join(feat_folder, 'train_data.npz')
+        test_out = os.path.join(feat_folder, 'test_data.npz')
+        
+        np.savez(train_out, X_train, Y_train)
+        np.savez(test_out, X_test, Y_test)
+        
+        print("Processing Complete.")
+        print(f"Saved Training Data: {train_out} (Shape: {X_train.shape})")
+        print(f"Saved Test Data:     {test_out}  (Shape: {X_test.shape})")
+    else:
+        print("Error: Could not gather features. Check if .wav files exist and were processed.")

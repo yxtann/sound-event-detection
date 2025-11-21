@@ -42,7 +42,6 @@ def f1_overall_framewise(O, T):
 def er_overall_framewise(O, T):
     """
     Calculates framewise Error Rate.
-
     """
     if O.ndim > 2:
         O = _reshape_3Dto2D(O)
@@ -77,15 +76,14 @@ def _vectorized_block_max(data, block_size):
     if data.ndim > 2:
         data = _reshape_3Dto2D(data)
         
-    # 1. Find number of full blocks (truncates excess frames)
-    #    This matches the original's 'er_overall_1sec' logic.
+    # Find number of full blocks (truncates excess frames)
     n_full_blocks = data.shape[0] // block_size
     truncated_frames = n_full_blocks * block_size
     
-    # 2. Truncate array to be a multiple of block_size
+    # Truncate array to be a multiple of block_size
     data_trunc = data[:truncated_frames, :]
     
-    # 3. Reshape and get max
+    # Reshape and get max
     # (Total_Frames, Classes) -> (N_Blocks, Block_Size, Classes)
     data_reshaped = data_trunc.reshape((n_full_blocks, block_size, data.shape[1]))
     
@@ -113,7 +111,7 @@ def er_overall_1sec(O, T, block_size):
     return er_overall_framewise(O_block, T_block)
 
 
-# --- Main Function (Unchanged) ---
+# --- Main Function ---
 
 def compute_scores(pred, y, frames_in_1_sec=50):
     """

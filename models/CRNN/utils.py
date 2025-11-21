@@ -1,7 +1,6 @@
 import os
 import numpy as np
 
-# Use 'float' or 'np.float64' instead of the deprecated 'np.float'
 eps = np.finfo(float).eps
 
 
@@ -41,7 +40,6 @@ def split_multi_channels(data, num_channels):
     data_reshaped = data.reshape((in_shape[0], in_shape[1], num_channels, hop))
     
     # (Batch, Time, Channel, F_new) -> (Batch, Channel, Time, F_new)
-    # This transpose is the same operation as the original for loop.
     data_transposed = data_reshaped.transpose((0, 2, 1, 3))
     return data_transposed
 
@@ -52,20 +50,20 @@ def split_in_seqs(data, subdivs):
     Discards any trailing data that doesn't fit a full sequence.
     """
     
-    # 1. Calculate number of full sequences
+    # Calculate number of full sequences
     n_seqs = data.shape[0] // subdivs
     if n_seqs == 0:
         # Return an empty array in the expected shape
         other_dims = (1,) if data.ndim == 1 else data.shape[1:]
         return np.empty((0, subdivs) + other_dims, dtype=data.dtype)
 
-    # 2. Calculate truncation point
+    # Calculate truncation point
     n_frames = n_seqs * subdivs
     
-    # 3. Truncate the data
+    # Truncate the data
     truncated_data = data[:n_frames]
     
-    # 4. Reshape
+    # Reshape
     # Handle the 1D case (add a new feature dimension)
     if data.ndim == 1:
         return truncated_data.reshape((n_seqs, subdivs, 1))
