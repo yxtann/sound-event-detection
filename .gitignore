@@ -16,3 +16,4 @@ data/
 *.pth
 *.png
 *.pkl
+*.keras
