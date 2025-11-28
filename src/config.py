@@ -3,6 +3,14 @@ from pathlib import Path
 # General settings
 CLASSES = ["cough", "dog_bark", "gun_shot", "siren", "car_horn"]
 
+# Main model settings
+NUM_STAGES = 2  # 1 or 2
+# If using 2 stages
+DETECTOR_MODEL = "yamnet"  # "crnn, htsat"
+CLASSIFIER_MODEL = "mamba"  # "mamba, crnn, htsat"
+# If using 1 stage
+COMBINED_MODEL = "yamnet"  # "yamnet, crnn, htsat"
+
 # Data
 DOWNLOAD_PATH = Path("data") / "raw"
 AUDIO_DETECTION_ANNOT_PATH = Path("")

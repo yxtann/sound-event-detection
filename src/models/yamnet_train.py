@@ -19,6 +19,7 @@ from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
 yamnet_model = hub.load("https://tfhub.dev/google/yamnet/1")
 
+
 def extract_yamnet_embeddings(audio, sr=16000):
     if sr != 16000:
         audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
@@ -95,43 +96,61 @@ class Solver(object):
         self.test_path = kwargs.pop(
             "test_path", "data/processed/yamnet/spectrograms_test.pkl"
         )
+        self.checkpoint_path = kwargs.pop("checkpoint_path", None)
 
         data = pickle.load(open(self.train_path, "rb"))
         self.original_sr = data["sr"]
         self.data = data
 
-        assert max(train_idx) < len(data["event_label"])
-        assert min(train_idx) >= 0
+        self.mode = kwargs.pop("mode", "train")
 
-        file_path = DETECTION_TRAIN_PATH
+        if self.mode == "train":
+            # The below is only used for training the model
+            assert max(train_idx) < len(data["event_label"])
+            assert min(train_idx) >= 0
 
-        # Training
-        train_files = [
-            f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in train_idx
-        ]
-        train_dataset = YAMNetSEDDataset(
-            train_files,
-            data["onset"][train_idx],
-            data["offset"][train_idx],
-            data["event_label"][train_idx],
-        )
-        self.trainloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+            file_path = DETECTION_TRAIN_PATH
 
-        # Validation
-        test_idx = [i for i in range(len(data["event_label"])) if i not in train_idx]
-        test_files = [
-            f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in test_idx
-        ]
-        test_dataset = YAMNetSEDDataset(
-            test_files,
-            data["onset"][test_idx],
-            data["offset"][test_idx],
-            data["event_label"][test_idx],
-        )
-        self.testloader = DataLoader(test_dataset, batch_size=1, shuffle=True)
+            # Training
+            train_files = [
+                f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in train_idx
+            ]
+            train_dataset = YAMNetSEDDataset(
+                train_files,
+                data["onset"][train_idx],
+                data["offset"][train_idx],
+                data["event_label"][train_idx],
+            )
+            self.trainloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+
+            # Validation
+            test_idx = [
+                i for i in range(len(data["event_label"])) if i not in train_idx
+            ]
+            test_files = [
+                f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in test_idx
+            ]
+            test_dataset = YAMNetSEDDataset(
+                test_files,
+                data["onset"][test_idx],
+                data["offset"][test_idx],
+                data["event_label"][test_idx],
+            )
+            self.testloader = DataLoader(test_dataset, batch_size=1, shuffle=True)
+            self.criterion = nn.BCELoss().to(self.device)
+            self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
+
         self.model = YAMNetGRU().to(self.device)
-        self.criterion = nn.BCELoss().to(self.device)
-        self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
+
+    def load_model(self, checkpoint_path):
+        if checkpoint_path == None:
+            return
+        checkpoint = torch.load(checkpoint_path, map_location=self.device)
+        try:
+            self.model.load_state_dict(checkpoint)
+            logger.info(f"Loaded model weights from {checkpoint_path}")
+        except Exception as e:
+            raise ValueError(f"Invalid checkpoint format: {checkpoint_path}") from e
 
     def _train_step(self):
         self.model.train()
@@ -164,6 +183,11 @@ class Solver(object):
             print(f"Epoch {epoch+1}: train loss = {train_loss:.4f}")
             val_loss = self._val_step()
             print(f"Epoch {epoch+1}: valildation loss = {val_loss:.4f}")
+
+        # Save the model at the end of training
+        checkpoint_path = os.path.join("checkpoints", "yamnet_detector.pth")
+        torch.save(self.model.state_dict(), checkpoint_path)
+        logger.info(f"Saved model to {checkpoint_path}")
 
     """def evaluate(self, threshold=0.5):
         total_loss = 0
@@ -284,10 +308,10 @@ def plot_detection(
         plt.show()
 
 
-def train_yamnet():
+def train_yamnet(checkpoint_path=None):
     np.random.seed(0)
     train_data = pickle.load(
-        open(os.path.join("data/processed/yamnet/spectrograms_train.pkl"), "rb")
+        open(Path("data") / "processed" / "yamnet" / "spectrograms_train.pkl", "rb")
     )
     train_size = 0.8
     train_idx = []
@@ -309,33 +333,39 @@ def train_yamnet():
         epochs=2,
         train_idx=train_idx,
         device=torch.device(device),
+        checkpoint_path=checkpoint_path,
+        mode="train",
     )
     solver.train()
     return solver
 
 
-if __name__ == "__main__":
-    create_spectrogram_pkl()
-    checkpoint_path = os.path.join("checkpoints", "yamnet_detector_solver.pkl")
+def run_yamnet(
+    checkpoint_path: Path = Path("checkpoints") / "yamnet_detector.pth",
+    test_path: Path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl",
+):
     if not os.path.exists(checkpoint_path):
         logger.info("No model checkpoint, training model...")
-        trained_model = train_yamnet()
-        os.makedirs("checkpoints", exist_ok=True)
-        with open(checkpoint_path, "wb") as f:
-            pickle.dump(trained_model, f)
+        trained_solver = train_yamnet()
         logger.info(f"Saved solver to {checkpoint_path}")
     else:
-        # NOTE: Find proper way to use torch.save instead of pkl, but working for now..
-        logger.info("Loading from checkpoint...")
-        with open(checkpoint_path, "rb") as f:
-            trained_model = pickle.load(f)
+        logger.info(f"Loading from checkpoint {checkpoint_path}...")
+        trained_solver = Solver(
+            train_idx=[], checkpoint_path=checkpoint_path, mode="infer"
+        )
+        trained_solver.load_model(checkpoint_path)
 
-    test_data = pickle.load(
-        open(os.path.join("data/processed/yamnet/spectrograms_test.pkl"), "rb")
-    )
-    events_list = trained_model.evaluate_full(
+    logger.info(f"Loading test data from {test_path}...")
+    test_data = pickle.load(open(test_path, "rb"))
+
+    events_list = trained_solver.evaluate_full(
         [i for i in range(len(test_data["event_label"]))],
         plot_detection_viz=False,
-        output_folder="plots/yamnet",
+        output_folder=None,
     )
+    return events_list
+
+
+if __name__ == "__main__":
+    events_list = run_yamnet()
     print(events_list)
