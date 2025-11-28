@@ -5,6 +5,8 @@ import random
 
 from pathlib import Path
 
+import pandas as pd
+
 from loguru import logger
 from tqdm import tqdm
 
@@ -22,18 +24,20 @@ class AudioMambaMetadataGenerator:
 
     def generate_class_labels_indices(self):
         logger.info("Generating class labels indices...")
-        with open(f"{self.metadata_output_path}/class_labels_indices.csv", "w") as f:
+        with open(
+            Path(self.metadata_output_path) / "class_labels_indices.csv", "w"
+        ) as f:
             writer = csv.writer(f)
             writer.writerow(["index", "mid", "display_name"])
             for index in tqdm(AUDIO_MAMBA_INDEX_LIST):
-                writer.writerow([index["index"], index["mid"], f'"{index["display_name"]}"'])
+                writer.writerow(
+                    [index["index"], index["mid"], f'"{index["display_name"]}"']
+                )
         logger.info(
             f"Class labels indices generated and saved to {self.metadata_output_path}"
         )
 
-    def generate_metadata(self, dataset_type: str):
-
-        # TODO Naive split, do proper train-test-val split later on..
+    def generate_metadata_from_folders(self, dataset_type: str):
 
         logger.info(f"Generating metadata for {dataset_type}...")
         if dataset_type == "train":
@@ -50,12 +54,6 @@ class AudioMambaMetadataGenerator:
             logger.info(f"Loading {sound_class}...")
             audio_files = list(sound_class_path.glob("*.wav"))
 
-            # TODO: Do proper train val split
-            if dataset_type == "train":
-                audio_files = random.sample(audio_files, int(len(audio_files) * 0.8))
-            if dataset_type == "val":
-                audio_files = random.sample(audio_files, int(len(audio_files) * 0.2))
-
             for audio_file in tqdm(audio_files):
                 dataset_dict["data"].append(
                     {"wav": str(audio_file), "labels": f"/m/{sound_class}"}
@@ -70,12 +68,52 @@ class AudioMambaMetadataGenerator:
             json.dump(dataset_dict, f)
 
 
-if __name__ == "__main__":
+def generate_audio_mamba_metadata():
+    logger.info("Generating Audio Mamba metadata...")
     amm_gen = AudioMambaMetadataGenerator(
-        data_train_path="data/raw/classification",  # Same path for now..
-        data_val_path="data/raw/classification",
+        data_train_path="data/processed/classification/train",
+        data_val_path="data/processed/classification/test",
         metadata_output_path="data/processed/audio_mamba/",
     )
     amm_gen.generate_class_labels_indices()
-    amm_gen.generate_metadata(dataset_type="train")
-    amm_gen.generate_metadata(dataset_type="val")
+    amm_gen.generate_metadata_from_folders(dataset_type="train")
+    amm_gen.generate_metadata_from_folders(dataset_type="val")
+
+
+def generate_metadata_from_detector(groundtruth_csv, detector_audio_output_path):
+    # TODO: Currently this is specific for audio mamba only!!
+    classes_of_interest = CLASSES
+    predicted_audio_event_files = os.listdir(detector_audio_output_path)
+    ground_truth_events = pd.read_csv(groundtruth_csv)
+    audio_metadata_dict = {"data": []}
+    for _, ground_truth in ground_truth_events.iterrows():
+
+        # Skip the background sound labels
+        if ground_truth["event_label"] not in classes_of_interest:
+            continue
+
+        base_filename = ground_truth["filename"].split(".")[0]  # Remove the extension
+        for predicted_audio_event_file in predicted_audio_event_files:
+            if base_filename in predicted_audio_event_file:
+                audio_metadata_dict["data"].append(
+                    {
+                        "wav": f"{detector_audio_output_path}/{predicted_audio_event_file}",
+                        "labels": f"/m/{ground_truth['event_label']}",
+                    }
+                )
+                break
+
+    with open(f"{detector_audio_output_path}/audio_mamba_metadata.json", "w") as f:
+        json.dump(audio_metadata_dict, f)
+
+    logger.info(
+        f"Created detector metadata at {detector_audio_output_path}/audio_mamba_metadata.json"
+    )
+
+
+if __name__ == "__main__":
+    # generate_audio_mamba_metadata()
+    generate_metadata_from_detector(
+        groundtruth_csv="data/processed/detection/test/annotations.csv",
+        detector_audio_output_path="data/processed/yamnet/extracted_audio/",
+    )

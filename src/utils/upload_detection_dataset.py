@@ -10,20 +10,21 @@ from huggingface_hub import login, upload_folder
 
 os.environ["HF_HUB_HTTP_TIMEOUT"] = "10000"
 
+
 def upload_detection_dataset():
 
     REPO_ID = "kuross/dl-proj-detection"
-    AUDIO_DIR = "data/processed/detection/" 
+    AUDIO_DIR = "data/processed/detection/"
 
     ds_dict = DatasetDict()
 
     for split in ["train", "test"]:
 
         BASE_PATH = os.path.join("data", "processed", "detection", split)
-        JAMS_PATH = BASE_PATH 
+        JAMS_PATH = BASE_PATH
         OUTPUT_FILE = os.path.join(BASE_PATH, "annotations.csv")
         all_annotations = []
-        
+
         # Find all .jams files
         jams_files = glob.glob(os.path.join(JAMS_PATH, "*.jams"))
         if not jams_files:
@@ -42,16 +43,18 @@ def upload_detection_dataset():
 
                 # Find the 'scaper' annotations
                 scaper_anns = jam.annotations.search(namespace="scaper")
-                
+
                 if scaper_anns:
                     for obs in scaper_anns[0].data:
                         event = obs.value
-                        all_annotations.append({
-                            "filename": audio_filename,
-                            "onset": obs.time,
-                            "offset": obs.time + obs.duration,
-                            "event_label": event["label"],
-                        })
+                        all_annotations.append(
+                            {
+                                "filename": audio_filename,
+                                "onset": obs.time,
+                                "offset": obs.time + obs.duration,
+                                "event_label": event["label"],
+                            }
+                        ),
             except Exception as e:
                 logger.error(f"Failed to process {jams_file}: {e}")
 
@@ -66,17 +69,20 @@ def upload_detection_dataset():
     if ds_dict:
         logger.info("Pushing dataset metadata to Hub...")
         ds_dict.push_to_hub(REPO_ID)
-    
+
     if os.path.exists(AUDIO_DIR):
         logger.info("Uploading audio files...")
         upload_folder(
             folder_path=AUDIO_DIR,
             repo_id=REPO_ID,
             path_in_repo=".",
-            repo_type="dataset"
+            repo_type="dataset",
         )
     else:
-        logger.warning(f"Audio directory {AUDIO_DIR} not found. Audio files were not uploaded.")
+        logger.warning(
+            f"Audio directory {AUDIO_DIR} not found. Audio files were not uploaded."
+        )
+
 
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
