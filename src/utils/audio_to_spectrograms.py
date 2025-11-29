@@ -27,8 +27,8 @@ def download_detection_dataset():
         logger.info("Detection dataset already downloaded")
 
 
-def get_mel_spec(filename, path, sr, n_fft=2048, hop_length=512, n_mels=64):
-    y, sr = librosa.load(path / filename, sr=sr)
+def get_mel_spec(file, sr, n_fft=2048, hop_length=512, n_mels=64):
+    y, sr = librosa.load(file, sr=sr)
     fmax = sr // 2
     S = librosa.feature.melspectrogram(
         y=y,
@@ -51,7 +51,15 @@ def get_stft_spec(filename, path, sr):
     return S_db
 
 
-def display_spectrogram(S_db, sr, onset=None, offset=None):
+def display_spectrogram(S_db=None, sr=44100, onset=None, offset=None, file=None):
+    """
+    To plot from either S_db or the filename and path
+    """
+    if S_db is None:
+        if file is not None:
+            S_db = get_mel_spec(file, sr)
+        else:
+            raise Exception('Provide either S_db or file and path')
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(S_db, sr=sr, x_axis="time", y_axis="hz")
     plt.colorbar(format="%+2.0f dB")
@@ -85,7 +93,7 @@ def get_wav_files(input_path: Path, export_path: Path, split: str):
     sr = 44100
     logger.info(f"Getting {split} spectrograms for {len(wav_files)} files in {input_path}...")
     for file in tqdm(wav_files, desc="Getting spectrograms"):
-        S_db = get_mel_spec(file, input_path, sr)
+        S_db = get_mel_spec(os.path.join(input_path, file), sr)
         S_db_all.append(S_db)
 
     # Export the spectrograms as .pkl files
