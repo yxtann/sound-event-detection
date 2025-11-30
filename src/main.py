@@ -1,13 +1,15 @@
 import os
 import soundfile as sf
 import shutil
+import pickle
+import sed_eval
 
 from pathlib import Path
 
 from loguru import logger
 from tqdm import tqdm
 
-from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL
+from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES
 from src.models.yamnet_train import run_yamnet
 from src.models.audio_mamba_ft import audio_mamba_inference
 from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
@@ -55,7 +57,16 @@ def calculate_metrics(pred_event_dict, gt_event_dict):
 
     # IoU
 
-    pass
+    # DCASE SED eval: https://tut-arg.github.io/sed_eval/tutorial.html#id1
+    event_based_metrics = sed_eval.sound_event.EventBasedMetrics(CLASSES)
+    for file, estimated_event in pred_event_dict.items():
+        ref_event = gt_event_dict[file]
+        event_based_metrics.evaluate(
+            reference_event_list=ref_event,
+            estimated_event_list=estimated_event
+        )
+    print(event_based_metrics)
+
 
 
 def run_pipeline():
@@ -92,8 +103,16 @@ def run_pipeline():
                 val_json_path="data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",
             )
 
+    # get gt events
+    gt_events = pickle.load(open('data/processed/yamnet/spectrograms_test_list.pkl', 'rb'))
+    gt_event_dict = {ref_event['file']: [{'file':ref_event['file'], 
+                        'event_onset':ref_event['onset'], 
+                        'event_offset':ref_event['offset'],
+                        'event_label':ref_event['event_label']}]
+                        for ref_event in gt_events}
+
     # Run metrics
-    calculate_metrics({}, {})
+    calculate_metrics({}, gt_event_dict)
 
 
 if __name__ == "__main__":

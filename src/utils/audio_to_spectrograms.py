@@ -98,6 +98,8 @@ def get_wav_files(input_path: Path, export_path: Path, split: str):
 
     # Export the spectrograms as .pkl files
     logger.info(f"Exporting {split} spectrograms to {export_path}...")
+
+    # dict format
     export = {
         "sr": sr,
         "S_db": S_db_all,
@@ -110,11 +112,30 @@ def get_wav_files(input_path: Path, export_path: Path, split: str):
     with open(export_path / f"spectrograms_{split}.pkl", "wb") as f:
         pickle.dump(export, f)
 
+    # list format 
+    export_ls = []
+    for i in range(len(export["files"])):
+        export_ls.append(
+            {
+                "file": export["files"][i],
+                "file_path": f'{input_path}/{export["files"][i]}',
+                "S_db": export["S_db"][i],
+                "onset": export["onset"][i],
+                "offset": export["offset"][i],
+                "event_label": export["event_label"][i],
+                "background_label": export["background_label"][i],
+                "sr": export["sr"]
+
+            }
+        )
+    with open(export_path / f"spectrograms_{split}_list.pkl", "wb") as f:
+        pickle.dump(export_ls, f)
 
 def create_spectrogram_pkl():
     download_detection_dataset()
     yamnet_data_path = Path("data") / "processed" / "yamnet"
-    if  os.path.exists(yamnet_data_path / "spectrograms_train.pkl") and os.path.exists(yamnet_data_path / "spectrograms_test.pkl"):
+    if  os.path.exists(yamnet_data_path / "spectrograms_train.pkl") and os.path.exists(yamnet_data_path / "spectrograms_test.pkl") \
+        and os.path.exists(yamnet_data_path / "spectrograms_test_list.pkl") and os.path.exists(yamnet_data_path / "spectrograms_test_list.pkl"):
         logger.info("YAMNet dataset files already exist")
         return
     logger.info("Creating YAMNet dataset files...")
