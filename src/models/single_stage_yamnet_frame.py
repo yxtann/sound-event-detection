@@ -4,6 +4,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow import keras
 import librosa
+import os
 
 YAMNET = hub.load("https://tfhub.dev/google/yamnet/1")
 TARGET_SR = 16000  # YAMNet requires 16kHz
@@ -69,7 +70,8 @@ class Trainer:
         self.epochs = kwargs.pop("epochs", 30)
         self.batch_size = kwargs.pop("batch_size", 16)
         self.model_save_dir = kwargs.pop("model_save_dir", "../src/models/yamnet.keras")
-        self.n_classes = kwargs.pop("n_classes", 5) + 1
+        self.classes = kwargs.pop("classes")
+        self.n_classes = len(self.classes) + 1 # background noise
 
         self.optimizer = keras.optimizers.Adam(learning_rate=self.lr)
         self.callbacks = [
@@ -125,37 +127,46 @@ class Trainer:
         self.model = keras.models.load_model(model_path, compile=False, custom_objects={"YamNetLayer": YamNetLayer})
         print(f"Loaded model from {model_path}")
 
-    def predict_frames(self, waveform_np):
+    def predict_frames(self, file):
+        """
+        Returns probability of each class at each frame (frames, num_classes)
+        """
+        waveform_np = load_audio_mono(file, sr=TARGET_SR)
         waveform_tf = tf.convert_to_tensor(waveform_np.astype(np.float32))
         waveform_tf = tf.expand_dims(waveform_tf, axis=0)
-        probs = self.model(waveform_tf, training=False).numpy()[0]
-        return probs  # (frames, num_classes)
+        frame_probs = self.model(waveform_tf, training=False).numpy()[0]
+        return frame_probs 
     
+    def predict_class(self, file):
+        """
+        Returns predicted class at each frame (frames, )
+        """
+        frame_probs = self.predict_frames(file)
+        frame_classes = np.argmax(frame_probs, axis=-1)
+        return frame_classes
     
+    def predict_events(self, file, audio_length=10, min_duration=0.1):
+        frame_classes = self.predict_class(file)
+        n_frames = frame_classes.shape[0]
+        frame_hop_sec = audio_length / n_frames
+        filename = os.path.basename(file)
+        events = []
+        current_class = frame_classes[0]
+        start_frame = 0
+        for i in range(1, n_frames):
+            if frame_classes[i] != current_class:
+                if current_class != 0:
+                    onset = start_frame * frame_hop_sec
+                    offset = i * frame_hop_sec
+                    if offset - onset >= min_duration:
+                        events.append({'file': filename, 'event_onset': onset, 'event_offset': offset, 'event_label':self.classes[int(current_class)-1]})
+                current_class = frame_classes[i]
+                start_frame = i
 
-"""    
+        if current_class != 0:
+            onset = start_frame * frame_hop_sec
+            offset = n_frames * frame_hop_sec
+            if offset - onset >= min_duration:
+                events.append({'file': filename, 'event_onset': onset, 'event_offset': offset, 'event_label':self.classes[int(current_class)-1]})
 
-    # Sliding window for inference
-    #SLIDING_WIN_SEC = 1.0
-    #SLIDING_HOP_SEC = 0.1
-    def sliding_window_inference(self, waveform_np, win_sec=SLIDING_WIN_SEC, hop_sec=SLIDING_HOP_SEC):
-        sr = TARGET_SR
-        win_samples = int(win_sec * sr)
-        hop_samples = int(hop_sec * sr)
-        n = len(waveform_np)
-        times, probs = [], []
-        for start in range(0, max(1, n - win_samples + 1), hop_samples):
-            seg = waveform_np[start:start + win_samples]
-            p = self.predict_frames(seg)
-            t_center = (start + win_samples/2) / sr
-            times.append(t_center)
-            probs.append(p)
-        if len(probs) == 0:
-            p = self.predict_frames(waveform_np)
-            times = [len(waveform_np)/(2*sr)]
-            probs = [p]
-        # average overlapping windows
-        probs = np.vstack([np.pad(p, ((0,max(0,max([len(pp) for pp in probs])-len(p))), (0,0))) for p in probs])
-        times = np.array(times)
-        return times, probs
-"""
+        return events
