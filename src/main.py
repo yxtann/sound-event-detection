@@ -13,7 +13,7 @@ from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MO
 from src.models.yamnet_train import run_yamnet
 from src.models.audio_mamba_ft import audio_mamba_inference
 from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
-
+from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
 def cut_events_from_audio(extracted_audio_path, events_list):
 
@@ -103,8 +103,13 @@ def run_pipeline():
                 val_json_path="data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",
             )
 
-    # get gt events
-    gt_events = pickle.load(open('data/processed/yamnet/spectrograms_test_list.pkl', 'rb'))
+    # check if pkl file is created
+    gt_pkl_path = 'data/processed/yamnet/spectrograms_test_list.pkl'
+    if not(os.path.exists(gt_pkl_path)):
+        create_spectrogram_pkl()
+
+    # get gt events to use for all models
+    gt_events = pickle.load(open(gt_pkl_path, 'rb'))
     gt_event_dict = {ref_event['file']: [{'file':ref_event['file'], 
                         'event_onset':ref_event['onset'], 
                         'event_offset':ref_event['offset'],
