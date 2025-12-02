@@ -19,13 +19,29 @@ from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
 yamnet_model = hub.load("https://tfhub.dev/google/yamnet/1")
 
+def preprocess_and_cache_features(file_list, cache_dir="data/cache/yamnet_embeddings"):
+    """
+    Runs YAMNet on all files and saves the embeddings as .pt files.
+    """
+    os.makedirs(cache_dir, exist_ok=True)
+    
+    print(f"Pre-computing features for {len(file_list)} files...")
+    
+    for file_path in tqdm(file_list):
+        # Generate a unique filename for the cache
+        filename = os.path.basename(file_path).replace('.wav', '.pt')
+        save_path = os.path.join(cache_dir, filename)
+        
+        # Skip if already exists
+        if os.path.exists(save_path):
+            continue
+            
+        audio, _ = librosa.load(file_path, sr=16000, mono=True)
+        _, embeddings, _ = yamnet_model(audio)
+        embeddings_tensor = torch.tensor(embeddings.numpy(), dtype=torch.float32) # embeddings shape: (N_frames, 1024)
+        torch.save(embeddings_tensor, save_path)
 
-def extract_yamnet_embeddings(audio, sr=16000):
-    if sr != 16000:
-        audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
-    _, embeddings, _ = yamnet_model(audio)
-    return embeddings.numpy()
-
+    return cache_dir
 
 def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48):
     """Convert framewise probabilities into onset/offset pairs"""
@@ -45,18 +61,22 @@ def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48):
 
 
 class YAMNetSEDDataset(Dataset):
-    def __init__(self, file_list, onset_list, offset_list, sr=16000, hop_time=0.48):
+    def __init__(self, file_list, onset_list, offset_list, cache_dir, hop_time=0.48):
         self.file_list = file_list
         self.onset_list = onset_list
         self.offset_list = offset_list
         self.hop_time = hop_time
+        self.cache_dir = cache_dir
 
     def __len__(self):
         return len(self.file_list)
 
     def __getitem__(self, idx):
-        audio, sr = librosa.load(self.file_list[idx], sr=None)
-        embeddings = extract_yamnet_embeddings(audio, sr)
+        original_filename = os.path.basename(self.file_list[idx])
+        cached_filename = original_filename.replace('.wav', '.pt')
+        cache_path = os.path.join(self.cache_dir, cached_filename)
+        embeddings = torch.load(cache_path) # Shape: [Time, 1024]
+
         num_frames = embeddings.shape[0]
         frame_times = np.arange(num_frames) * self.hop_time
 
@@ -64,9 +84,8 @@ class YAMNetSEDDataset(Dataset):
         onset, offset = self.onset_list[idx], self.offset_list[idx]
         labels[(frame_times >= onset) & (frame_times <= offset)] = 1
 
-        X = torch.tensor(embeddings, dtype=torch.float32)
         y = torch.tensor(labels, dtype=torch.float32).unsqueeze(-1)
-        return X, y
+        return embeddings, y
 
 
 class YAMNetGRU(nn.Module):
@@ -90,6 +109,8 @@ class Solver(object):
         self.hop_time = kwargs.pop("hop_time", 0.48)
         self.sr = kwargs.pop("sr", 16000)
         self.device = kwargs.pop("device", "cpu")
+        self.mode = kwargs.pop("mode", "train")
+
         self.train_path = kwargs.pop(
             "train_path", "data/processed/yamnet/spectrograms_train.pkl"
         )
@@ -102,45 +123,40 @@ class Solver(object):
         self.original_sr = data["sr"]
         self.data = data
 
-        self.mode = kwargs.pop("mode", "train")
+        all_indices = list(range(len(data["event_label"])))
+        all_files = [f"{DETECTION_TRAIN_PATH}/train_snipped_scene_{str(i).zfill(4)}.wav" for i in all_indices]
+        self.cache_dir = preprocess_and_cache_features(all_files)
+
+        self.model = YAMNetGRU().to(self.device)
 
         if self.mode == "train":
             # The below is only used for training the model
             assert max(train_idx) < len(data["event_label"])
             assert min(train_idx) >= 0
 
-            file_path = DETECTION_TRAIN_PATH
-
             # Training
-            train_files = [
-                f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in train_idx
-            ]
+            train_files = [all_files[i] for i in train_idx]
             train_dataset = YAMNetSEDDataset(
                 train_files,
                 data["onset"][train_idx],
                 data["offset"][train_idx],
-                data["event_label"][train_idx],
+                self.cache_dir
             )
             self.trainloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 
             # Validation
-            test_idx = [
-                i for i in range(len(data["event_label"])) if i not in train_idx
-            ]
-            test_files = [
-                f"{file_path}/train_scene_0{str(i).zfill(3)}.wav" for i in test_idx
-            ]
+            test_idx = [i for i in range(len(data["event_label"])) if i not in train_idx]
+            test_files = [all_files[i] for i in test_idx]
             test_dataset = YAMNetSEDDataset(
                 test_files,
                 data["onset"][test_idx],
                 data["offset"][test_idx],
-                data["event_label"][test_idx],
+                self.cache_dir
             )
             self.testloader = DataLoader(test_dataset, batch_size=1, shuffle=True)
+
             self.criterion = nn.BCELoss().to(self.device)
             self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
-
-        self.model = YAMNetGRU().to(self.device)
 
     def load_model(self, checkpoint_path):
         if checkpoint_path == None:
@@ -186,33 +202,21 @@ class Solver(object):
 
         # Save the model at the end of training
         checkpoint_path = os.path.join("checkpoints", "yamnet_detector.pth")
+        os.makedirs(os.path.dirname(checkpoint_path), exist_ok=True)
         torch.save(self.model.state_dict(), checkpoint_path)
         logger.info(f"Saved model to {checkpoint_path}")
 
-    """def evaluate(self, threshold=0.5):
-        total_loss = 0
-        for X, y, audio, labels, event_label, file in self.testloader:
-            with torch.no_grad():
-                X = X.to(self.device)
-                y = y.to(self.device)
-                outputs = self.model(X)
-                loss = self.criterion(outputs, y)
-                total_loss += loss.item()
-                preds = outputs[0, :, 0].numpy()
-
-            events = detect_onsets_offsets(preds, threshold=threshold, hop_time=self.hop_time)
-            plot_detection(audio.numpy()[0], self.sr, preds, self.hop_time, self.original_sr, events, labels = [i[0] for i in labels], title=f"{event_label[0]} | {file[0]}")"""
-
-    def evaluate_full(
-        self, idx_ls, threshold=0.5, plot_detection_viz=False, output_folder=None
-    ):
-        file_path = DETECTION_TEST_PATH
+    def evaluate_full(self, idx_ls, threshold=0.5, plot_detection_viz=False, output_folder=None):
         events_list = []
+        all_files = [f"{DETECTION_TRAIN_PATH}/train_snipped_scene_{str(idx).zfill(4)}.wav" for idx in idx_ls]
+        self.cache_dir = preprocess_and_cache_features(all_files)
 
-        for idx in tqdm(idx_ls, desc=f"Testing on {file_path}..."):
-            filename = f"{file_path}/test_scene_0{str(idx).zfill(3)}.wav"
-            audio, sr = librosa.load(filename, sr=None)
-            embeddings = extract_yamnet_embeddings(audio, sr)
+        for idx in tqdm(idx_ls, desc=f"Testing on {DETECTION_TRAIN_PATH}..."):
+            original_filename = f'train_snipped_scene_{str(idx).zfill(4)}.wav'
+            cached_filename = original_filename.replace('.wav', '.pt')
+            cache_path = os.path.join(self.cache_dir, cached_filename)
+            embeddings = torch.load(cache_path) # Shape: [Time, 1024]
+
             num_frames = embeddings.shape[0]
             frame_times = np.arange(num_frames) * self.hop_time
 
@@ -220,12 +224,12 @@ class Solver(object):
             onset, offset = self.data["onset"][idx], self.data["offset"][idx]
             labels[(frame_times >= onset) & (frame_times <= offset)] = 1
 
-            X = torch.tensor(embeddings, dtype=torch.float32)
+            #X = torch.tensor(embeddings, dtype=torch.float32)
             y = torch.tensor(labels, dtype=torch.float32).unsqueeze(-1)
             event_label = self.data["event_label"][idx]
 
             with torch.no_grad():
-                X = X.to(self.device)
+                X = embeddings.to(self.device)
                 y = y.to(self.device)
                 outputs = self.model(X)
                 preds = outputs[:, 0].cpu().numpy()
@@ -235,9 +239,11 @@ class Solver(object):
             )
 
             if plot_detection_viz:
+                filename = f"{DETECTION_TRAIN_PATH}/{original_filename}"
+                audio, sr = librosa.load(filename, sr=None)
                 plot_detection(
                     audio,
-                    self.sr,
+                    sr,
                     preds,
                     self.hop_time,
                     self.original_sr,

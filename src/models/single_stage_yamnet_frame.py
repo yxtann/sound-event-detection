@@ -15,7 +15,7 @@ TARGET_SR = 16000  # YAMNet requires 16kHz
 AUDIO_LENGTH = 20 # assume fixed
 N_FRAMES = int(np.ceil((AUDIO_LENGTH - YAMNET_HOP_SEC*2)/YAMNET_HOP_SEC + 1)) # window size is 2*hop
 PRED_YAMNET_PATH = r"outputs/single_stage_yamnet.pkl"
-YAMNET_CACHE_DIR = r"outputs/embedding_cache"
+YAMNET_CACHE_DIR = r"data/cache/single_stage_yamnet_embeddings"
 
 def load_audio_mono(path, sr=TARGET_SR):
     wav, _ = librosa.load(path, sr=sr, mono=True)
@@ -76,7 +76,7 @@ class Trainer:
         self.lr = kwargs.pop("lr", 1e-4)
         self.epochs = kwargs.pop("epochs", 30)
         self.batch_size = kwargs.pop("batch_size", 16)
-        self.model_save_dir = kwargs.pop("model_save_dir", "../src/models/yamnet.keras")
+        self.model_save_dir = kwargs.pop("model_save_dir", "checkpoints/yamnet.keras")
         self.classes = kwargs.pop("classes")
         self.n_classes = len(self.classes) + 1 # class for no events
 
@@ -85,7 +85,7 @@ class Trainer:
 
         self.optimizer = keras.optimizers.Adam(learning_rate=self.lr)
         self.callbacks = [
-            keras.callbacks.ModelCheckpoint("../src/models/yamnet_checkpoint_frame.keras", save_best_only=True, monitor="val_loss"),
+            keras.callbacks.ModelCheckpoint("checkpoints/yamnet_checkpoint_frame.keras", save_best_only=True, monitor="val_loss"),
             keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3)
         ]
