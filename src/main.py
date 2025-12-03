@@ -9,7 +9,7 @@ from pathlib import Path
 from loguru import logger
 from tqdm import tqdm
 
-from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES
+from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH
 from src.models.yamnet_train import run_yamnet
 from src.models.audio_mamba_ft import audio_mamba_inference
 from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
@@ -81,10 +81,13 @@ def calculate_metrics(pred_event_dict, gt_event_dict, time_resolution=1.0, t_col
 def run_pipeline():
 
     if DETECTOR_MODEL == "yamnet":
+        test_path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl"
+        test_data = pickle.load(open(test_path, "rb"))
+        filepaths = [os.path.join(DETECTION_TEST_PATH, file) for file in test_data['files']] # filepath of test wav files
         events_list = run_yamnet(
-            checkpoint_path=Path("checkpoints") / "yamnet_detector.pth",
-            test_path=Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl",
-        )
+            filepaths, 
+            checkpoint_path="checkpoints/yamnet_detector.pth",
+            )
     elif DETECTOR_MODEL == "crnn":
         pass
     elif DETECTOR_MODEL == "htsat":
@@ -112,7 +115,8 @@ def run_pipeline():
                 val_json_path="data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",
             )
 
-    # check if pkl file is created
+    # EVALUATION: can consider moving this to calculate_metrics
+    # check if gt pkl file is created
     gt_pkl_path = 'data/processed/yamnet/spectrograms_test_list.pkl'
     if not(os.path.exists(gt_pkl_path)):
         create_spectrogram_pkl()

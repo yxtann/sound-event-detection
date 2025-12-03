@@ -17,6 +17,8 @@ from pathlib import Path
 from src.config import DETECTION_TRAIN_PATH, DETECTION_TEST_PATH
 from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
+YAMNET_DETECTOR_CHECKPOINT = Path("checkpoints") / "yamnet_detector.pth"
+
 yamnet_model = hub.load("https://tfhub.dev/google/yamnet/1")
 
 def preprocess_and_cache_features(file_list, cache_dir="data/cache/yamnet_embeddings"):
@@ -51,13 +53,13 @@ def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48):
         np.where(changes == 1)[0] + 1
     ) * hop_time  # first frame with pred > threshold
     offsets = (
-        np.where(changes == -1)[0] + 2
-    ) * hop_time  # until end of frame (frame width = 2*hop_time)
+        np.where(changes == -1)[0] + 1
+    ) * hop_time  # until mid of frame (since frame width = 2*hop_time)
     if len(offsets) < len(onsets):
         offsets = np.append(offsets, (len(preds) + 1) * hop_time)
     elif len(offsets) > len(onsets):
         onsets = np.append(0, onsets)
-    return list(zip(onsets, offsets))
+    return onsets, offsets
 
 
 class YAMNetSEDDataset(Dataset):
@@ -103,34 +105,28 @@ class YAMNetGRU(nn.Module):
 
 class Solver(object):
     def __init__(self, train_idx, **kwargs):
-        self.epochs = kwargs.pop("epochs", 10)
+        self.epochs = kwargs.pop("epochs", 5)
         self.lr = kwargs.pop("lr", 1e-3)
-        self.path_prefix = kwargs.pop("path_prefix", "..")
         self.hop_time = kwargs.pop("hop_time", 0.48)
         self.sr = kwargs.pop("sr", 16000)
         self.device = kwargs.pop("device", "cpu")
         self.mode = kwargs.pop("mode", "train")
 
-        self.train_path = kwargs.pop(
-            "train_path", "data/processed/yamnet/spectrograms_train.pkl"
-        )
-        self.test_path = kwargs.pop(
-            "test_path", "data/processed/yamnet/spectrograms_test.pkl"
-        )
-        self.checkpoint_path = kwargs.pop("checkpoint_path", None)
+        self.train_path = kwargs.pop("train_path", "data/processed/yamnet/spectrograms_train.pkl")
+        self.test_path = kwargs.pop("test_path", "data/processed/yamnet/spectrograms_test.pkl")
+        self.checkpoint_path = kwargs.pop("checkpoint_path", YAMNET_DETECTOR_CHECKPOINT)
 
         data = pickle.load(open(self.train_path, "rb"))
         self.original_sr = data["sr"]
         self.data = data
 
-        all_indices = list(range(len(data["event_label"])))
-        all_files = [f"{DETECTION_TRAIN_PATH}/train_snipped_scene_{str(i).zfill(4)}.wav" for i in all_indices]
-        self.cache_dir = preprocess_and_cache_features(all_files)
-
         self.model = YAMNetGRU().to(self.device)
 
         if self.mode == "train":
             # The below is only used for training the model
+            all_indices = list(range(len(data["event_label"])))
+            all_files = [f"{DETECTION_TRAIN_PATH}/train_snipped_scene_{str(i).zfill(4)}.wav" for i in all_indices]
+            self.cache_dir = preprocess_and_cache_features(all_files)
             assert max(train_idx) < len(data["event_label"])
             assert min(train_idx) >= 0
 
@@ -154,11 +150,11 @@ class Solver(object):
                 self.cache_dir
             )
             self.testloader = DataLoader(test_dataset, batch_size=1, shuffle=True)
-
+        
             self.criterion = nn.BCELoss().to(self.device)
             self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
 
-    def load_model(self, checkpoint_path):
+    def load_model(self, checkpoint_path=YAMNET_DETECTOR_CHECKPOINT):
         if checkpoint_path == None:
             return
         checkpoint = torch.load(checkpoint_path, map_location=self.device)
@@ -201,44 +197,42 @@ class Solver(object):
             print(f"Epoch {epoch+1}: valildation loss = {val_loss:.4f}")
 
         # Save the model at the end of training
-        checkpoint_path = os.path.join("checkpoints", "yamnet_detector.pth")
-        os.makedirs(os.path.dirname(checkpoint_path), exist_ok=True)
-        torch.save(self.model.state_dict(), checkpoint_path)
-        logger.info(f"Saved model to {checkpoint_path}")
+        os.makedirs(os.path.dirname(self.checkpoint_path), exist_ok=True)
+        torch.save(self.model.state_dict(), self.checkpoint_path)
+        logger.info(f"Saved model to {self.checkpoint_path}")
 
-    def evaluate_full(self, idx_ls, threshold=0.5, plot_detection_viz=False, output_folder=None):
-        events_list = []
-        all_files = [f"{DETECTION_TRAIN_PATH}/train_snipped_scene_{str(idx).zfill(4)}.wav" for idx in idx_ls]
-        self.cache_dir = preprocess_and_cache_features(all_files)
+    def inference(self, test_files, threshold=0.5):#, plot_detection_viz=False, output_folder=None):
+        events_dict = {}
+        self.cache_dir = preprocess_and_cache_features(test_files)
 
-        for idx in tqdm(idx_ls, desc=f"Testing on {DETECTION_TRAIN_PATH}..."):
-            original_filename = f'train_snipped_scene_{str(idx).zfill(4)}.wav'
+        for file in tqdm(test_files, desc=f"Testing..."):
+            original_filename = os.path.basename(file)
             cached_filename = original_filename.replace('.wav', '.pt')
             cache_path = os.path.join(self.cache_dir, cached_filename)
             embeddings = torch.load(cache_path) # Shape: [Time, 1024]
 
-            num_frames = embeddings.shape[0]
-            frame_times = np.arange(num_frames) * self.hop_time
+            #num_frames = embeddings.shape[0]
+            #frame_times = np.arange(num_frames) * self.hop_time
 
-            labels = np.zeros(num_frames, dtype=np.float32)
-            onset, offset = self.data["onset"][idx], self.data["offset"][idx]
-            labels[(frame_times >= onset) & (frame_times <= offset)] = 1
+            #labels = np.zeros(num_frames, dtype=np.float32)
+            #onset, offset = self.data["onset"][idx], self.data["offset"][idx]
+            #labels[(frame_times >= onset) & (frame_times <= offset)] = 1
 
             #X = torch.tensor(embeddings, dtype=torch.float32)
-            y = torch.tensor(labels, dtype=torch.float32).unsqueeze(-1)
-            event_label = self.data["event_label"][idx]
+            #y = torch.tensor(labels, dtype=torch.float32).unsqueeze(-1)
+            #event_label = self.data["event_label"][idx]
 
             with torch.no_grad():
                 X = embeddings.to(self.device)
-                y = y.to(self.device)
+                #y = y.to(self.device)
                 outputs = self.model(X)
                 preds = outputs[:, 0].cpu().numpy()
 
-            events = detect_onsets_offsets(
+            onsets, offsets = detect_onsets_offsets(
                 preds, threshold=threshold, hop_time=self.hop_time
             )
 
-            if plot_detection_viz:
+            """if plot_detection_viz:
                 filename = f"{DETECTION_TRAIN_PATH}/{original_filename}"
                 audio, sr = librosa.load(filename, sr=None)
                 plot_detection(
@@ -247,16 +241,15 @@ class Solver(object):
                     preds,
                     self.hop_time,
                     self.original_sr,
-                    events,
+                    list(zip(onsets, offsets)),
                     labels=(onset, offset),
                     title=f"{idx} | {event_label}",
                     output_folder=output_folder,
-                )
+                )"""
 
             # Event detection output
-            events_list.append({"filename": filename, "events": events})
-        return events_list
-
+            events_dict[original_filename] = [{'file':original_filename, 'event_onset': float(o), 'event_offset': float(f)} for o, f in zip(onsets, offsets)]
+        return events_dict
 
 def plot_detection(
     audio,
@@ -336,7 +329,7 @@ def train_yamnet(checkpoint_path=None):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Start training on {device}")
     solver = Solver(
-        epochs=2,
+        epochs=5,
         train_idx=train_idx,
         device=torch.device(device),
         checkpoint_path=checkpoint_path,
@@ -345,14 +338,12 @@ def train_yamnet(checkpoint_path=None):
     solver.train()
     return solver
 
-
-def run_yamnet(
-    checkpoint_path: Path = Path("checkpoints") / "yamnet_detector.pth",
-    test_path: Path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl",
+def run_yamnet(test_files,
+    checkpoint_path = YAMNET_DETECTOR_CHECKPOINT,
 ):
     if not os.path.exists(checkpoint_path):
         logger.info("No model checkpoint, training model...")
-        trained_solver = train_yamnet()
+        trained_solver = train_yamnet(checkpoint_path=checkpoint_path)
         logger.info(f"Saved solver to {checkpoint_path}")
     else:
         logger.info(f"Loading from checkpoint {checkpoint_path}...")
@@ -361,17 +352,13 @@ def run_yamnet(
         )
         trained_solver.load_model(checkpoint_path)
 
-    logger.info(f"Loading test data from {test_path}...")
-    test_data = pickle.load(open(test_path, "rb"))
-
-    events_list = trained_solver.evaluate_full(
-        [i for i in range(len(test_data["event_label"]))],
-        plot_detection_viz=False,
-        output_folder=None,
-    )
+    events_list = trained_solver.inference(test_files)
     return events_list
 
 
 if __name__ == "__main__":
-    events_list = run_yamnet()
+    test_path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl"
+    test_data = pickle.load(open(test_path, "rb"))
+    filepaths = [os.path.join(DETECTION_TEST_PATH, file) for file in test_data['files']]
+    events_list = run_yamnet(filepaths)
     print(events_list)
