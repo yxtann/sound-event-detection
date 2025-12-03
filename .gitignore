@@ -11,10 +11,7 @@ data/
 *.mp3
 *.ogg
 *.json
+*.npz
 
-# ignore large files
-*.pth
-*.png
-*.pkl
-*.keras
-*.npy
+# folders
+feat_folder
