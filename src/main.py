@@ -59,21 +59,18 @@ def calculate_metrics(pred_event_dict, gt_event_dict, time_resolution=1.0, t_col
 
     # DCASE SED eval: https://tut-arg.github.io/sed_eval/tutorial.html#id1
     event_based_metrics = sed_eval.sound_event.EventBasedMetrics(CLASSES, t_collar=t_collar)
+    segment_based_metrics = sed_eval.sound_event.SegmentBasedMetrics(CLASSES, time_resolution=time_resolution)
     for file, estimated_event in pred_event_dict.items():
         ref_event = gt_event_dict[file]
         event_based_metrics.evaluate(
             reference_event_list=ref_event,
             estimated_event_list=estimated_event
         )
-    print(event_based_metrics)
-
-    segment_based_metrics = sed_eval.sound_event.SegmentBasedMetrics(CLASSES, time_resolution=time_resolution)
-    for file, estimated_event in pred_event_dict.items():
-        ref_event = gt_event_dict[file]
         segment_based_metrics.evaluate(
             reference_event_list=ref_event,
             estimated_event_list=estimated_event
         )
+    print(event_based_metrics)
     print(segment_based_metrics)
 
 
