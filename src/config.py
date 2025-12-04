@@ -23,8 +23,7 @@ YAMNET_DATA_PATH = Path("data") / "processed" / "yamnet"
 FG_PATH = Path("data") / "processed" / "classification"
 BG_PATH = Path("data") / "raw" / "background"
 OUTPUT_PATH = Path("data") / "processed" / "detection"
-N_SCENES = 500
-SCENE_DURATION = 10.0
+SCENE_DURATION = 20.0
 START_SEED = 42
 
 # Audio Mamba
