@@ -11,7 +11,6 @@ from tqdm import tqdm
 
 from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH
 from src.models.yamnet_train import run_yamnet
-from src.models.audio_mamba_ft import audio_mamba_inference
 from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
 from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
@@ -100,6 +99,9 @@ def run_pipeline():
         elif CLASSIFIER_MODEL == "htsat":
             pass
         elif CLASSIFIER_MODEL == "mamba":
+            # Lazy loading for mamba
+            from src.models.audio_mamba_ft import audio_mamba_inference
+            
             cut_events_from_audio(
                 (Path("data") / "processed" / "yamnet" / "extracted_audio"), events_list
             )
