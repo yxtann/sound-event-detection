@@ -286,7 +286,7 @@ if __name__ == '__main__':
     # Load best model
     # best_model_path = os.path.join(__models_dir, '{}_model.pth'.format(__fig_name))
     
-    best_model_path = os.path.join(__models_dir, '{}_model.pth'.format("mon_2025_12_02_21_02_02"))
+    best_model_path = os.path.join(__models_dir, '{}_model.pth'.format("mon_2025_12_03_23_00_34"))
     model.load_state_dict(torch.load(best_model_path))
     model.eval()
     
