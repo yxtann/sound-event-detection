@@ -106,26 +106,30 @@ def process_file(audio_filename, audio_folder, desc_dict, sr, nfft, hop_len, nb_
 # HELPER: GATHER FEATURES
 # -----------------------------------------------------------------------
 def gather_features(file_list, feat_folder, is_mono):
-    X_all, Y_all = None, None
-    
-    for audio_filename in file_list:
+    X_all, Y_all, F_all = None, None, None
+
+    for i, audio_filename in enumerate(file_list):
         tmp_feat_file = os.path.join(feat_folder, '{}_{}.npz'.format(audio_filename, 'mon' if is_mono else 'bin'))
         if not os.path.exists(tmp_feat_file):
             continue
-            
+
         try:
             dmp = np.load(tmp_feat_file)
             tmp_mbe, tmp_label = dmp['arr_0'], dmp['arr_1']
-            
+
+            # Create an array of file indices for this file's frames
+            tmp_f = np.full((tmp_mbe.shape[0],), i, dtype=np.int32)
+
             if X_all is None:
-                X_all, Y_all = tmp_mbe, tmp_label
+                X_all, Y_all, F_all = tmp_mbe, tmp_label, tmp_f
             else:
                 X_all = np.concatenate((X_all, tmp_mbe), 0)
                 Y_all = np.concatenate((Y_all, tmp_label), 0)
+                F_all = np.concatenate((F_all, tmp_f), 0)
         except Exception as e:
             print(f"Error loading {tmp_feat_file}: {e}")
-            
-    return X_all, Y_all
+
+    return X_all, Y_all, F_all
 
 # ###################################################################
 # Main script
@@ -207,32 +211,35 @@ if __name__ == '__main__':
     # Feature Normalization
     # -----------------------------------------------------------------
     print("Starting feature normalization...")
-    
+
     X_all, Y_all = None, None
-    
+
     print("Gathering Training Features...")
-    X_train, Y_train = gather_features(train_files, feat_folder, is_mono)
-    
+    # Now also gathers file indices (F_train)
+    X_train, Y_train, F_train = gather_features(train_files, feat_folder, is_mono)
+
     print("Gathering Test Features...")
-    X_test, Y_test = gather_features(test_files, feat_folder, is_mono)
+    # Now also gathers file indices (F_test)
+    X_test, Y_test, F_test = gather_features(test_files, feat_folder, is_mono)
 
     if X_train is not None and X_test is not None:
         print("Fitting StandardScaler on TRAINING data only...")
         scaler = preprocessing.StandardScaler()
-        
+
         # FIT on Train
         X_train = scaler.fit_transform(X_train)
-        
+
         # TRANSFORM Test (using Train stats)
         X_test = scaler.transform(X_test)
-        
+
         # --- SAVE ---
         train_out = os.path.join(feat_folder, 'train_data.npz')
         test_out = os.path.join(feat_folder, 'test_data.npz')
-        
-        np.savez(train_out, X_train, Y_train)
-        np.savez(test_out, X_test, Y_test)
-        
+
+        # Save X, Y, F (indices), and the original file lists
+        np.savez(train_out, X_train, Y_train, F_train, train_files)
+        np.savez(test_out, X_test, Y_test, F_test, test_files)
+
         print("Processing Complete.")
         print(f"Saved Training Data: {train_out} (Shape: {X_train.shape})")
         print(f"Saved Test Data:     {test_out}  (Shape: {X_test.shape})")

@@ -90,17 +90,23 @@ def find_contiguous_regions(activity_array):
 
 def decode_predictions(preds, filenames, class_labels, frames_per_sec):
     """
-    Converts binary predictions into the dictionary format shown in your image.
+    Converts binary predictions into the dictionary format.
     """
     results = {}
     time_resolution = 1.0 / frames_per_sec
     
     # preds shape: (Num_Files, Time_Steps, Num_Classes)
     for i, file_pred in enumerate(preds):
-        # Handle case where we have more preds than filenames (e.g. if files were split)
+        # Handle case where we have more preds than filenames
         if i >= len(filenames): break
             
         filename = filenames[i]
+        
+        if isinstance(filename, np.ndarray):
+            filename = filename.item()
+        
+        filename = str(filename)
+
         results[filename] = []
         
         # Iterate over each class (Car Horn, Dog Bark, etc.)
@@ -119,9 +125,9 @@ def decode_predictions(preds, filenames, class_labels, frames_per_sec):
                 # Construct the dictionary entry
                 event_entry = {
                     'file': filename,
-                    'event_onset': round(onset_time, 3),  # Round to 3 decimals
+                    'event_onset': round(onset_time, 3),  
                     'event_offset': round(offset_time, 3),
-                    'event_label': label # e.g., 'car_horn'
+                    'event_label': label 
                 }
                 results[filename].append(event_entry)
                 

@@ -22,14 +22,15 @@ sys.setrecursionlimit(10000)
 
 # --- DATA LOADING ---
 def load_specific_file(filepath):
-    """ Loads a specific .npz file """
+    """ Loads a specific .npz file, including filename info """
     if not os.path.exists(filepath):
         print(f"Error: File not found at {filepath}")
-        return None, None
+        return None, None, None, None 
     
     print(f"Loading data from {filepath}...")
-    dmp = np.load(filepath)
-    return dmp['arr_0'], dmp['arr_1']
+    dmp = np.load(filepath, allow_pickle=True) 
+
+    return dmp['arr_0'], dmp['arr_1'], dmp['arr_2'], dmp['arr_3']
 
 def plot_functions(_nb_epoch, _tr_loss, _val_loss, _f1, _er, extension=''):
     plot.figure()
@@ -51,14 +52,16 @@ def plot_functions(_nb_epoch, _tr_loss, _val_loss, _f1, _er, extension=''):
     print('figure name : {}'.format(__fig_name))
 
 # --- PREPROCESSING ---
-def preprocess_data(_X, _Y, _seq_len, _nb_ch):
+def preprocess_data(_X, _Y, _F, _seq_len, _nb_ch):
     # Split into sequences
     _X = utils.split_in_seqs(_X, _seq_len)
     _Y = utils.split_in_seqs(_Y, _seq_len)
+    # Also split the filename indices
+    _F = utils.split_in_seqs(_F, _seq_len)
 
     # Split for channels
     _X = utils.split_multi_channels(_X, _nb_ch)
-    return _X, _Y
+    return _X, _Y, _F
 
 # --- Model Definition ---
 class CRNN(nn.Module):
@@ -129,7 +132,7 @@ if __name__ == '__main__':
     nb_ch = 1 if is_mono else 2
     batch_size = 128     
     seq_len = 256         
-    nb_epoch = 500      
+    nb_epoch = 1000      
     patience = int(0.25 * nb_epoch)
     sr = 44100
     nfft = 2048
@@ -146,7 +149,7 @@ if __name__ == '__main__':
     cnn_pool_size = [5, 2, 2] 
     rnn_nb = [32, 32]        
     fc_nb = [32]              
-    dropout_rate = 0.5        
+    dropout_rate = 0.2        
     print('MODEL PARAMETERS:\n cnn_nb_filt: {}, cnn_pool_size: {}, rnn_nb: {}, fc_nb: {}, dropout_rate: {}'.format(
         cnn_nb_filt, cnn_pool_size, rnn_nb, fc_nb, dropout_rate))
 
@@ -162,33 +165,37 @@ if __name__ == '__main__':
     train_file = os.path.join(feat_folder, 'train_data.npz')
     test_file = os.path.join(feat_folder, 'test_data.npz')
 
-    # Load Training Data
-    X_train_full, Y_train_full = load_specific_file(train_file)
+    # Load Training Data (now includes file indices and filenames)
+    X_train_full, Y_train_full, F_train_full, train_filenames_list = load_specific_file(train_file)
     if X_train_full is None: exit()
 
-    # Load Final Test Data (Hold out)
-    X_test_final, Y_test_final = load_specific_file(test_file)
+    # Load Final Test Data (now includes file indices and filenames)
+    X_test_final, Y_test_final, F_test_final, test_filenames_list = load_specific_file(test_file)
     if X_test_final is None: exit()
 
     # Split "Training Data" into "Train" and "Validation"
     print("Splitting Training data into Train (80%) and Validation (20%)...")
-    X_train, X_val, Y_train, Y_val = train_test_split(X_train_full, Y_train_full, test_size=0.2, random_state=42)
+    # Important: Split F (file indices) along with X and Y
+    X_train, X_val, Y_train, Y_val, F_train, F_val = train_test_split(
+        X_train_full, Y_train_full, F_train_full, test_size=0.2, random_state=42
+    )
 
-    # Preprocess all three sets
+    # Preprocess all three sets (now includes F)
     print("Preprocessing datasets...")
-    X_train, Y_train = preprocess_data(X_train, Y_train, seq_len, nb_ch)
-    X_val,   Y_val   = preprocess_data(X_val, Y_val, seq_len, nb_ch)
-    X_test,  Y_test  = preprocess_data(X_test_final, Y_test_final, seq_len, nb_ch) # Final test set
+    X_train, Y_train, F_train = preprocess_data(X_train, Y_train, F_train, seq_len, nb_ch)
+    X_val,   Y_val,   F_val   = preprocess_data(X_val, Y_val, F_val, seq_len, nb_ch)
+    # F_test_seq will hold the file index for each sequence in the test set
+    X_test,  Y_test,  F_test_seq  = preprocess_data(X_test_final, Y_test_final, F_test_final, seq_len, nb_ch)
 
     # Model initialization
-    in_channels = X_train.shape[1]  
-    n_freq = X_train.shape[3]       
-    n_classes = Y_train.shape[-1]   
+    in_channels = X_train.shape[1]
+    n_freq = X_train.shape[3]
+    n_classes = Y_train.shape[-1] 
     
     model = CRNN(in_channels, n_freq, n_classes, cnn_nb_filt, cnn_pool_size, rnn_nb, fc_nb, dropout_rate).to(device)
     
     criterion = nn.BCELoss()
-    optimizer = optim.Adam(model.parameters())
+    optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
     # --- Create 3 DataLoaders ---
     # Training Loader
@@ -212,71 +219,71 @@ if __name__ == '__main__':
     f1_overall_1sec_list, er_overall_1sec_list = [0] * nb_epoch, [0] * nb_epoch
     posterior_thresh = 0.5
 
-    # for i in range(nb_epoch):
-    #     print('Epoch : {} '.format(i), end='')
+    for i in range(nb_epoch):
+        print('Epoch : {} '.format(i), end='')
         
-    #     # --- Training Phase ---
-    #     model.train()
-    #     running_tr_loss = 0.0
-    #     for inputs, labels in train_loader:
-    #         inputs, labels = inputs.to(device, non_blocking=True), labels.to(device, non_blocking=True)
-    #         optimizer.zero_grad()
-    #         outputs = model(inputs)
-    #         loss = criterion(outputs, labels)
-    #         loss.backward()
-    #         optimizer.step()
-    #         running_tr_loss += loss.item()
+        # --- Training Phase ---
+        model.train()
+        running_tr_loss = 0.0
+        for inputs, labels in train_loader:
+            inputs, labels = inputs.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            running_tr_loss += loss.item()
         
-    #     tr_loss[i] = running_tr_loss / len(train_loader)
+        tr_loss[i] = running_tr_loss / len(train_loader)
 
-    #     # --- Validation Phase ---
-    #     model.eval()
-    #     all_preds = []
-    #     running_val_loss = 0.0
-    #     with torch.no_grad():
-    #         for inputs, labels in val_loader:
-    #             inputs, labels = inputs.to(device, non_blocking=True), labels.to(device, non_blocking=True)
-    #             outputs = model(inputs)
-    #             loss = criterion(outputs, labels)
-    #             running_val_loss += loss.item()
-    #             all_preds.append(outputs.cpu().numpy())
+        # --- Validation Phase ---
+        model.eval()
+        all_preds = []
+        running_val_loss = 0.0
+        with torch.no_grad():
+            for inputs, labels in val_loader:
+                inputs, labels = inputs.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+                outputs = model(inputs)
+                loss = criterion(outputs, labels)
+                running_val_loss += loss.item()
+                all_preds.append(outputs.cpu().numpy())
         
-    #     val_loss[i] = running_val_loss / len(val_loader)
+        val_loss[i] = running_val_loss / len(val_loader)
 
-    #     # Metrics calculation on VALIDATION set
-    #     val_probs = np.concatenate(all_preds, axis=0)
-    #     val_thresh = (val_probs > posterior_thresh).astype(int)
+        # Metrics calculation on VALIDATION set
+        val_probs = np.concatenate(all_preds, axis=0)
+        val_thresh = (val_probs > posterior_thresh).astype(int)
         
-    #     # Using Y_val here, not Y_test
-    #     score_list = metrics.compute_scores(
-    #         pred=val_thresh, 
-    #         y=Y_val, 
-    #         pred_probs=val_probs,  # Passed for mAP calculation
-    #         frames_in_1_sec=frames_1_sec
-    #     )
+        # Using Y_val here, not Y_test
+        score_list = metrics.compute_scores(
+            pred=val_thresh, 
+            y=Y_val, 
+            pred_probs=val_probs,  # Passed for mAP calculation
+            frames_in_1_sec=frames_1_sec
+        )
 
-    #     f1_overall_1sec_list[i] = score_list['f1_overall_1sec']
-    #     er_overall_1sec_list[i] = score_list['er_overall_1sec']
-    #     pat_cnt = pat_cnt + 1
+        f1_overall_1sec_list[i] = score_list['f1_overall_1sec']
+        er_overall_1sec_list[i] = score_list['er_overall_1sec']
+        pat_cnt = pat_cnt + 1
 
-    #     # Early Stopping Logic
-    #     if er_overall_1sec_list[i] < best_er:
-    #         best_er = er_overall_1sec_list[i]
-    #         f1_for_best_er = f1_overall_1sec_list[i]
+        # Early Stopping Logic
+        if er_overall_1sec_list[i] < best_er:
+            best_er = er_overall_1sec_list[i]
+            f1_for_best_er = f1_overall_1sec_list[i]
             
-    #         # Save the best model
-    #         torch.save(model.state_dict(), os.path.join(__models_dir, '{}_model.pth'.format(__fig_name)))
-    #         best_epoch = i
-    #         pat_cnt = 0
+            # Save the best model
+            torch.save(model.state_dict(), os.path.join(__models_dir, 'model.pth'))
+            best_epoch = i
+            pat_cnt = 0
         
-    #     print('tr Loss : {:.4f}, val Loss : {:.4f}, F1 : {:.4f}, ER : {:.4f} | Best ER : {:.4f}, best_epoch: {}'.format(
-    #             tr_loss[i], val_loss[i], f1_overall_1sec_list[i], er_overall_1sec_list[i], best_er, best_epoch))
+        print('tr Loss : {:.4f}, val Loss : {:.4f}, F1 : {:.4f}, ER : {:.4f} | Best ER : {:.4f}, best_epoch: {}'.format(
+                tr_loss[i], val_loss[i], f1_overall_1sec_list[i], er_overall_1sec_list[i], best_er, best_epoch))
 
-    #     plot_functions(nb_epoch, tr_loss, val_loss, f1_overall_1sec_list, er_overall_1sec_list, '_main')
+        plot_functions(nb_epoch, tr_loss, val_loss, f1_overall_1sec_list, er_overall_1sec_list, '_main')
 
-    #     if pat_cnt > patience:
-    #         print("Early stopping.")
-    #         break
+        if pat_cnt > patience:
+            print("Early stopping.")
+            break
     
     # -----------------------------------------------------------------
     # FINAL EVALUATION ON UNSEEN TEST SET
@@ -284,9 +291,8 @@ if __name__ == '__main__':
     print('\n\n--- TRAINING COMPLETE. EVALUATING ON UNSEEN TEST SET ---')
     
     # Load best model
-    # best_model_path = os.path.join(__models_dir, '{}_model.pth'.format(__fig_name))
-    
-    best_model_path = os.path.join(__models_dir, '{}_model.pth'.format("mon_2025_12_03_23_00_34"))
+    best_model_path = os.path.join(__models_dir, 'model.pth')
+
     model.load_state_dict(torch.load(best_model_path))
     model.eval()
     
@@ -328,9 +334,11 @@ if __name__ == '__main__':
         4: 'gun_shot'
     }
 
-    print(len(test_pred_thresh))
-    print(test_pred_thresh.shape)
-    test_filenames = [f"test_scene_{i:04d}.wav" for i in range(len(test_pred_thresh))]
+    print(f"Number of test sequences: {len(test_pred_thresh)}")
+
+    test_seq_file_indices = F_test_seq[:, 0].astype(int)
+    test_filenames = [test_filenames_list[i] for i in test_seq_file_indices]
+
     print("Decoding events from predictions...")
     formatted_results = utils.decode_predictions(
         preds=test_pred_thresh, 
@@ -340,8 +348,10 @@ if __name__ == '__main__':
     )
 
     pp = pprint.PrettyPrinter(indent=4)
-    print("\n--- Detected Events (Formatted) ---")
-    keys_to_show = list(formatted_results.keys())[:5]
+    print("\n--- Detected Events (Formatted - Top 5 Files) ---")
+    # Sort keys for consistent display
+    sorted_keys = sorted(formatted_results.keys())
+    keys_to_show = sorted_keys[:5]
     subset = {k: formatted_results[k] for k in keys_to_show}
     pp.pprint(subset)
 
@@ -351,14 +361,12 @@ if __name__ == '__main__':
     print(f"Saving results to {output_json_file}...")
     with open(output_json_file, 'w') as f:
         # indent=4 makes it human-readable (pretty printed)
-        json.dump(formatted_results, f, indent=4) 
+        json.dump(formatted_results, f, indent=4)
 
     print("Done.")
 
     total_params = sum(p.numel() for p in model.parameters())
-
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-
     param_size_mb = total_params * 4 / (1024 ** 2)
 
     print(f"--- Model Statistics ---")
