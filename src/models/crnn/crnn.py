@@ -7,6 +7,7 @@ import matplotlib.pyplot as plot
 import pprint
 import json
 
+from pyarrow import bool8
 from sklearn.metrics import confusion_matrix
 from tqdm import tqdm
 
@@ -153,7 +154,13 @@ class CRNN(nn.Module):
 # MAIN SCRIPT STARTS HERE
 #######################################################################################
 
-if __name__ == "__main__":
+
+def run_model(create_data: bool = False):
+
+    if create_data:
+        from src.models.crnn.process_audio import run_audio_processing
+
+        run_audio_processing()
 
     # Settings
     is_mono = True
@@ -514,3 +521,9 @@ if __name__ == "__main__":
     print(f"Trainable Parameters: {trainable_params:,}")
     print(f"Estimated Size:       {param_size_mb:.2f} MB")
     print(f"------------------------")
+
+    return formatted_results
+
+
+if __name__ == "__main__":
+    run_model()
