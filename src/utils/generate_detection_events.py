@@ -13,10 +13,8 @@ from src.config import (
     FG_PATH,
     BG_PATH,
     OUTPUT_PATH,
-    N_SCENES,
     SCENE_DURATION,
     START_SEED,
-    CLASSES,
 )
 
 
@@ -44,7 +42,7 @@ def generate_detection_events(split: str, num_scenes: int):
         )
 
         # Add foreground events
-        n_events = np.random.randint(1, 2)
+        n_events = 1  # num scenes per background
         for _ in range(n_events):
             sc.add_event(
                 label=("choose", []),
@@ -53,16 +51,16 @@ def generate_detection_events(split: str, num_scenes: int):
                 event_time=(
                     "uniform",
                     0,
-                    SCENE_DURATION - 1.0,
+                    SCENE_DURATION - 10.0,
                 ),  # Ensure event starts before the end
-                event_duration=("uniform", 1.0, 4.0),  # Make event 1-4 sec long
+                event_duration=("uniform", 0.5, 10.0),  # Make event 1-4 sec long
                 snr=(
                     "uniform",
                     10,
                     30,
                 ),  # Random volume. This is CRITICAL for a robust model!
                 pitch_shift=("uniform", -1.0, 1.0),  # Random pitch shift
-                time_stretch=("uniform", 0.8, 1.2),  # Random time stretch
+                time_stretch=("uniform", 1, 1),  # Random time stretch
             )
 
         # Generate the audio and annotation; annotation in jams format
@@ -74,6 +72,7 @@ def generate_detection_events(split: str, num_scenes: int):
             jams_file,
             allow_repeated_label=False,
             allow_repeated_source=True,
+            peak_normalization=True,
         )
 
     logger.info(f"Done generating scenes for {split} split.")
@@ -82,8 +81,8 @@ def generate_detection_events(split: str, num_scenes: int):
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
     login(token=os.getenv("HF_TOKEN"))
-    
-    for split in ["train", "test"]:
+
+    for split in ["train_snipped", "test_snipped"]:
 
         # Skip download if already exists
         if os.path.exists(f"data/processed/classification/{split}"):
@@ -93,4 +92,9 @@ if __name__ == "__main__":
                 "kuross/dl-proj-classification", "data/processed/classification", split
             )
 
-        generate_detection_events(split, N_SCENES)
+        if "train" in split:
+            num_scenes = 2500
+        else:
+            num_scenes = 500
+
+        generate_detection_events(split, num_scenes)
