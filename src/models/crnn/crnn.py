@@ -451,6 +451,10 @@ def run_model(create_data: bool = False):
     print(len(test_pred_thresh))
     print(test_pred_thresh.shape)
 
+    ####################
+    # NOTE: ADDED CODE #
+    ####################
+
     # Get test file list to track boundaries
     test_dir = os.path.join("data/processed/detection/test")
     test_files = sorted([f for f in os.listdir(test_dir) if f.endswith(".wav")])
@@ -493,6 +497,10 @@ def run_model(create_data: bool = False):
                     frames_per_sec=frames_1_sec,
                 )
             )
+
+    ########################
+    # NOTE: END ADDED CODE #
+    ########################
 
     pp = pprint.PrettyPrinter(indent=4)
     print("\n--- Detected Events (Formatted) ---")
