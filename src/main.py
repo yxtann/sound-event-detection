@@ -9,7 +9,7 @@ from pathlib import Path
 from loguru import logger
 from tqdm import tqdm
 
-from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES
+from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH
 from src.models.yamnet_train import run_yamnet
 from src.models.audio_mamba_ft import audio_mamba_inference
 from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
@@ -59,21 +59,18 @@ def calculate_metrics(pred_event_dict, gt_event_dict, time_resolution=1.0, t_col
 
     # DCASE SED eval: https://tut-arg.github.io/sed_eval/tutorial.html#id1
     event_based_metrics = sed_eval.sound_event.EventBasedMetrics(CLASSES, t_collar=t_collar)
+    segment_based_metrics = sed_eval.sound_event.SegmentBasedMetrics(CLASSES, time_resolution=time_resolution)
     for file, estimated_event in pred_event_dict.items():
         ref_event = gt_event_dict[file]
         event_based_metrics.evaluate(
             reference_event_list=ref_event,
             estimated_event_list=estimated_event
         )
-    print(event_based_metrics)
-
-    segment_based_metrics = sed_eval.sound_event.SegmentBasedMetrics(CLASSES, time_resolution=time_resolution)
-    for file, estimated_event in pred_event_dict.items():
-        ref_event = gt_event_dict[file]
         segment_based_metrics.evaluate(
             reference_event_list=ref_event,
             estimated_event_list=estimated_event
         )
+    print(event_based_metrics)
     print(segment_based_metrics)
 
 
@@ -81,10 +78,13 @@ def calculate_metrics(pred_event_dict, gt_event_dict, time_resolution=1.0, t_col
 def run_pipeline():
 
     if DETECTOR_MODEL == "yamnet":
+        test_path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl"
+        test_data = pickle.load(open(test_path, "rb"))
+        filepaths = [os.path.join(DETECTION_TEST_PATH, file) for file in test_data['files']] # filepath of test wav files
         events_list = run_yamnet(
-            checkpoint_path=Path("checkpoints") / "yamnet_detector.pth",
-            test_path=Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl",
-        )
+            filepaths, 
+            checkpoint_path="checkpoints/yamnet_detector.pth",
+            )
     elif DETECTOR_MODEL == "crnn":
         pass
     elif DETECTOR_MODEL == "htsat":
@@ -112,7 +112,8 @@ def run_pipeline():
                 val_json_path="data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",
             )
 
-    # check if pkl file is created
+    # EVALUATION: can consider moving this to calculate_metrics
+    # check if gt pkl file is created
     gt_pkl_path = 'data/processed/yamnet/spectrograms_test_list.pkl'
     if not(os.path.exists(gt_pkl_path)):
         create_spectrogram_pkl()
