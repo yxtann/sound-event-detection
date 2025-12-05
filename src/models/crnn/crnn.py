@@ -161,7 +161,7 @@ class CRNN(nn.Module):
 def run_crnn(create_data: bool = False, retrain: bool = false):
 
     if create_data:
-        from src.models.CRNN.process_audio import run_audio_processing
+        from src.models.crnn.process_audio import run_audio_processing
 
         run_audio_processing()
 
