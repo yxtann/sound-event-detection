@@ -12,6 +12,14 @@ data/
 *.ogg
 *.json
 *.npz
+*.jams
 
-# folders
+# crnn folders
 feat_folder
+
+# ignore large files
+*.pth
+*.png
+*.pkl
+*.keras
+*.npy
