@@ -18,13 +18,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from src.models.CRNN.utils import (
+from src.models.crnn.utils import (
     create_folder,
     split_in_seqs,
     split_multi_channels,
     decode_predictions,
 )
-from src.models.CRNN.metrics import compute_scores
+from src.models.crnn.metrics import compute_scores
 
 plot.switch_backend("agg")
 sys.setrecursionlimit(10000)

@@ -12,7 +12,7 @@ from joblib import Parallel, delayed
 from huggingface_hub import snapshot_download
 from huggingface_hub import login
 
-from src.models.CRNN.utils import create_folder
+from src.models.crnn.utils import create_folder
 
 
 # -----------------------------------------------------------------------
