@@ -8,6 +8,7 @@ import sys
 import matplotlib.pyplot as plot
 import pprint
 import json
+import math
 
 from sklearn.metrics import confusion_matrix
 from torch.utils.data import TensorDataset, DataLoader
@@ -172,13 +173,13 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     )
 
     nb_ch = 1 if is_mono else 2
-    batch_size = 128
-    seq_len = 256
+    batch_size = 64
     nb_epoch = 1000
     patience = int(0.25 * nb_epoch)
     sr = 44100
     nfft = 2048
     frames_1_sec = int(sr / (nfft / 2.0))
+    seq_len = int(math.ceil(20 * frames_1_sec)) + 1
 
     print("\n\nUNIQUE ID: {}".format(fig_name))
     print(
