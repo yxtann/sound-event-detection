@@ -16,6 +16,7 @@ DOWNLOAD_PATH = Path("data") / "raw"
 AUDIO_DETECTION_ANNOT_PATH = Path("")
 DETECTION_TRAIN_PATH = Path("data") / "processed" / "detection" / "train"
 DETECTION_TEST_PATH = Path("data") / "processed" / "detection" / "test"
+YAMNET_EXTRACTED_AUDIO_PATH = Path("data") / "processed" / "yamnet" / "extracted_audio"
 
 YAMNET_DATA_PATH = Path("data") / "processed" / "yamnet"
 
