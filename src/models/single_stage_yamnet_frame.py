@@ -8,8 +8,11 @@ import os
 from tqdm import tqdm
 import pickle
 import json
+from loguru import logger
 from scipy.ndimage import median_filter
+from pathlib import Path
 
+from src.config import DETECTION_TRAIN_PATH, DETECTION_TEST_PATH, CLASSES
 YAMNET = hub.load("https://tfhub.dev/google/yamnet/1")
 YAMNET_HOP_SEC = 0.48
 TARGET_SR = 16000  # YAMNet requires 16kHz
@@ -17,6 +20,7 @@ AUDIO_LENGTH = 20 # assume fixed
 N_FRAMES = int(np.ceil((AUDIO_LENGTH - YAMNET_HOP_SEC*2)/YAMNET_HOP_SEC + 1)) # window size is 2*hop
 PRED_YAMNET_PATH = r"outputs/single_stage_yamnet.json"
 YAMNET_CACHE_DIR = r"data/cache/single_stage_yamnet_embeddings"
+YAMNET_SINGLE_STAGE_CHECKPOINT = "checkpoints/yamnet_framewise.keras"
 
 def load_audio_mono(path, sr=TARGET_SR):
     wav, _ = librosa.load(path, sr=sr, mono=True)
@@ -73,44 +77,48 @@ def generator(filepaths, annotations, shuffle=True):
         yield embeddings, frame_labels
 
 class Trainer:
-    def __init__(self, train_files, train_annotations, val_files, val_annotations, **kwargs):
+    def __init__(self, train_files=None, train_annotations=None, val_files=None, val_annotations=None, **kwargs):
         self.lr = kwargs.pop("lr", 1e-4)
-        self.epochs = kwargs.pop("epochs", 30)
+        self.epochs = kwargs.pop("epochs", 100)
         self.batch_size = kwargs.pop("batch_size", 16)
-        self.model_save_dir = kwargs.pop("model_save_dir", "checkpoints/yamnet.keras")
-        self.classes = kwargs.pop("classes")
+        self.checkpoint_path = kwargs.pop("checkpoint_path", YAMNET_SINGLE_STAGE_CHECKPOINT)
+        self.classes = CLASSES
         self.n_classes = len(self.classes) + 1 # class for no events
+        self.mode = kwargs.pop("mode", 'train')
 
-        self.train_steps = len(train_files) // self.batch_size
-        self.val_steps = len(val_files) // self.batch_size
+        if self.mode == 'train':
+            self.train_steps = len(train_files) // self.batch_size
+            self.val_steps = len(val_files) // self.batch_size
 
-        self.optimizer = keras.optimizers.Adam(learning_rate=self.lr)
-        self.callbacks = [
-            keras.callbacks.ModelCheckpoint("checkpoints/yamnet_checkpoint_frame.keras", save_best_only=True, monitor="val_loss"),
-            keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True),
-            keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3)
-        ]
+            self.optimizer = keras.optimizers.Adam(learning_rate=self.lr)
+            self.callbacks = [
+                keras.callbacks.ModelCheckpoint("checkpoints/yamnet_checkpoint_frame.keras", save_best_only=True, monitor="val_loss"),
+                keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True),
+                keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3)
+            ]
+            
+            all_files = train_files + val_files
+            precompute_embeddings(all_files)
+
+            output_signature = (
+                tf.TensorSpec(shape=(None,1024), dtype=tf.float32),
+                tf.TensorSpec(shape=(None,), dtype=tf.int32)
+            )
+
+            train_ds = tf.data.Dataset.from_generator(
+                lambda: generator(train_files, train_annotations, shuffle=True),
+                output_signature=output_signature
+            ).batch(self.batch_size, drop_remainder=True).repeat().prefetch(tf.data.AUTOTUNE)
+
+            val_ds = tf.data.Dataset.from_generator(
+                lambda: generator(val_files, val_annotations, shuffle=False),
+                output_signature=output_signature
+            ).batch(self.batch_size, drop_remainder=True).repeat().prefetch(tf.data.AUTOTUNE)
+
+            self.train_ds = train_ds
+            self.val_ds = val_ds
         
-        all_files = train_files + val_files
-        precompute_embeddings(all_files)
-
-        output_signature = (
-            tf.TensorSpec(shape=(None,1024), dtype=tf.float32),
-            tf.TensorSpec(shape=(None,), dtype=tf.int32)
-        )
-
-        train_ds = tf.data.Dataset.from_generator(
-            lambda: generator(train_files, train_annotations, shuffle=True),
-            output_signature=output_signature
-        ).batch(self.batch_size, drop_remainder=True).repeat().prefetch(tf.data.AUTOTUNE)
-
-        val_ds = tf.data.Dataset.from_generator(
-            lambda: generator(val_files, val_annotations, shuffle=False),
-            output_signature=output_signature
-        ).batch(self.batch_size, drop_remainder=True).repeat().prefetch(tf.data.AUTOTUNE)
-
-        self.train_ds = train_ds
-        self.val_ds = val_ds
+        self.build_model()
 
     def build_model(self):
         embeddings = keras.Input(shape=(None, 1024), dtype=tf.float32)
@@ -120,7 +128,6 @@ class Trainer:
         self.model = keras.Model(inputs=embeddings, outputs=output)
 
     def train(self):
-        self.build_model()
         self.model.summary()
         self.model.compile(
             optimizer=self.optimizer,
@@ -135,17 +142,17 @@ class Trainer:
             steps_per_epoch=self.train_steps, 
             validation_steps=self.val_steps
         )
-        self.model.save(self.model_save_dir, include_optimizer=False)
-        print("Saved model to", self.model_save_dir)
+        self.model.save(self.checkpoint_path, include_optimizer=False)
+        print("Saved model to", self.checkpoint_path)
 
-    def load_model(self, model_path=None):
+    def load_model(self, checkpoint_path=YAMNET_SINGLE_STAGE_CHECKPOINT):
         """
         Load a previously saved model into self.model
         """
-        if model_path is None:
-            model_path=self.model_save_dir
-        self.model = keras.models.load_model(model_path, compile=False)
-        print(f"Loaded model from {model_path}")
+        if checkpoint_path is None:
+            checkpoint_path=self.checkpoint_path
+        self.model = keras.models.load_model(checkpoint_path, compile=False)
+        print(f"Loaded model from {checkpoint_path}")
 
     def predict_frames(self, file, med_filter=False):
         """
@@ -211,3 +218,50 @@ class Trainer:
         with open(PRED_YAMNET_PATH, "w") as f:
             json.dump(estimated_event_outputs, f, indent=4)
         print(f"Saved YAMNet predicted events pickle file to {PRED_YAMNET_PATH}")
+        return estimated_event_outputs
+
+def train_yamnet_singlestage(checkpoint_path):
+    data = pickle.load(open('data/processed/yamnet/spectrograms_train.pkl', 'rb'))
+    print(data.keys())
+    class_to_id = {c:(i+1) for i,c in enumerate(CLASSES)} # id to start from 1, 0 is reserved for no event
+
+    # manual train test split (stratified)
+    np.random.seed(0)
+    train_size = 0.8
+    train_idx = []
+    for label in np.unique(data['event_label']):
+        choices = np.where(data['event_label'] == label)[0]
+        train_idx.append(np.sort(np.random.choice(choices, size = int(np.round(len(choices)*train_size)), replace = False)))
+    train_idx = np.sort(np.concatenate(train_idx))
+    val_idx = [i for i in range(len(data['event_label'])) if i not in train_idx]
+
+    filepaths = [os.path.join(DETECTION_TRAIN_PATH, file) for file in data['files']]
+    labels = [class_to_id[c] for c in data['event_label']]
+
+    train_files = [filepaths[i] for i in train_idx]
+    train_labels = [(data['onset'][i], data['offset'][i], labels[i]) for i in train_idx]
+    val_files = [filepaths[i] for i in val_idx]
+    val_labels = [(data['onset'][i], data['offset'][i], labels[i]) for i in val_idx]
+    trainer = Trainer(train_files, train_labels, val_files, val_labels, lr = 1e-4, epochs = 100, batch_size = 16, checkpoint_path = checkpoint_path, classes = CLASSES)
+    trainer.train()
+    return trainer
+
+def run_yamnet_singlestage(test_files, checkpoint_path = YAMNET_SINGLE_STAGE_CHECKPOINT):
+    
+    if not os.path.exists(checkpoint_path):
+        logger.info("No model checkpoint, training model...")
+        trained_solver = train_yamnet_singlestage(checkpoint_path=checkpoint_path)
+        logger.info(f"Saved solver to {checkpoint_path}")
+    else:
+        logger.info(f"Loading from checkpoint {checkpoint_path}...")
+        trained_solver = Trainer(checkpoint_path=checkpoint_path, mode="infer")
+        trained_solver.load_model(checkpoint_path)
+
+    events_list = trained_solver.inference(test_files, med_filter=True)
+    return events_list
+
+if __name__ == "__main__":
+    data_test = pickle.load(open(Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl", 'rb'))
+    test_files = [os.path.join(DETECTION_TEST_PATH, file) for file in data_test['files']]
+    precompute_embeddings(test_files)
+    events_list = run_yamnet_singlestage(test_files)
