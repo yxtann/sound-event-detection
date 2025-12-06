@@ -7,6 +7,7 @@ import librosa
 import os
 from tqdm import tqdm
 import pickle
+import json
 from scipy.ndimage import median_filter
 
 YAMNET = hub.load("https://tfhub.dev/google/yamnet/1")
@@ -14,7 +15,7 @@ YAMNET_HOP_SEC = 0.48
 TARGET_SR = 16000  # YAMNet requires 16kHz
 AUDIO_LENGTH = 20 # assume fixed
 N_FRAMES = int(np.ceil((AUDIO_LENGTH - YAMNET_HOP_SEC*2)/YAMNET_HOP_SEC + 1)) # window size is 2*hop
-PRED_YAMNET_PATH = r"outputs/single_stage_yamnet.pkl"
+PRED_YAMNET_PATH = r"outputs/single_stage_yamnet.json"
 YAMNET_CACHE_DIR = r"data/cache/single_stage_yamnet_embeddings"
 
 def load_audio_mono(path, sr=TARGET_SR):
@@ -207,6 +208,6 @@ class Trainer:
             estimated_event = self.predict_events(test_path, med_filter=med_filter)
             estimated_event_outputs[os.path.basename(test_path)] = estimated_event
         os.makedirs("outputs", exist_ok=True)
-        with open(PRED_YAMNET_PATH, "wb") as f:
-            pickle.dump(estimated_event_outputs, f)
+        with open(PRED_YAMNET_PATH, "w") as f:
+            json.dump(estimated_event_outputs, f, indent=4)
         print(f"Saved YAMNet predicted events pickle file to {PRED_YAMNET_PATH}")
