@@ -16,8 +16,6 @@ from tqdm import tqdm
 from pathlib import Path
 
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '..\..')))
 from src.config import DETECTION_TRAIN_PATH, DETECTION_TEST_PATH
 from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 

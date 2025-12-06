@@ -85,11 +85,11 @@ def run_pipeline():
 
     if NUM_STAGES == 1:
         if COMBINED_MODEL == "yamnet":
-            from src.models.single_stage_yamnet_frame import Trainer, precompute_embeddings
-            data_test = pickle.load(open('data/processed/yamnet/spectrograms_test.pkl', 'rb'))
+            from src.models.single_stage_yamnet_frame import precompute_embeddings, run_yamnet_singlestage
+            data_test = pickle.load(open(Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl", 'rb'))
             test_files = [os.path.join(DETECTION_TEST_PATH, file) for file in data_test['files']]
             precompute_embeddings(test_files)
-            trainer.inference(test_files, med_filter=True)
+            events_list = run_yamnet_singlestage(test_files)
         elif COMBINED_MODEL == "crnn":
             pass
         elif COMBINED_MODEL == "htsat":
