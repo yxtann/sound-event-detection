@@ -10,11 +10,11 @@ from pathlib import Path
 from loguru import logger
 from tqdm import tqdm
 
-from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH
+from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH, YAMNET_EXTRACTED_AUDIO_PATH
 from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
 
-def cut_events_from_audio(extracted_audio_path, events_list):
+def cut_events_from_audio(extracted_audio_path, events_list, data_path=DETECTION_TEST_PATH):
 
     if not os.path.exists(extracted_audio_path):
         os.makedirs(extracted_audio_path)
@@ -25,15 +25,18 @@ def cut_events_from_audio(extracted_audio_path, events_list):
         os.makedirs(extracted_audio_path)
         logger.info(f"Cleaned directory: {extracted_audio_path}")
 
-    for event in tqdm(events_list):
-        filename = event["filename"]
-        events_time_sections = event["events"]
+    for filename, events in tqdm(events_list.items()):
+        filepath = Path(data_path, filename)
+        for i in range(len(events)):
+            event = events[i]
 
-        audio_array, sr = sf.read(filename)
-        base_name = Path(filename).stem
+            start_sec = event["event_onset"]
+            end_sec = event["event_offset"]
 
-        # Cut the wav file and save it to the extracted_audio_path
-        for start_sec, end_sec in events_time_sections:
+            audio_array, sr = sf.read(filepath)
+            base_name = Path(filepath).stem
+
+            # Cut the wav file and save it to the extracted_audio_path
             start_sample = int(start_sec * sr)
             end_sample = int(end_sec * sr)
 
@@ -46,6 +49,14 @@ def cut_events_from_audio(extracted_audio_path, events_list):
 
             # Write the new file
             sf.write(output_path, sliced_audio, sr)
+
+            # Record
+            events[i] = events[i] | {"extracted_audio_filename": new_filename}
+
+        events_list[filename] = events
+
+    return events_list
+
 
 def generate_gt_events_dict():
     # check if gt pkl file is created
@@ -119,14 +130,22 @@ def run_pipeline(args):
         elif args.classifier_model == "crnn":
             pass
         elif args.classifier_model == "htsat":
-            pass
+            from src.models.htsat.classification import run_htsat_classification
+
+            updated_events_list = cut_events_from_audio(
+                YAMNET_EXTRACTED_AUDIO_PATH, events_list
+            )
+
+            from src.models.htsat.classification import run_htsat_classification
+
+            events_list = run_htsat_classification(updated_events_list)
         elif args.classifier_model == "mamba":
             # Lazy loading for mamba
             from src.models.audio_mamba_ft import audio_mamba_inference
             from src.utils.audio_mamba_metadata_generator import generate_metadata_from_detector
             
             cut_events_from_audio(
-                (Path("data") / "processed" / "yamnet" / "extracted_audio"), events_list
+                YAMNET_EXTRACTED_AUDIO_PATH, events_list
             )
             generate_metadata_from_detector(
                 groundtruth_csv="data/processed/detection/test/annotations.csv",
@@ -140,9 +159,8 @@ def run_pipeline(args):
             raise Exception(f'Invalid CLASSIFIER_MODEL {args.classifier_model} for {args.num_stages} stage pipeline')
 
     # Run metrics
-    calculate_metrics({})
-
-
+    gt_events_dict = generate_gt_events_dict()
+    calculate_metrics(events_list, gt_events_dict)
 
 """
 Example Usage: python main.py --num-stages=2 --detector-model=yamnet --classifier-model=htsat
