@@ -14,7 +14,7 @@ from src.utils.audio_mamba_metadata_generator import generate_metadata_from_dete
 from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 
 
-def cut_events_from_audio(extracted_audio_path, events_list):
+def cut_events_from_audio(extracted_audio_path, events_list, data_path=DETECTION_TEST_PATH):
 
     if not os.path.exists(extracted_audio_path):
         os.makedirs(extracted_audio_path)
@@ -25,15 +25,16 @@ def cut_events_from_audio(extracted_audio_path, events_list):
         os.makedirs(extracted_audio_path)
         logger.info(f"Cleaned directory: {extracted_audio_path}")
 
-    for event in tqdm(events_list):
-        filename = event["filename"]
-        events_time_sections = event["events"]
+    for filename, events in tqdm(events_list.items()):
+        filename = Path(data_path, filename)
+        for event in events:
+            start_sec = event["event_onset"]
+            end_sec = event["event_offset"]
 
-        audio_array, sr = sf.read(filename)
-        base_name = Path(filename).stem
+            audio_array, sr = sf.read(filename)
+            base_name = Path(filename).stem
 
-        # Cut the wav file and save it to the extracted_audio_path
-        for start_sec, end_sec in events_time_sections:
+            # Cut the wav file and save it to the extracted_audio_path
             start_sample = int(start_sec * sr)
             end_sample = int(end_sec * sr)
 
@@ -46,7 +47,7 @@ def cut_events_from_audio(extracted_audio_path, events_list):
 
             # Write the new file
             sf.write(output_path, sliced_audio, sr)
-
+            
 def generate_gt_events_dict():
     # check if gt pkl file is created
     gt_pkl_path = 'data/processed/yamnet/spectrograms_test_list.pkl'
