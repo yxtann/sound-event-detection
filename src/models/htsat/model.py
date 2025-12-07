@@ -2,10 +2,19 @@ import torch
 import lightning as L
 import torch.optim as optim
 import bisect
+from pathlib import Path
+from datasets import ClassLabel
+import os
+from loguru import logger
+import torch
+from torch.utils.data import DataLoader
 
 from external.hts_audio_transformer.utils import get_loss_func
+from src.config import CLASSES
+from src.models.htsat.data import process_data_for_train, HTSATDataset, format_dataset
 
-NON_EVENT_LABEL = 'non_event'
+from src.models.htsat.constants import HTSAT_CHECKPOINT, NON_EVENT_LABEL, CLASS_LABELS, DEVICE
+
 
 class HTSATModel(L.LightningModule):
     def __init__(self, model, config):
@@ -127,3 +136,75 @@ class HTSATModel(L.LightningModule):
         loss = self.loss_func(pred_map, target_map)
 
         return loss
+    
+def init_model(config, test_only = False):
+    logger.info("Intializing HTS-AT Model")
+    from external.hts_audio_transformer.model.htsat import HTSAT_Swin_Transformer
+
+    sed_model = HTSAT_Swin_Transformer(
+        spec_size=config.htsat_spec_size,
+        num_classes=config.classes_num,
+        config = config
+    )
+
+    sed_model.to(DEVICE)
+
+    if os.path.exists(HTSAT_CHECKPOINT):
+        logger.info(f"HTS-AT Model checkpoint exists at {HTSAT_CHECKPOINT}, Loading weights...")
+        state_dict = torch.load(HTSAT_CHECKPOINT, map_location=DEVICE)
+        sed_model.load_state_dict(state_dict)
+
+    if test_only:
+        sed_model.eval()
+
+    model = HTSATModel(sed_model, config)
+
+    return model
+
+def get_config():
+    from external.hts_audio_transformer import config
+
+    ## Add / Modify Configurations
+    config.debug = True
+    config.max_epoch = 10
+    config.classes_num = len(CLASSES) + 1
+    config.sample_rate = 44100
+    config.batch_size = 10
+
+    config.clip_duration = 20.0
+    config.classes = CLASS_LABELS
+    config.clip_samples = config.sample_rate * config.clip_duration
+    config.htsat_spec_size = 512
+
+    return config
+
+
+def run_htsat_train(checkpoint_path = HTSAT_CHECKPOINT):
+
+    config = get_config()
+    model = init_model(config, True)
+    
+    train_dataset = process_data_for_train()
+
+    formatted_train_dataset = format_dataset(train_dataset, CLASS_LABELS)
+    htsat_train_dataset = HTSATDataset(formatted_train_dataset, config)
+
+    train_loader = DataLoader(
+        dataset = htsat_train_dataset,
+        num_workers = config.num_workers,
+        batch_size = config.batch_size,
+        shuffle = False,
+    )
+
+    minimal_trainer = L.Trainer(
+        max_epochs=config.max_epoch,
+        default_root_dir="./lightning_checkpoints",
+    )
+
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+    minimal_trainer.fit(model, train_dataloaders=train_loader)
+
+    trained_model = model.model
+    torch.save(trained_model.state_dict(), checkpoint_path)
+
+    return 

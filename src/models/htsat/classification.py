@@ -7,55 +7,10 @@ from torch.utils.data import DataLoader
 import lightning as L
 
 from src.config import CLASSES
-from src.models.htsat.model import HTSATModel
 from src.models.htsat.data import HTSATDataset, process_data_for_classification, format_dataset
+from src.models.htsat.model import init_model, get_config, run_htsat_train
 
-# Constants
-HTSAT_CHECKPOINT = Path("checkpoints") / "htsat_detector.pth"
-NON_EVENT_LABEL = 'non_event'
-CLASS_LABELS = ClassLabel(names=CLASSES + [NON_EVENT_LABEL])
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
-def init_model(config, test_only = False):
-    logger.info("Intializing HTS-AT Model")
-    from external.hts_audio_transformer.model.htsat import HTSAT_Swin_Transformer
-
-    sed_model = HTSAT_Swin_Transformer(
-        spec_size=config.htsat_spec_size,
-        num_classes=config.classes_num,
-        config = config
-    )
-
-    sed_model.to(DEVICE)
-
-    if os.path.exists(HTSAT_CHECKPOINT):
-        logger.info(f"HTS-AT Model checkpoint exists at {HTSAT_CHECKPOINT}, Loading weights...")
-        state_dict = torch.load(HTSAT_CHECKPOINT, map_location=DEVICE)
-        sed_model.load_state_dict(state_dict)
-
-    if test_only:
-        sed_model.eval()
-
-    model = HTSATModel(sed_model, config)
-
-    return model
-
-def get_config():
-    from external.hts_audio_transformer import config
-
-    ## Add / Modify Configurations
-    config.debug = True
-    config.max_epoch = 10
-    config.classes_num = len(CLASSES) + 1
-    config.sample_rate = 44100
-
-    config.clip_duration = 20.0
-    config.classes = CLASS_LABELS
-    config.clip_samples = config.sample_rate * config.clip_duration
-    config.htsat_spec_size = 512
-
-    return config
+from src.models.htsat.constants import HTSAT_CHECKPOINT, CLASS_LABELS
 
 def get_classification_events(frame_predictions, events_list, CLASS_LABELS):
     for batch in frame_predictions:
@@ -83,39 +38,39 @@ def get_classification_events(frame_predictions, events_list, CLASS_LABELS):
 def run_htsat_classification(event_list,
     checkpoint_path = HTSAT_CHECKPOINT,
 ):
+    # If Model Checkpoints not available, train model
     if not os.path.exists(checkpoint_path):
         # TODO
-        logger.info("HTS-AT model was trained separately.")
-        # logger.info("No model checkpoint, training model...")
-        # trained_solver = train_yamnet(checkpoint_path=checkpoint_path)
-        # logger.info(f"Saved solver to {checkpoint_path}")
-    else:
-        config = get_config()
-        model = init_model(config, True)
+        logger.info(f"HTS-AT model checkpoints not detected at {checkpoint_path}, Training Model")
+        run_htsat_train(checkpoint_path = checkpoint_path)
 
-        extracted_dataset = process_data_for_classification(event_list)
-        formatted_extracted_dataset = format_dataset(extracted_dataset, CLASS_LABELS)
-        htsat_extracted_dataset = HTSATDataset(formatted_extracted_dataset, config, eval_mode=True)
+    # Model Checkpoints are available now, run test
+    config = get_config()
+    model = init_model(config, True)
 
-        extracted_test_loader = DataLoader(
-            dataset = htsat_extracted_dataset,
-            num_workers = config.num_workers,
-            batch_size = 1,
-            shuffle = False,
-        )
+    extracted_dataset = process_data_for_classification(event_list)
+    formatted_extracted_dataset = format_dataset(extracted_dataset, CLASS_LABELS)
+    htsat_extracted_dataset = HTSATDataset(formatted_extracted_dataset, config, eval_mode=True)
 
-        minimal_trainer = L.Trainer(
-            max_epochs=config.max_epoch,
-            default_root_dir="./lightning_checkpoints",
-        )
+    extracted_test_loader = DataLoader(
+        dataset = htsat_extracted_dataset,
+        num_workers = config.num_workers,
+        batch_size = 1,
+        shuffle = False,
+    )
 
-        minimal_trainer.test(
-            model, 
-            dataloaders=extracted_test_loader
-        )
+    minimal_trainer = L.Trainer(
+        max_epochs=config.max_epoch,
+        default_root_dir="./lightning_checkpoints",
+    )
 
-        frame_predictions = model.test_step_outputs
+    minimal_trainer.test(
+        model, 
+        dataloaders=extracted_test_loader
+    )
 
-        classified_events_list = get_classification_events(frame_predictions, event_list, CLASS_LABELS)
+    frame_predictions = model.test_step_outputs
+
+    classified_events_list = get_classification_events(frame_predictions, event_list, CLASS_LABELS)
 
     return classified_events_list
