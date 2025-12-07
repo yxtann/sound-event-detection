@@ -5,10 +5,11 @@ import torch.nn.functional as F
 from torch.utils.data import Dataset as TorchDataset
 import logging
 import random
+import pickle
+from pathlib import Path
+
 
 def process_data_for_classification(events_list):
-    import pickle
-    from pathlib import Path
 
     from src.config import YAMNET_EXTRACTED_AUDIO_PATH
 
@@ -38,6 +39,62 @@ def process_data_for_classification(events_list):
     extracted_dataset = Dataset.from_list(extracted_audio_info_df)
 
     return extracted_dataset
+
+
+def process_data_for_combined():
+
+    from src.config import DETECTION_TEST_PATH
+
+    test_path = Path("data") / "processed" / "yamnet" / "spectrograms_test.pkl"
+    test_data = pickle.load(open(test_path, "rb"))
+
+    num_records = len(test_data["files"])
+    test_info_df = []
+    for i in range(num_records):
+        test_info_df.append(
+            {
+                "file": test_data["files"][i],
+                "file_path": f'{DETECTION_TEST_PATH}/{test_data["files"][i]}',
+                "S_db": test_data["S_db"][i],
+                "onset": test_data["onset"][i],
+                "offset": test_data["offset"][i],
+                "event_label": test_data["event_label"][i],
+                "background_label": test_data["background_label"][i],
+                "sr": test_data["sr"]
+
+            }
+        )
+
+    test_dataset = Dataset.from_list(test_info_df)
+
+    return test_dataset
+
+def process_data_for_train():
+
+    from src.config import DETECTION_TRAIN_PATH
+
+    train_path = Path("data") / "processed" / "yamnet" / "spectrograms_train.pkl"
+    train_data = pickle.load(open(train_path, "rb"))
+
+    num_records = len(train_data["files"])
+    train_info_df = []
+    for i in range(num_records):
+        train_info_df.append(
+            {
+                "file": train_data["files"][i],
+                "file_path": f'{DETECTION_TRAIN_PATH}/{train_data["files"][i]}',
+                "S_db": train_data["S_db"][i],
+                "onset": train_data["onset"][i],
+                "offset": train_data["offset"][i],
+                "event_label": train_data["event_label"][i],
+                "background_label": train_data["background_label"][i],
+                "sr": train_data["sr"]
+
+            }
+        )
+    test_dataset = Dataset.from_list(train_info_df)
+
+    return test_dataset
 
 
 def format_dataset(dataset: Dataset, CLASS_LABELS: ClassLabel):

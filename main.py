@@ -104,9 +104,13 @@ def run_pipeline(args):
         elif args.combined_model == "crnn":
             pass
         elif args.combined_model == "htsat":
-            pass
+            from src.models.htsat.combined import run_htsat_combined
+
+            events_list = run_htsat_combined()
         else:
             raise Exception(f'Invalid COMBINED_MODEL {args.combined_model} for {args.num_stages} stage pipeline')
+        
+        assert events_list, "Error: The combined model did not return any events (events_list is empty)."
 
     # Use the above detections to cut audio for the classification stage
     # if we are using a 2-stage model
