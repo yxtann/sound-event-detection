@@ -12,36 +12,39 @@ Our proposed architecture is shown below.
 
 ## Models Used
 
-We compared the following models
+We compared the following models and their combinations:
 - Convolutional Recurrent Neural Networks (R-CNN) - single stage only
 - Yet Another Mobile Network (YAMNet) - single stage and as detector
 - Hierarchical Token Semantic Audio Transformer (HTS-AT) - single stage and as classifier
 - Audio Mamba (AuM) - as classifier only
 
+## Evaluation
+
+We follow the official DCASE SED evaluation method noted here: <https://tut-arg.github.io/sed_eval/tutorial.html#id1>
+
 ## Using the Repository
+
+### Setting Up
+
+- Clone the repo and install the `requirements.txt` file
+- As we use python_dotenv and HuggingFace, create a `.env` file in the root directory and insert your HF_TOKEN
 
 ### Running Single Stage Pipeline
 
+This requires specifying a detector model and a classification model
+
+Example Usage: `python main.py --num-stages=2 --detector-model=yamnet --classifier-model=htsat`
+
 ### Running Two-Stage Pipeline
 
-### Generating Data
+This requires specifying a model capable of running detection and classification together
 
+Example Usage: `python main.py --num-stages=1 --combined-model=htsat`
 
+### Generating Detection Data
 
-Detect audio events using deep learning techniques.
-This repository contains code for training and evaluating models for sound event detection.
-It includes data preprocessing, model architectures, and evaluation metrics.
-To get started, clone the repository and install the required dependencies listed in requirements.txt.
-
-Run in root folder with `python -m src.module`
-
-Create a `.env` file in the repo root and insert your HF_TOKEN
-
-i.e.
-```python
-# .env
-HF_TOKEN = xxxx
-```
-
-### Generating soundscapes
-To generate, scaper and soxbindings (from submodule, and install from source) is required. Otherwise, this can be ignored.
+To generate, scaper and soxbindings (from submodule, and install from source) is required. Otherwise, this can be ignored.  
+- Install the requirements from `req_scaper.txt`
+- Create a train and test classification folder with subfolders being the classes.
+- Within `src.utils.generate_detection_events`, change the SCAPER settings if needed.
+- Run `python -m src.utils.generate_detection_events` to create your SED dataset.
