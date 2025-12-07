@@ -11,67 +11,9 @@ from loguru import logger
 from tqdm import tqdm
 
 from src.config import NUM_STAGES, DETECTOR_MODEL, CLASSIFIER_MODEL, COMBINED_MODEL, CLASSES, DETECTION_TEST_PATH, YAMNET_EXTRACTED_AUDIO_PATH
-from src.utils.audio_to_spectrograms import create_spectrogram_pkl
+from src.utils.cut_audio import cut_events_from_audio
+from src.utils.generate_ground_truth import generate_gt_events_dict
 
-
-def cut_events_from_audio(extracted_audio_path, events_list, data_path=DETECTION_TEST_PATH):
-
-    if not os.path.exists(extracted_audio_path):
-        os.makedirs(extracted_audio_path)
-        logger.info(f"Created directory: {extracted_audio_path}")
-    else:
-        # Clean the filepath as every prediction is new
-        shutil.rmtree(extracted_audio_path)
-        os.makedirs(extracted_audio_path)
-        logger.info(f"Cleaned directory: {extracted_audio_path}")
-
-    for filename, events in tqdm(events_list.items()):
-        filepath = Path(data_path, filename)
-        for i in range(len(events)):
-            event = events[i]
-
-            start_sec = event["event_onset"]
-            end_sec = event["event_offset"]
-
-            audio_array, sr = sf.read(filepath)
-            base_name = Path(filepath).stem
-
-            # Cut the wav file and save it to the extracted_audio_path
-            start_sample = int(start_sec * sr)
-            end_sample = int(end_sec * sr)
-
-            # Slice the numpy array
-            sliced_audio = audio_array[start_sample:end_sample]
-
-            # Construct new filename
-            new_filename = f"{base_name}_{start_sec:.2f}_{end_sec:.2f}.wav"
-            output_path = extracted_audio_path / new_filename
-
-            # Write the new file
-            sf.write(output_path, sliced_audio, sr)
-
-            # Record
-            events[i] = events[i] | {"extracted_audio_filename": new_filename}
-
-        events_list[filename] = events
-
-    return events_list
-
-
-def generate_gt_events_dict():
-    # check if gt pkl file is created
-    gt_pkl_path = 'data/processed/yamnet/spectrograms_test_list.pkl'
-    if not(os.path.exists(gt_pkl_path)):
-        create_spectrogram_pkl()
-
-    # get gt events to use for all models
-    gt_events = pickle.load(open(gt_pkl_path, 'rb'))
-    gt_event_dict = {ref_event['file']: [{'file':ref_event['file'], 
-                        'event_onset':ref_event['onset'], 
-                        'event_offset':ref_event['offset'],
-                        'event_label':ref_event['event_label']}]
-                        for ref_event in gt_events}
-    return gt_event_dict
 
 GT_EVENT_DICT = generate_gt_events_dict()
 
@@ -140,8 +82,6 @@ def run_pipeline(args):
                 YAMNET_EXTRACTED_AUDIO_PATH, events_list
             )
 
-            from src.models.htsat.classification import run_htsat_classification
-
             events_list = run_htsat_classification(updated_events_list)
         elif args.classifier_model == "mamba":
             # Lazy loading for mamba
@@ -163,8 +103,7 @@ def run_pipeline(args):
             raise Exception(f'Invalid CLASSIFIER_MODEL {args.classifier_model} for {args.num_stages} stage pipeline')
 
     # Run metrics
-    gt_events_dict = generate_gt_events_dict()
-    calculate_metrics(events_list, gt_events_dict)
+    calculate_metrics(events_list, GT_EVENT_DICT)
 
 """
 Example Usage: python main.py --num-stages=2 --detector-model=yamnet --classifier-model=htsat
@@ -199,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--combined-model', 
         type=str, 
-        default=CLASSIFIER_MODEL,
+        default=COMBINED_MODEL,
         help='Optional: Combined Model'
     )
 

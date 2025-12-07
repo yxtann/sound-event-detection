@@ -97,6 +97,38 @@ def process_data_for_train():
     return test_dataset
 
 
+def process_train_data_for_classification(events_list):
+
+    from src.config import GROUND_TRUTH_EXTRACTED_AUDIO_PATH
+
+    train_path = Path("data") / "processed" / "yamnet" / "spectrograms_train.pkl"
+    train_data = pickle.load(open(train_path, "rb"))
+
+    extracted_audio_info_df = []
+
+    for train_data_i in range(len(train_data['files'])):
+        train_filename = train_data['files'][train_data_i]
+
+        detected_events = events_list.get(train_filename, [])
+
+        for detected_event in detected_events:
+            extracted_audio_info_df.append(
+                {
+                    "file": train_filename,
+                    "file_path": f'{GROUND_TRUTH_EXTRACTED_AUDIO_PATH}/{detected_event["extracted_audio_filename"]}',
+                    "S_db": train_data["S_db"][train_data_i],
+                    "onset": train_data["onset"][train_data_i],
+                    "offset": train_data["offset"][train_data_i],
+                    "event_label": train_data['event_label'][train_data_i],
+                    "background_label": train_data['background_label'][train_data_i],
+                    "sr": train_data['sr']
+                }
+            )
+    extracted_dataset = Dataset.from_list(extracted_audio_info_df)
+
+    return extracted_dataset
+
+
 def format_dataset(dataset: Dataset, CLASS_LABELS: ClassLabel):
 
     def format_function(record, idx):
