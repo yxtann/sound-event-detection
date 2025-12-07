@@ -2,28 +2,26 @@ import torch
 import lightning as L
 import torch.optim as optim
 import bisect
-from pathlib import Path
-from datasets import ClassLabel
 import os
 from loguru import logger
 import torch
 from torch.utils.data import DataLoader
 
 from external.hts_audio_transformer.utils import get_loss_func
-from src.config import CLASSES
-from src.models.htsat.data import process_data_for_train, HTSATDataset, format_dataset
-
-from src.models.htsat.constants import HTSAT_CHECKPOINT, NON_EVENT_LABEL, CLASS_LABELS, DEVICE
+from src.config import CLASSES, DETECTION_TRAIN_PATH, GROUND_TRUTH_EXTRACTED_AUDIO_PATH
+from src.models.htsat.data import process_data_for_train, process_train_data_for_classification, HTSATDataset, format_dataset
+from src.models.htsat.constants import NON_EVENT_LABEL, CLASS_LABELS, DEVICE, FRAME_LOSS_BASIS, CLIP_LOSS_BASIS
 
 
 class HTSATModel(L.LightningModule):
-    def __init__(self, model, config):
+    def __init__(self, model, config, loss_basis):
         super().__init__()
         self.model = model
         self.config = config
         # self.dataset = dataset
         self.loss_func = get_loss_func(config.loss_type)
         self.test_step_outputs = []
+        self.loss_basis = loss_basis
     
     def forward(self, x, mix_lambda = None):
         output_dict = self.model(x)
@@ -36,8 +34,12 @@ class HTSATModel(L.LightningModule):
         batch_waveform = batch['waveform']
         pred, pred_map = self(batch_waveform, mix_lambda)
 
-        # Get Frame Loss
-        loss = self.calculate_framewise_loss(batch, pred_map)
+        if self.loss_basis == FRAME_LOSS_BASIS:
+            loss = self.calculate_framewise_loss(batch, pred_map)
+        elif self.loss_basis == CLIP_LOSS_BASIS:
+            loss = self.calculate_clipwise_loss(batch, pred)
+        else:
+            exit(1)
 
         self.log("loss", loss, on_epoch= True, prog_bar=True, batch_size=self.config.batch_size)
 
@@ -102,6 +104,11 @@ class HTSATModel(L.LightningModule):
 
     def on_test_epoch_end(self):
         test_step_outputs = self.test_step_outputs
+
+    def calculate_clipwise_loss(self, batch, pred):
+        target = batch['target']
+        clip_loss = self.loss_func(pred, target)
+        return clip_loss
     
     def calculate_framewise_loss(self, batch, pred_map):
         self.device_type = next(self.parameters()).device
@@ -137,7 +144,7 @@ class HTSATModel(L.LightningModule):
 
         return loss
     
-def init_model(config, test_only = False):
+def init_model(config, checkpoint_path, loss_basis, test_only = False):
     logger.info("Intializing HTS-AT Model")
     from external.hts_audio_transformer.model.htsat import HTSAT_Swin_Transformer
 
@@ -149,15 +156,15 @@ def init_model(config, test_only = False):
 
     sed_model.to(DEVICE)
 
-    if os.path.exists(HTSAT_CHECKPOINT):
-        logger.info(f"HTS-AT Model checkpoint exists at {HTSAT_CHECKPOINT}, Loading weights...")
-        state_dict = torch.load(HTSAT_CHECKPOINT, map_location=DEVICE)
+    if os.path.exists(checkpoint_path):
+        logger.info(f"HTS-AT Model checkpoint exists at {checkpoint_path}, Loading weights...")
+        state_dict = torch.load(checkpoint_path, map_location=DEVICE)
         sed_model.load_state_dict(state_dict)
 
     if test_only:
         sed_model.eval()
 
-    model = HTSATModel(sed_model, config)
+    model = HTSATModel(sed_model, config, loss_basis)
 
     return model
 
@@ -166,7 +173,7 @@ def get_config():
 
     ## Add / Modify Configurations
     config.debug = True
-    config.max_epoch = 10
+    config.max_epoch = 1
     config.classes_num = len(CLASSES) + 1
     config.sample_rate = 44100
     config.batch_size = 10
@@ -179,12 +186,53 @@ def get_config():
     return config
 
 
-def run_htsat_train(checkpoint_path = HTSAT_CHECKPOINT):
+def run_htsat_train(checkpoint_path, loss_basis):
 
     config = get_config()
-    model = init_model(config, True)
+    model = init_model(config, checkpoint_path, loss_basis)
     
     train_dataset = process_data_for_train()
+
+    formatted_train_dataset = format_dataset(train_dataset, CLASS_LABELS)
+    htsat_train_dataset = HTSATDataset(formatted_train_dataset, config)
+
+    train_loader = DataLoader(
+        dataset = htsat_train_dataset,
+        num_workers = config.num_workers,
+        batch_size = config.batch_size,
+        shuffle = False,
+    )
+
+    minimal_trainer = L.Trainer(
+        max_epochs=config.max_epoch,
+        default_root_dir="./lightning_checkpoints",
+    )
+
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+    minimal_trainer.fit(model, train_dataloaders=train_loader)
+
+    trained_model = model.model
+    torch.save(trained_model.state_dict(), checkpoint_path)
+
+    return 
+
+
+def run_htsat_train_classification(checkpoint_path, loss_basis):
+
+    from src.utils.generate_ground_truth import generate_gt_events_dict
+    from src.utils.cut_audio import cut_events_from_audio
+
+    config = get_config()
+    config.batch_size = 1
+    model = init_model(config, checkpoint_path, loss_basis)
+
+    gt_train_events_list = generate_gt_events_dict('data/processed/yamnet/spectrograms_train_list.pkl')
+
+    updated_gt_train_events_list = cut_events_from_audio(
+        GROUND_TRUTH_EXTRACTED_AUDIO_PATH, gt_train_events_list, DETECTION_TRAIN_PATH
+    )
+    
+    train_dataset = process_train_data_for_classification(updated_gt_train_events_list)
 
     formatted_train_dataset = format_dataset(train_dataset, CLASS_LABELS)
     htsat_train_dataset = HTSATDataset(formatted_train_dataset, config)

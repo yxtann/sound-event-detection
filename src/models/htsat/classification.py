@@ -8,9 +8,9 @@ import lightning as L
 
 from src.config import CLASSES
 from src.models.htsat.data import HTSATDataset, process_data_for_classification, format_dataset
-from src.models.htsat.model import init_model, get_config, run_htsat_train
+from src.models.htsat.model import init_model, get_config, run_htsat_train_classification
 
-from src.models.htsat.constants import HTSAT_CHECKPOINT, CLASS_LABELS
+from src.models.htsat.constants import HTSAT_CLASSIFICATION_CHECKPOINT, CLASS_LABELS, CLIP_LOSS_BASIS
 
 def get_classification_events(frame_predictions, events_list, CLASS_LABELS):
     for batch in frame_predictions:
@@ -36,17 +36,17 @@ def get_classification_events(frame_predictions, events_list, CLASS_LABELS):
     return events_list
 
 def run_htsat_classification(event_list,
-    checkpoint_path = HTSAT_CHECKPOINT,
+    checkpoint_path = HTSAT_CLASSIFICATION_CHECKPOINT,
 ):
     # If Model Checkpoints not available, train model
     if not os.path.exists(checkpoint_path):
         # TODO
         logger.info(f"HTS-AT model checkpoints not detected at {checkpoint_path}, Training Model")
-        run_htsat_train(checkpoint_path = checkpoint_path)
+        run_htsat_train_classification(checkpoint_path = checkpoint_path, loss_basis = CLIP_LOSS_BASIS)
 
     # Model Checkpoints are available now, run test
     config = get_config()
-    model = init_model(config, True)
+    model = init_model(config, checkpoint_path, CLIP_LOSS_BASIS, True)
 
     extracted_dataset = process_data_for_classification(event_list)
     formatted_extracted_dataset = format_dataset(extracted_dataset, CLASS_LABELS)
@@ -69,8 +69,8 @@ def run_htsat_classification(event_list,
         dataloaders=extracted_test_loader
     )
 
-    frame_predictions = model.test_step_outputs
+    predictions = model.test_step_outputs
 
-    classified_events_list = get_classification_events(frame_predictions, event_list, CLASS_LABELS)
+    classified_events_list = get_classification_events(predictions, event_list, CLASS_LABELS)
 
     return classified_events_list
