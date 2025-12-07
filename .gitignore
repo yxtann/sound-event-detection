@@ -23,3 +23,5 @@ feat_folder
 *.pkl
 *.keras
 *.npy
+
+!diagrams/**
