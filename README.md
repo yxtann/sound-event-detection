@@ -29,6 +29,10 @@ We follow the official DCASE SED evaluation method noted here: <https://tut-arg.
 - Clone the repo and install the `requirements.txt` file
 - As we use python_dotenv and HuggingFace, create a `.env` file in the root directory and insert your HF_TOKEN
 
+### Training the Models
+The models used in the main script are all loaded from checkpoints, so you may need to run the individual models first.  
+This can be done through the individual model files' entry points in `src.models`.  
+
 ### Running Single Stage Pipeline
 
 This requires specifying a detector model and a classification model
