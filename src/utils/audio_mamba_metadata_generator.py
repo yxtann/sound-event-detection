@@ -71,8 +71,8 @@ class AudioMambaMetadataGenerator:
 def generate_audio_mamba_metadata():
     logger.info("Generating Audio Mamba metadata...")
     amm_gen = AudioMambaMetadataGenerator(
-        data_train_path="data/processed/classification/train",
-        data_val_path="data/processed/classification/test",
+        data_train_path="data/processed/classification/train_noisy",
+        data_val_path="data/processed/classification/test_noisy",
         metadata_output_path="data/processed/audio_mamba/",
     )
     amm_gen.generate_class_labels_indices()
@@ -101,7 +101,6 @@ def generate_metadata_from_detector(groundtruth_csv, detector_audio_output_path)
                         "labels": f"/m/{ground_truth['event_label']}",
                     }
                 )
-                break
 
     with open(f"{detector_audio_output_path}/audio_mamba_metadata.json", "w") as f:
         json.dump(audio_metadata_dict, f)
@@ -112,8 +111,8 @@ def generate_metadata_from_detector(groundtruth_csv, detector_audio_output_path)
 
 
 if __name__ == "__main__":
-    # generate_audio_mamba_metadata()
-    generate_metadata_from_detector(
-        groundtruth_csv="data/processed/detection/test/annotations.csv",
-        detector_audio_output_path="data/processed/yamnet/extracted_audio/",
-    )
+    generate_audio_mamba_metadata()
+    # generate_metadata_from_detector(
+    #     groundtruth_csv="data/processed/detection/test/annotations.csv",
+    #     detector_audio_output_path="data/processed/yamnet/extracted_audio/",
+    # )

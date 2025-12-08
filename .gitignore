@@ -24,4 +24,6 @@ feat_folder
 *.keras
 *.npy
 
+# don't ignore these!
 !diagrams/**
+!events_list_results/**

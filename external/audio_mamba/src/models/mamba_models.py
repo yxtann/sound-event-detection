@@ -2,7 +2,7 @@
 
 import sys, os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 import torch
 import torch.nn as nn
 from functools import partial
@@ -17,8 +17,13 @@ import math
 
 from mamba_ssm.modules.mamba_simple import Mamba
 
-from src.utilities.rope import * 
-from src.utilities.tokenization import FlexiPatchEmbed, FlexiPosEmbed, resample_patch_embed, vanilla_resample_patch_embed
+from external.audio_mamba.src.utilities.rope import *
+from external.audio_mamba.src.utilities.tokenization import (
+    FlexiPatchEmbed,
+    FlexiPosEmbed,
+    resample_patch_embed,
+    vanilla_resample_patch_embed,
+)
 from torch.cuda.amp import autocast
 import random
 
@@ -27,9 +32,16 @@ try:
 except ImportError:
     RMSNorm, layer_norm_fn, rms_norm_fn = None, None, None
 
+
 class Block(nn.Module):
     def __init__(
-        self, dim, mixer_cls, norm_cls=nn.LayerNorm, fused_add_norm=False, residual_in_fp32=False,drop_path=0.,
+        self,
+        dim,
+        mixer_cls,
+        norm_cls=nn.LayerNorm,
+        fused_add_norm=False,
+        residual_in_fp32=False,
+        drop_path=0.0,
     ):
         """
         Simple block wrapping a mixer class with LayerNorm/RMSNorm and residual connection"
@@ -48,7 +60,7 @@ class Block(nn.Module):
         self.fused_add_norm = fused_add_norm
         self.mixer = mixer_cls(dim)
         self.norm = norm_cls(dim)
-        self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
+        self.drop_path = DropPath(drop_path) if drop_path > 0.0 else nn.Identity()
         if self.fused_add_norm:
             assert RMSNorm is not None, "RMSNorm import fails"
             assert isinstance(
@@ -56,7 +68,10 @@ class Block(nn.Module):
             ), "Only LayerNorm and RMSNorm are supported for fused_add_norm"
 
     def forward(
-        self, hidden_states: Tensor, residual: Optional[Tensor] = None, inference_params=None
+        self,
+        hidden_states: Tensor,
+        residual: Optional[Tensor] = None,
+        inference_params=None,
     ):
         r"""Pass the input through the encoder layer.
 
@@ -69,12 +84,14 @@ class Block(nn.Module):
                 residual = hidden_states
             else:
                 residual = residual + self.drop_path(hidden_states)
-            
+
             hidden_states = self.norm(residual.to(dtype=self.norm.weight.dtype))
             if self.residual_in_fp32:
                 residual = residual.to(torch.float32)
         else:
-            fused_add_norm_fn = rms_norm_fn if isinstance(self.norm, RMSNorm) else layer_norm_fn
+            fused_add_norm_fn = (
+                rms_norm_fn if isinstance(self.norm, RMSNorm) else layer_norm_fn
+            )
             if residual is None:
                 hidden_states, residual = fused_add_norm_fn(
                     hidden_states,
@@ -94,19 +111,21 @@ class Block(nn.Module):
                     prenorm=True,
                     residual_in_fp32=self.residual_in_fp32,
                     eps=self.norm.eps,
-                )    
+                )
         hidden_states = self.mixer(hidden_states, inference_params=inference_params)
         return hidden_states, residual
 
     def allocate_inference_cache(self, batch_size, max_seqlen, dtype=None, **kwargs):
-        return self.mixer.allocate_inference_cache(batch_size, max_seqlen, dtype=dtype, **kwargs)
+        return self.mixer.allocate_inference_cache(
+            batch_size, max_seqlen, dtype=dtype, **kwargs
+        )
 
 
 def create_block(
     d_model,
     ssm_cfg=None,
     norm_epsilon=1e-5,
-    drop_path=0.,
+    drop_path=0.0,
     rms_norm=False,
     residual_in_fp32=False,
     fused_add_norm=False,
@@ -123,7 +142,15 @@ def create_block(
     if ssm_cfg is None:
         ssm_cfg = {}
     factory_kwargs = {"device": device, "dtype": dtype}
-    mixer_cls = partial(Mamba, layer_idx=layer_idx, bimamba_type=bimamba_type, if_devide_out=if_devide_out, init_layer_scale=init_layer_scale, **ssm_cfg, **factory_kwargs)
+    mixer_cls = partial(
+        Mamba,
+        layer_idx=layer_idx,
+        bimamba_type=bimamba_type,
+        if_devide_out=if_devide_out,
+        init_layer_scale=init_layer_scale,
+        **ssm_cfg,
+        **factory_kwargs,
+    )
     norm_cls = partial(
         nn.LayerNorm if not rms_norm else RMSNorm, eps=norm_epsilon, **factory_kwargs
     )
@@ -186,63 +213,67 @@ def segm_init_weights(m):
         nn.init.zeros_(m.bias)
         nn.init.ones_(m.weight)
 
+
 class Namespace:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
+
 class AudioMamba(nn.Module):
-    def __init__(self, 
-                 spectrogram_size=(128, 1024),
-                 patch_size=(16, 16),
-                 strides=(16, 16),
-                 depth=24, 
-                 embed_dim=768,
-                 channels=1,
-                 num_classes=527,
-                 ssm_cfg=None, 
-                 drop_rate=0.,
-                 drop_path_rate=0,
-                 norm_epsilon: float = 1e-5, 
-                 rms_norm: bool = True,
-                 initializer_cfg=None,
-                 fused_add_norm=True, 
-                 residual_in_fp32=True, 
-                 device=None,
-                 dtype=None,
-                 ft_seq_len=None,
-                 abs_pos_patch_grid_size=None,
-                 pt_hw_seq_len=None,
-                 final_pool_type='mean',
-                 if_abs_pos_embed=True,
-                 if_rope=False,
-                 if_rope_residual=False,
-                 if_cls_token=True,
-                 imagenet_pretrain=False,
-                 imagenet_pretrain_path=None,
-                 imagenet_pretrain_modelkey='model',
-                 aum_pretrain=False,
-                 aum_pretrain_path=None,
-                 aum_pretrain_fstride=None,
-                 aum_pretrain_tstride=None,
-                 bilinear_rope=False,
-                 flip_img_sequences_ratio=-1.,
-                 if_bidirectional=False,
-                 if_bimamba=False,
-                 bimamba_type="v2",
-                 if_devide_out=True,
-                 init_layer_scale=None,
-                 use_double_cls_token=False,
-                 use_middle_cls_token=True,
-                 imagenet_load_double_cls_token=False,
-                 imagenet_load_middle_cls_token=True,
-                 transpose_token_sequence=False,
-                 use_end_cls_token=False,
-                 use_PI_for_patch_embed=True,
-                 flexible_patch_sizes=None,
-                 **kwargs):
+    def __init__(
+        self,
+        spectrogram_size=(128, 1024),
+        patch_size=(16, 16),
+        strides=(16, 16),
+        depth=24,
+        embed_dim=768,
+        channels=1,
+        num_classes=527,
+        ssm_cfg=None,
+        drop_rate=0.0,
+        drop_path_rate=0,
+        norm_epsilon: float = 1e-5,
+        rms_norm: bool = True,
+        initializer_cfg=None,
+        fused_add_norm=True,
+        residual_in_fp32=True,
+        device=None,
+        dtype=None,
+        ft_seq_len=None,
+        abs_pos_patch_grid_size=None,
+        pt_hw_seq_len=None,
+        final_pool_type="mean",
+        if_abs_pos_embed=True,
+        if_rope=False,
+        if_rope_residual=False,
+        if_cls_token=True,
+        imagenet_pretrain=False,
+        imagenet_pretrain_path=None,
+        imagenet_pretrain_modelkey="model",
+        aum_pretrain=False,
+        aum_pretrain_path=None,
+        aum_pretrain_fstride=None,
+        aum_pretrain_tstride=None,
+        bilinear_rope=False,
+        flip_img_sequences_ratio=-1.0,
+        if_bidirectional=False,
+        if_bimamba=False,
+        bimamba_type="v2",
+        if_devide_out=True,
+        init_layer_scale=None,
+        use_double_cls_token=False,
+        use_middle_cls_token=True,
+        imagenet_load_double_cls_token=False,
+        imagenet_load_middle_cls_token=True,
+        transpose_token_sequence=False,
+        use_end_cls_token=False,
+        use_PI_for_patch_embed=True,
+        flexible_patch_sizes=None,
+        **kwargs
+    ):
         factory_kwargs = {"device": device, "dtype": dtype}
         # add factory_kwargs into kwargs
-        kwargs.update(factory_kwargs) 
+        kwargs.update(factory_kwargs)
         super().__init__()
         self.residual_in_fp32 = residual_in_fp32
         self.fused_add_norm = fused_add_norm
@@ -268,10 +299,12 @@ class AudioMamba(nn.Module):
         self.d_model = self.num_features = self.embed_dim = embed_dim
         self.transpose_token_sequence = transpose_token_sequence
 
-        self.patch_grid_size = FlexiPosEmbed.get_shape(*strides, patch_size, *spectrogram_size)
-        
+        self.patch_grid_size = FlexiPosEmbed.get_shape(
+            *strides, patch_size, *spectrogram_size
+        )
+
         self.num_patches = self.patch_grid_size[0] * self.patch_grid_size[1]
-        
+
         # TODO: Add a checker that looks at the patch size and spectrogram size to make sure they are compatible
 
         if if_cls_token:
@@ -283,14 +316,21 @@ class AudioMamba(nn.Module):
                 self.cls_token = nn.Parameter(torch.zeros(1, 1, self.embed_dim))
                 self.num_tokens = 1
 
-        self.head = nn.Linear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
-
+        self.head = (
+            nn.Linear(self.num_features, num_classes)
+            if num_classes > 0
+            else nn.Identity()
+        )
 
         # TODO: release this comment
-        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
-        
+        dpr = [
+            x.item() for x in torch.linspace(0, drop_path_rate, depth)
+        ]  # stochastic depth decay rule
+
         inter_dpr = [0.0] + dpr
-        self.drop_path = DropPath(drop_path_rate) if drop_path_rate > 0. else nn.Identity()
+        self.drop_path = (
+            DropPath(drop_path_rate) if drop_path_rate > 0.0 else nn.Identity()
+        )
 
         self.layers = nn.ModuleList(
             [
@@ -312,7 +352,7 @@ class AudioMamba(nn.Module):
                 for i in range(depth)
             ]
         )
-        
+
         # output head
         self.norm_f = (nn.LayerNorm if not rms_norm else RMSNorm)(
             embed_dim, eps=norm_epsilon, **factory_kwargs
@@ -324,10 +364,10 @@ class AudioMamba(nn.Module):
         self.head.apply(segm_init_weights)
         if if_cls_token:
             if use_double_cls_token:
-                trunc_normal_(self.cls_token_head, std=.02)
-                trunc_normal_(self.cls_token_tail, std=.02)
+                trunc_normal_(self.cls_token_head, std=0.02)
+                trunc_normal_(self.cls_token_tail, std=0.02)
             else:
-                trunc_normal_(self.cls_token, std=.02)
+                trunc_normal_(self.cls_token, std=0.02)
 
         # mamba init
         self.apply(
@@ -346,111 +386,138 @@ class AudioMamba(nn.Module):
         pos_grid_size_load = (-1, -1)
 
         if imagenet_pretrain:
-            weights = torch.load(imagenet_pretrain_path, map_location='cpu')[imagenet_pretrain_modelkey]
-        
-            weights['pos_embed.pos_embed'] = weights['pos_embed']
-            del weights['pos_embed']
+            weights = torch.load(imagenet_pretrain_path, map_location="cpu")[
+                imagenet_pretrain_modelkey
+            ]
+
+            weights["pos_embed.pos_embed"] = weights["pos_embed"]
+            del weights["pos_embed"]
 
             if self.channels == 1:
-                weights['patch_embed.proj.weight'] = weights['patch_embed.proj.weight'].mean(1, keepdim=True)
-            
+                weights["patch_embed.proj.weight"] = weights[
+                    "patch_embed.proj.weight"
+                ].mean(1, keepdim=True)
+
             proj_load = Namespace(
-                weight=weights['patch_embed.proj.weight'],
-                bias=weights['patch_embed.proj.bias'],
+                weight=weights["patch_embed.proj.weight"],
+                bias=weights["patch_embed.proj.bias"],
             )
 
-            pos_embed_load = weights['pos_embed.pos_embed']
+            pos_embed_load = weights["pos_embed.pos_embed"]
 
             # NOTE: This assumes that the imagenetpretrained model never relocates the positional embeddings of the cls tokens to the beginning
             # keeping them naturally at their corresponding positions
             # NOTE: This assumes that we are always loading from the same cls token setting (head, mid, end, double, ...) as the current model
             if imagenet_load_double_cls_token:
-                pos_embed_load = FlexiPosEmbed.insert_to_prefix(pos_embed_load, [0, pos_embed_load.shape[1] - 1])
+                pos_embed_load = FlexiPosEmbed.insert_to_prefix(
+                    pos_embed_load, [0, pos_embed_load.shape[1] - 1]
+                )
             elif imagenet_load_middle_cls_token:
                 # bring the middle pos embed into the first position
-                N = pos_embed_load.shape[1] - 1 # This N represents the N in the forward pass
-                pos_embed_load = FlexiPosEmbed.insert_to_prefix(pos_embed_load, N//2)
-            
+                N = (
+                    pos_embed_load.shape[1] - 1
+                )  # This N represents the N in the forward pass
+                pos_embed_load = FlexiPosEmbed.insert_to_prefix(pos_embed_load, N // 2)
+
             # assuming a square shaped input was used for the imagenet pretrained model
-            pos_grid_size_load = to_2tuple(int((weights['pos_embed.pos_embed'].shape[1] - self.num_tokens) ** 0.5))
+            pos_grid_size_load = to_2tuple(
+                int((weights["pos_embed.pos_embed"].shape[1] - self.num_tokens) ** 0.5)
+            )
 
             if if_rope:
                 if self.pt_hw_seq_len is None:
                     self.pt_hw_seq_len = to_2tuple(pos_grid_size_load)
                 if bilinear_rope:
-                    weights['rope.freqs_cos'] = self.interp_rope(weights['rope.freqs_cos'], pos_grid_size_load)
-                    weights['rope.freqs_sin'] = self.interp_rope(weights['rope.freqs_sin'], pos_grid_size_load)
+                    weights["rope.freqs_cos"] = self.interp_rope(
+                        weights["rope.freqs_cos"], pos_grid_size_load
+                    )
+                    weights["rope.freqs_sin"] = self.interp_rope(
+                        weights["rope.freqs_sin"], pos_grid_size_load
+                    )
                 else:
-                    del weights['rope.freqs_cos']
-                    del weights['rope.freqs_sin']
+                    del weights["rope.freqs_cos"]
+                    del weights["rope.freqs_sin"]
 
             # we already stored these in appropriate variables
-            del weights['pos_embed.pos_embed']
-            del weights['patch_embed.proj.weight']
-            del weights['patch_embed.proj.bias']
+            del weights["pos_embed.pos_embed"]
+            del weights["patch_embed.proj.weight"]
+            del weights["patch_embed.proj.bias"]
             # we only use as a backbone
-            del weights['head.weight']
-            del weights['head.bias']
+            del weights["head.weight"]
+            del weights["head.bias"]
 
-            print(self.load_state_dict(weights, strict=False)) # recommended to verify the loading through the message printed!
+            print(
+                self.load_state_dict(weights, strict=False)
+            )  # recommended to verify the loading through the message printed!
 
         if aum_pretrain:
-            weights = torch.load(aum_pretrain_path, map_location='cpu')
+            weights = torch.load(aum_pretrain_path, map_location="cpu")
             # remove data parallel prefix (if possibly exists)
             weights = {k.replace("module.", ""): v for k, v in weights.items()}
 
             proj_load = Namespace(
-                weight=weights['patch_embed.proj.weight'],
-                bias=weights['patch_embed.proj.bias'],
+                weight=weights["patch_embed.proj.weight"],
+                bias=weights["patch_embed.proj.bias"],
             )
 
             patch_size_load = proj_load.weight.shape[-2:]
-            
+
             if aum_pretrain_fstride is None:
                 aum_pretrain_fstride = patch_size_load[0]
-            
+
             if aum_pretrain_tstride is None:
                 aum_pretrain_tstride = patch_size_load[1]
 
             strides_load = (aum_pretrain_fstride, aum_pretrain_tstride)
 
-            pos_embed_load = weights['pos_embed.pos_embed']
+            pos_embed_load = weights["pos_embed.pos_embed"]
 
-            # NOTE: This for loop assumes the model being loaded was trained with audio lengths 
+            # NOTE: This for loop assumes the model being loaded was trained with audio lengths
             # that are powers of 2 and 128 melbins. Using the given patch size/stride information,
-            # we iterate over possible audio lengths and interpolate the positional embeddings 
+            # we iterate over possible audio lengths and interpolate the positional embeddings
             # for the appropriate length.
-            for log_audio_length in range(6, 20): 
-                pos_grid_size_load = FlexiPosEmbed.get_shape(*strides_load, patch_size_load, 128, 2**log_audio_length)
-                if pos_grid_size_load[0] * pos_grid_size_load[1] == pos_embed_load.shape[1] - self.num_tokens:
+            for log_audio_length in range(6, 20):
+                pos_grid_size_load = FlexiPosEmbed.get_shape(
+                    *strides_load, patch_size_load, 128, 2**log_audio_length
+                )
+                if (
+                    pos_grid_size_load[0] * pos_grid_size_load[1]
+                    == pos_embed_load.shape[1] - self.num_tokens
+                ):
                     break
                 if log_audio_length == 19:
                     raise ValueError("Could not find matching audio length")
-                        
+
             if if_rope:
                 if self.pt_hw_seq_len is None:
                     self.pt_hw_seq_len = to_2tuple(pos_grid_size_load)
                 if bilinear_rope:
-                    weights['rope.freqs_cos'] = self.interp_rope(weights['rope.freqs_cos'], pos_grid_size_load)
-                    weights['rope.freqs_sin'] = self.interp_rope(weights['rope.freqs_sin'], pos_grid_size_load)
+                    weights["rope.freqs_cos"] = self.interp_rope(
+                        weights["rope.freqs_cos"], pos_grid_size_load
+                    )
+                    weights["rope.freqs_sin"] = self.interp_rope(
+                        weights["rope.freqs_sin"], pos_grid_size_load
+                    )
                 else:
-                    del weights['rope.freqs_cos']
-                    del weights['rope.freqs_sin']
+                    del weights["rope.freqs_cos"]
+                    del weights["rope.freqs_sin"]
 
             # we already stored these in appropriate variables
-            del weights['pos_embed.pos_embed'] 
-            del weights['patch_embed.proj.weight']
-            del weights['patch_embed.proj.bias']
+            del weights["pos_embed.pos_embed"]
+            del weights["patch_embed.proj.weight"]
+            del weights["patch_embed.proj.bias"]
 
             # check if num_classes is the same
-            if weights['head.weight'].shape[0] != num_classes:
-                print('Num classes differ! Can only load the backbone weights.')
-                del weights['head.weight']
-                del weights['head.bias']
+            if weights["head.weight"].shape[0] != num_classes:
+                print("Num classes differ! Can only load the backbone weights.")
+                del weights["head.weight"]
+                del weights["head.bias"]
 
-            print(self.load_state_dict(weights, strict=False)) # recommended to verify the loading through the message printed!
+            print(
+                self.load_state_dict(weights, strict=False)
+            )  # recommended to verify the loading through the message printed!
 
-        if if_rope and not bilinear_rope: 
+        if if_rope and not bilinear_rope:
             self.init_rope()
 
         self.patch_embed = FlexiPatchEmbed(
@@ -459,7 +526,11 @@ class AudioMamba(nn.Module):
             in_chans=channels,
             embed_dim=embed_dim,
             proj_load=proj_load,
-            resize_func=resample_patch_embed if use_PI_for_patch_embed else vanilla_resample_patch_embed,
+            resize_func=(
+                resample_patch_embed
+                if use_PI_for_patch_embed
+                else vanilla_resample_patch_embed
+            ),
             precompute_for=flexible_patch_sizes,
         )
 
@@ -468,7 +539,11 @@ class AudioMamba(nn.Module):
                 input_size=spectrogram_size,
                 patch_size=patch_size,
                 strides=strides,
-                pos_grid_size=self.patch_grid_size if abs_pos_patch_grid_size is None else abs_pos_patch_grid_size,
+                pos_grid_size=(
+                    self.patch_grid_size
+                    if abs_pos_patch_grid_size is None
+                    else abs_pos_patch_grid_size
+                ),
                 embed_dim=embed_dim,
                 n_prefix_tokens=self.num_tokens,
                 pos_embed_load=pos_embed_load,
@@ -477,38 +552,61 @@ class AudioMamba(nn.Module):
             self.pos_drop = nn.Dropout(p=drop_rate)
 
     def interp_rope(self, weights, load_grid_size):
-        weights = weights.view(1, load_grid_size[0], load_grid_size[1], -1).permute(0, 3, 1, 2)
+        weights = weights.view(1, load_grid_size[0], load_grid_size[1], -1).permute(
+            0, 3, 1, 2
+        )
         target_grid_size = self.patch_grid_size
-        weights = nn.functional.interpolate(weights, size=target_grid_size, mode='bilinear')
-        weights = weights.permute(0, 2, 3, 1).view(target_grid_size[0] * target_grid_size[1], -1)
+        weights = nn.functional.interpolate(
+            weights, size=target_grid_size, mode="bilinear"
+        )
+        weights = weights.permute(0, 2, 3, 1).view(
+            target_grid_size[0] * target_grid_size[1], -1
+        )
         return weights
 
     def init_rope(self):
         half_head_dim = self.embed_dim // 2
-            
+
         if self.pt_hw_seq_len is None:
             self.pt_hw_seq_len = self.patch_grid_size
-        
+
         self.rope = VisionRotaryEmbedding(
             dim=half_head_dim,
             pt_seq_len=self.pt_hw_seq_len,
-            ft_seq_len=self.patch_grid_size if self.ft_seq_len is None else self.ft_seq_len,
+            ft_seq_len=(
+                self.patch_grid_size if self.ft_seq_len is None else self.ft_seq_len
+            ),
         )
-
 
     def allocate_inference_cache(self, batch_size, max_seqlen, dtype=None, **kwargs):
         return {
-            i: layer.allocate_inference_cache(batch_size, max_seqlen, dtype=dtype, **kwargs)
+            i: layer.allocate_inference_cache(
+                batch_size, max_seqlen, dtype=dtype, **kwargs
+            )
             for i, layer in enumerate(self.layers)
         }
 
     @torch.jit.ignore
     def no_weight_decay(self):
-        return {"pos_embed", "cls_token", "dist_token", "cls_token_head", "cls_token_tail"}
+        return {
+            "pos_embed",
+            "cls_token",
+            "dist_token",
+            "cls_token_head",
+            "cls_token_tail",
+        }
 
-    def forward_features(self, x, inference_params=None, if_random_cls_token_position=False, if_random_token_rank=False, patch_size=None, strides=None):
-        x = x.unsqueeze(1) # B x C=1 x T x F
-        x = x.transpose(2, 3) # B x C=1 x F x T
+    def forward_features(
+        self,
+        x,
+        inference_params=None,
+        if_random_cls_token_position=False,
+        if_random_token_rank=False,
+        patch_size=None,
+        strides=None,
+    ):
+        x = x.unsqueeze(1)  # B x C=1 x T x F
+        x = x.transpose(2, 3)  # B x C=1 x F x T
 
         B, C, F, T = x.shape
 
@@ -531,13 +629,18 @@ class AudioMamba(nn.Module):
                     token_position = N
                 else:
                     token_position = 0
-                x = torch.cat((x[:, :token_position, :], cls_token, x[:, token_position:, :]), dim=1)
+                x = torch.cat(
+                    (x[:, :token_position, :], cls_token, x[:, token_position:, :]),
+                    dim=1,
+                )
             N = x.shape[1]
         else:
             token_position = None
 
         if self.if_abs_pos_embed:
-            x = self.pos_embed(x, token_position=token_position, patch_size=patch_size, strides=strides)
+            x = self.pos_embed(
+                x, token_position=token_position, patch_size=patch_size, strides=strides
+            )
             x = self.pos_drop(x)
 
         if self.transpose_token_sequence:
@@ -547,8 +650,10 @@ class AudioMamba(nn.Module):
                     x = x[:, 1:-1, :]
                 else:
                     t = x[:, token_position, :].unsqueeze(1)
-                    x = torch.cat((x[:, :token_position, :], x[:, token_position + 1:, :]), dim=1)
-            
+                    x = torch.cat(
+                        (x[:, :token_position, :], x[:, token_position + 1 :, :]), dim=1
+                    )
+
             # reshape x to be B x F x T x D
             _F, _T = F // self.patch_size[0], T // self.patch_size[1]
             x = x.reshape(B, _F, _T, -1)
@@ -559,7 +664,9 @@ class AudioMamba(nn.Module):
                 if self.use_double_cls_token:
                     x = torch.cat((head_t, x, tail_t), dim=1)
                 else:
-                    x = torch.cat((x[:, :token_position, :], t, x[:, token_position:, :]), dim=1)
+                    x = torch.cat(
+                        (x[:, :token_position, :], t, x[:, token_position:, :]), dim=1
+                    )
 
         if if_random_token_rank:
 
@@ -567,7 +674,11 @@ class AudioMamba(nn.Module):
             shuffle_indices = torch.randperm(N)
 
             if isinstance(token_position, list):
-                print("original value: ", x[0, token_position[0], 0], x[0, token_position[1], 0])
+                print(
+                    "original value: ",
+                    x[0, token_position[0], 0],
+                    x[0, token_position[1], 0],
+                )
             else:
                 print("original value: ", x[0, token_position, 0])
             print("original token_position: ", token_position)
@@ -577,21 +688,32 @@ class AudioMamba(nn.Module):
 
             if isinstance(token_position, list):
                 # 找到 cls token 在 shuffle 之后的新位置
-                new_token_position = [torch.where(shuffle_indices == token_position[i])[0].item() for i in range(len(token_position))]
+                new_token_position = [
+                    torch.where(shuffle_indices == token_position[i])[0].item()
+                    for i in range(len(token_position))
+                ]
                 token_position = new_token_position
             else:
                 # 找到 cls token 在 shuffle 之后的新位置
-                token_position = torch.where(shuffle_indices == token_position)[0].item()
+                token_position = torch.where(shuffle_indices == token_position)[
+                    0
+                ].item()
 
             if isinstance(token_position, list):
-                print("new value: ", x[0, token_position[0], 0], x[0, token_position[1], 0])
+                print(
+                    "new value: ",
+                    x[0, token_position[0], 0],
+                    x[0, token_position[1], 0],
+                )
             else:
                 print("new value: ", x[0, token_position, 0])
             print("new token_position: ", token_position)
 
-
         if_flip_img_sequences = False
-        if self.flip_img_sequences_ratio > 0 and (self.flip_img_sequences_ratio - random.random()) > 1e-5:
+        if (
+            self.flip_img_sequences_ratio > 0
+            and (self.flip_img_sequences_ratio - random.random()) > 1e-5
+        ):
             x = x.flip([1])
             if_flip_img_sequences = True
 
@@ -632,7 +754,9 @@ class AudioMamba(nn.Module):
                     hidden_states, residual, inference_params=inference_params
                 )
                 hidden_states_b, residual_b = self.layers[i * 2 + 1](
-                    hidden_states.flip([1]), None if residual == None else residual.flip([1]), inference_params=inference_params
+                    hidden_states.flip([1]),
+                    None if residual == None else residual.flip([1]),
+                    inference_params=inference_params,
                 )
                 hidden_states = hidden_states_f + hidden_states_b.flip([1])
                 residual = residual_f + residual_b.flip([1])
@@ -645,7 +769,9 @@ class AudioMamba(nn.Module):
             hidden_states = self.norm_f(residual.to(dtype=self.norm_f.weight.dtype))
         else:
             # Set prenorm=False here since we don't need the residual
-            fused_add_norm_fn = rms_norm_fn if isinstance(self.norm_f, RMSNorm) else layer_norm_fn
+            fused_add_norm_fn = (
+                rms_norm_fn if isinstance(self.norm_f, RMSNorm) else layer_norm_fn
+            )
             hidden_states = fused_add_norm_fn(
                 self.drop_path(hidden_states),
                 self.norm_f.weight,
@@ -659,27 +785,46 @@ class AudioMamba(nn.Module):
         # return only cls token if it exists
         if self.if_cls_token:
             if self.use_double_cls_token:
-                return (hidden_states[:, token_position[0], :] + hidden_states[:, token_position[1], :]) / 2
+                return (
+                    hidden_states[:, token_position[0], :]
+                    + hidden_states[:, token_position[1], :]
+                ) / 2
             else:
                 return hidden_states[:, token_position, :]
 
-        if self.final_pool_type == 'none':
+        if self.final_pool_type == "none":
             return hidden_states[:, -1, :]
-        elif self.final_pool_type == 'mean':
+        elif self.final_pool_type == "mean":
             return hidden_states.mean(dim=1)
-        elif self.final_pool_type == 'max':
+        elif self.final_pool_type == "max":
             return hidden_states
-        elif self.final_pool_type == 'all':
+        elif self.final_pool_type == "all":
             return hidden_states
         else:
             raise NotImplementedError
 
     # @autocast() # disabled because accelerate training configs already incorporate autocast
-    def forward(self, x, return_features=False, inference_params=None, if_random_cls_token_position=False, if_random_token_rank=False, patch_size=None, strides=None): # NOTE: For now, these are all being used as default. Later, these could be set through the args param
-        x = self.forward_features(x, inference_params, if_random_cls_token_position=if_random_cls_token_position, if_random_token_rank=if_random_token_rank, patch_size=patch_size, strides=strides)
+    def forward(
+        self,
+        x,
+        return_features=False,
+        inference_params=None,
+        if_random_cls_token_position=False,
+        if_random_token_rank=False,
+        patch_size=None,
+        strides=None,
+    ):  # NOTE: For now, these are all being used as default. Later, these could be set through the args param
+        x = self.forward_features(
+            x,
+            inference_params,
+            if_random_cls_token_position=if_random_cls_token_position,
+            if_random_token_rank=if_random_token_rank,
+            patch_size=patch_size,
+            strides=strides,
+        )
         if return_features:
             return x
         x = self.head(x)
-        if self.final_pool_type == 'max':
+        if self.final_pool_type == "max":
             x = x.max(dim=1)[0]
         return x

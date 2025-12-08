@@ -1,0 +1,5593 @@
+{
+    "test_snipped_scene_0000.wav": [
+        {
+            "file": "test_snipped_scene_0000.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.76,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0000_1.92_5.76.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0001.wav": [
+        {
+            "file": "test_snipped_scene_0001.wav",
+            "event_onset": 7.68,
+            "event_offset": 9.6,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0001_7.68_9.60.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0002.wav": [
+        {
+            "file": "test_snipped_scene_0002.wav",
+            "event_onset": 3.36,
+            "event_offset": 6.72,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0002_3.36_6.72.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0003.wav": [
+        {
+            "file": "test_snipped_scene_0003.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0003_4.80_7.68.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0004.wav": [
+        {
+            "file": "test_snipped_scene_0004.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.92,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0004_10.08_13.92.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0005.wav": [
+        {
+            "file": "test_snipped_scene_0005.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.92,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0005_10.08_13.92.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0006.wav": [
+        {
+            "file": "test_snipped_scene_0006.wav",
+            "event_onset": 8.16,
+            "event_offset": 11.52,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0006_8.16_11.52.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0007.wav": [
+        {
+            "file": "test_snipped_scene_0007.wav",
+            "event_onset": 3.36,
+            "event_offset": 5.76,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0007_3.36_5.76.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0008.wav": [
+        {
+            "file": "test_snipped_scene_0008.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0008_3.84_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0009.wav": [
+        {
+            "file": "test_snipped_scene_0009.wav",
+            "event_onset": 9.6,
+            "event_offset": 13.92,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0009_9.60_13.92.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0010.wav": [
+        {
+            "file": "test_snipped_scene_0010.wav",
+            "event_onset": 8.64,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0010_8.64_10.56.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0011.wav": [
+        {
+            "file": "test_snipped_scene_0011.wav",
+            "event_onset": 5.76,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0011_5.76_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0012.wav": [
+        {
+            "file": "test_snipped_scene_0012.wav",
+            "event_onset": 1.44,
+            "event_offset": 2.88,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0012_1.44_2.88.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0013.wav": [
+        {
+            "file": "test_snipped_scene_0013.wav",
+            "event_onset": 10.08,
+            "event_offset": 11.04,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0013_10.08_11.04.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0014.wav": [
+        {
+            "file": "test_snipped_scene_0014.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0014_6.24_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0015.wav": [
+        {
+            "file": "test_snipped_scene_0015.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.48,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0015_8.16_12.48.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0016.wav": [
+        {
+            "file": "test_snipped_scene_0016.wav",
+            "event_onset": 4.8,
+            "event_offset": 13.92,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0016_4.80_13.92.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0017.wav": [
+        {
+            "file": "test_snipped_scene_0017.wav",
+            "event_onset": 5.76,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0017_5.76_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0018.wav": [
+        {
+            "file": "test_snipped_scene_0018.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.16,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0018_7.68_8.16.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0018.wav",
+            "event_onset": 12.0,
+            "event_offset": 15.36,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0018_12.00_15.36.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0019.wav": [
+        {
+            "file": "test_snipped_scene_0019.wav",
+            "event_onset": 11.52,
+            "event_offset": 13.92,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0019_11.52_13.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0020.wav": [
+        {
+            "file": "test_snipped_scene_0020.wav",
+            "event_onset": 8.16,
+            "event_offset": 15.36,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0020_8.16_15.36.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0021.wav": [
+        {
+            "file": "test_snipped_scene_0021.wav",
+            "event_onset": 1.44,
+            "event_offset": 2.88,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0021_1.44_2.88.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0022.wav": [
+        {
+            "file": "test_snipped_scene_0022.wav",
+            "event_onset": 3.36,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0022_3.36_5.76.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0023.wav": [
+        {
+            "file": "test_snipped_scene_0023.wav",
+            "event_onset": 5.76,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0023_5.76_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0024.wav": [
+        {
+            "file": "test_snipped_scene_0024.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.48,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0024_8.64_12.48.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0025.wav": [
+        {
+            "file": "test_snipped_scene_0025.wav",
+            "event_onset": 1.44,
+            "event_offset": 3.84,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0025_1.44_3.84.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0026.wav": [
+        {
+            "file": "test_snipped_scene_0026.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.48,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0026_8.16_12.48.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0027.wav": [
+        {
+            "file": "test_snipped_scene_0027.wav",
+            "event_onset": 5.76,
+            "event_offset": 10.08,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0027_5.76_10.08.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0028.wav": [
+        {
+            "file": "test_snipped_scene_0028.wav",
+            "event_onset": 3.36,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0028_3.36_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0029.wav": [
+        {
+            "file": "test_snipped_scene_0029.wav",
+            "event_onset": 8.64,
+            "event_offset": 13.92,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0029_8.64_13.92.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0030.wav": [
+        {
+            "file": "test_snipped_scene_0030.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0030_0.96_1.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0031.wav": [
+        {
+            "file": "test_snipped_scene_0031.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0031_4.80_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0032.wav": [
+        {
+            "file": "test_snipped_scene_0032.wav",
+            "event_onset": 2.88,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0032_2.88_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0033.wav": [
+        {
+            "file": "test_snipped_scene_0033.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.12,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0033_5.76_9.12.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0034.wav": [
+        {
+            "file": "test_snipped_scene_0034.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0034_8.64_12.96.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0035.wav": [
+        {
+            "file": "test_snipped_scene_0035.wav",
+            "event_onset": 8.16,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0035_8.16_10.08.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0036.wav": [
+        {
+            "file": "test_snipped_scene_0036.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0036_4.80_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0037.wav": [
+        {
+            "file": "test_snipped_scene_0037.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0037_8.64_12.96.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0038.wav": [
+        {
+            "file": "test_snipped_scene_0038.wav",
+            "event_onset": 9.12,
+            "event_offset": 11.04,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0038_9.12_11.04.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0039.wav": [
+        {
+            "file": "test_snipped_scene_0039.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0039_8.16_9.60.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0040.wav": [
+        {
+            "file": "test_snipped_scene_0040.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0040_4.80_7.20.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0041.wav": [
+        {
+            "file": "test_snipped_scene_0041.wav",
+            "event_onset": 8.64,
+            "event_offset": 9.6,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0041_8.64_9.60.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0042.wav": [
+        {
+            "file": "test_snipped_scene_0042.wav",
+            "event_onset": 10.559999999999999,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0042_10.56_12.00.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0042.wav",
+            "event_onset": 12.48,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0042_12.48_12.96.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0043.wav": [
+        {
+            "file": "test_snipped_scene_0043.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0043_6.72_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0044.wav": [
+        {
+            "file": "test_snipped_scene_0044.wav",
+            "event_onset": 2.4,
+            "event_offset": 4.32,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0044_2.40_4.32.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0045.wav": [
+        {
+            "file": "test_snipped_scene_0045.wav",
+            "event_onset": 2.88,
+            "event_offset": 10.08,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0045_2.88_10.08.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0046.wav": [
+        {
+            "file": "test_snipped_scene_0046.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.84,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0046_2.88_3.84.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0046.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0046_4.32_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0047.wav": [
+        {
+            "file": "test_snipped_scene_0047.wav",
+            "event_onset": 5.76,
+            "event_offset": 8.64,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0047_5.76_8.64.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0048.wav": [
+        {
+            "file": "test_snipped_scene_0048.wav",
+            "event_onset": 1.92,
+            "event_offset": 6.24,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0048_1.92_6.24.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0049.wav": [
+        {
+            "file": "test_snipped_scene_0049.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0049_4.80_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0050.wav": [
+        {
+            "file": "test_snipped_scene_0050.wav",
+            "event_onset": 0.96,
+            "event_offset": 4.8,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0050_0.96_4.80.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0051.wav": [
+        {
+            "file": "test_snipped_scene_0051.wav",
+            "event_onset": 1.44,
+            "event_offset": 3.36,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0051_1.44_3.36.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0052.wav": [
+        {
+            "file": "test_snipped_scene_0052.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0052_2.40_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0053.wav": [
+        {
+            "file": "test_snipped_scene_0053.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0053_5.28_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0054.wav": [
+        {
+            "file": "test_snipped_scene_0054.wav",
+            "event_onset": 6.24,
+            "event_offset": 6.72,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0054_6.24_6.72.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0055.wav": [
+        {
+            "file": "test_snipped_scene_0055.wav",
+            "event_onset": 6.72,
+            "event_offset": 12.48,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0055_6.72_12.48.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0056.wav": [
+        {
+            "file": "test_snipped_scene_0056.wav",
+            "event_onset": 4.32,
+            "event_offset": 6.72,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0056_4.32_6.72.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0057.wav": [
+        {
+            "file": "test_snipped_scene_0057.wav",
+            "event_onset": 9.6,
+            "event_offset": 11.04,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0057_9.60_11.04.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0058.wav": [
+        {
+            "file": "test_snipped_scene_0058.wav",
+            "event_onset": 0.48,
+            "event_offset": 3.36,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0058_0.48_3.36.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0059.wav": [
+        {
+            "file": "test_snipped_scene_0059.wav",
+            "event_onset": 6.24,
+            "event_offset": 6.72,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0059_6.24_6.72.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0059.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.16,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0059_7.20_8.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0060.wav": [
+        {
+            "file": "test_snipped_scene_0060.wav",
+            "event_onset": 1.92,
+            "event_offset": 3.84,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0060_1.92_3.84.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0061.wav": [
+        {
+            "file": "test_snipped_scene_0061.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0061_7.20_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0062.wav": [
+        {
+            "file": "test_snipped_scene_0062.wav",
+            "event_onset": 3.84,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0062_3.84_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0063.wav": [
+        {
+            "file": "test_snipped_scene_0063.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0063_7.20_7.68.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0063.wav",
+            "event_onset": 8.16,
+            "event_offset": 13.44,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0063_8.16_13.44.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0064.wav": [
+        {
+            "file": "test_snipped_scene_0064.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.04,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0064_7.68_11.04.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0065.wav": [
+        {
+            "file": "test_snipped_scene_0065.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0065_3.84_7.68.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0065.wav",
+            "event_onset": 8.16,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0065_8.16_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0066.wav": [
+        {
+            "file": "test_snipped_scene_0066.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.12,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0066_6.24_9.12.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0067.wav": [
+        {
+            "file": "test_snipped_scene_0067.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0067_7.20_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0068.wav": [
+        {
+            "file": "test_snipped_scene_0068.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0068_6.72_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0069.wav": [
+        {
+            "file": "test_snipped_scene_0069.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0069_3.84_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0070.wav": [
+        {
+            "file": "test_snipped_scene_0070.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0070_6.24_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0071.wav": [
+        {
+            "file": "test_snipped_scene_0071.wav",
+            "event_onset": 2.88,
+            "event_offset": 4.32,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0071_2.88_4.32.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0072.wav": [
+        {
+            "file": "test_snipped_scene_0072.wav",
+            "event_onset": 3.84,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0072_3.84_5.28.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0073.wav": [
+        {
+            "file": "test_snipped_scene_0073.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0073_5.28_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0074.wav": [
+        {
+            "file": "test_snipped_scene_0074.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0074_4.80_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0075.wav": [
+        {
+            "file": "test_snipped_scene_0075.wav",
+            "event_onset": 1.92,
+            "event_offset": 3.36,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0075_1.92_3.36.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0076.wav": [
+        {
+            "file": "test_snipped_scene_0076.wav",
+            "event_onset": 10.08,
+            "event_offset": 12.48,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0076_10.08_12.48.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0077.wav": [
+        {
+            "file": "test_snipped_scene_0077.wav",
+            "event_onset": 6.72,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0077_6.72_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0078.wav": [
+        {
+            "file": "test_snipped_scene_0078.wav",
+            "event_onset": 9.6,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0078_9.60_10.56.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0078.wav",
+            "event_onset": 11.04,
+            "event_offset": 13.92,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0078_11.04_13.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0079.wav": [
+        {
+            "file": "test_snipped_scene_0079.wav",
+            "event_onset": 4.32,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0079_4.32_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0080.wav": [
+        {
+            "file": "test_snipped_scene_0080.wav",
+            "event_onset": 4.32,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0080_4.32_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0081.wav": [
+        {
+            "file": "test_snipped_scene_0081.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0081_4.80_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0082.wav": [
+        {
+            "file": "test_snipped_scene_0082.wav",
+            "event_onset": 4.8,
+            "event_offset": 10.08,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0082_4.80_10.08.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0083.wav": [
+        {
+            "file": "test_snipped_scene_0083.wav",
+            "event_onset": 1.92,
+            "event_offset": 4.8,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0083_1.92_4.80.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0084.wav": [
+        {
+            "file": "test_snipped_scene_0084.wav",
+            "event_onset": 7.68,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0084_7.68_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0085.wav": [
+        {
+            "file": "test_snipped_scene_0085.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.44,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0085_10.08_13.44.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0086.wav": [
+        {
+            "file": "test_snipped_scene_0086.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0086_3.84_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0087.wav": [
+        {
+            "file": "test_snipped_scene_0087.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.92,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0087_10.08_13.92.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0088.wav": [
+        {
+            "file": "test_snipped_scene_0088.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.48,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0088_8.64_12.48.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0089.wav": [
+        {
+            "file": "test_snipped_scene_0089.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.04,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0089_7.20_11.04.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0090.wav": [
+        {
+            "file": "test_snipped_scene_0090.wav",
+            "event_onset": 3.36,
+            "event_offset": 4.32,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0090_3.36_4.32.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0091.wav": [
+        {
+            "file": "test_snipped_scene_0091.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0091_4.32_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0092.wav": [
+        {
+            "file": "test_snipped_scene_0092.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0092_9.12_12.96.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0093.wav": [
+        {
+            "file": "test_snipped_scene_0093.wav",
+            "event_onset": 0.48,
+            "event_offset": 2.88,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0093_0.48_2.88.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0094.wav": [
+        {
+            "file": "test_snipped_scene_0094.wav",
+            "event_onset": 3.36,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0094_3.36_5.76.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0094.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0094_7.68_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0095.wav": [
+        {
+            "file": "test_snipped_scene_0095.wav",
+            "event_onset": 2.4,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0095_2.40_5.28.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0096.wav": [
+        {
+            "file": "test_snipped_scene_0096.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0096_8.16_9.60.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0097.wav": [
+        {
+            "file": "test_snipped_scene_0097.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0097_1.92_5.28.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0098.wav": [
+        {
+            "file": "test_snipped_scene_0098.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0098_2.40_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0099.wav": [
+        {
+            "file": "test_snipped_scene_0099.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0099_7.20_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0100.wav": [
+        {
+            "file": "test_snipped_scene_0100.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.6,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0100_6.24_9.60.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0101.wav": [
+        {
+            "file": "test_snipped_scene_0101.wav",
+            "event_onset": 5.76,
+            "event_offset": 11.04,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0101_5.76_11.04.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0101.wav",
+            "event_onset": 11.52,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0101_11.52_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0102.wav": [
+        {
+            "file": "test_snipped_scene_0102.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0102_4.80_5.28.wav",
+            "event_label": "car_horn"
+        },
+        {
+            "file": "test_snipped_scene_0102.wav",
+            "event_onset": 5.76,
+            "event_offset": 7.68,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0102_5.76_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0103.wav": [],
+    "test_snipped_scene_0104.wav": [
+        {
+            "file": "test_snipped_scene_0104.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 12.48,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0104_5.28_12.48.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0104.wav",
+            "event_onset": 15.36,
+            "event_offset": 16.32,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0104_15.36_16.32.wav",
+            "event_label": "cough"
+        },
+        {
+            "file": "test_snipped_scene_0104.wav",
+            "event_onset": 18.24,
+            "event_offset": 18.72,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0104_18.24_18.72.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0105.wav": [
+        {
+            "file": "test_snipped_scene_0105.wav",
+            "event_onset": 3.84,
+            "event_offset": 9.6,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0105_3.84_9.60.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0106.wav": [
+        {
+            "file": "test_snipped_scene_0106.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0106_6.24_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0107.wav": [
+        {
+            "file": "test_snipped_scene_0107.wav",
+            "event_onset": 9.12,
+            "event_offset": 13.44,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0107_9.12_13.44.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0108.wav": [
+        {
+            "file": "test_snipped_scene_0108.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0108_7.20_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0109.wav": [
+        {
+            "file": "test_snipped_scene_0109.wav",
+            "event_onset": 8.16,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0109_8.16_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0110.wav": [
+        {
+            "file": "test_snipped_scene_0110.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.92,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0110_0.48_1.92.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0111.wav": [
+        {
+            "file": "test_snipped_scene_0111.wav",
+            "event_onset": 4.8,
+            "event_offset": 9.12,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0111_4.80_9.12.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0112.wav": [
+        {
+            "file": "test_snipped_scene_0112.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.48,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0112_8.64_12.48.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0113.wav": [
+        {
+            "file": "test_snipped_scene_0113.wav",
+            "event_onset": 1.92,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0113_1.92_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0114.wav": [
+        {
+            "file": "test_snipped_scene_0114.wav",
+            "event_onset": 6.24,
+            "event_offset": 7.68,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0114_6.24_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0115.wav": [
+        {
+            "file": "test_snipped_scene_0115.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0115_7.20_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0116.wav": [
+        {
+            "file": "test_snipped_scene_0116.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0116_7.68_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0117.wav": [
+        {
+            "file": "test_snipped_scene_0117.wav",
+            "event_onset": 6.72,
+            "event_offset": 11.04,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0117_6.72_11.04.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0118.wav": [],
+    "test_snipped_scene_0119.wav": [
+        {
+            "file": "test_snipped_scene_0119.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0119_3.84_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0120.wav": [
+        {
+            "file": "test_snipped_scene_0120.wav",
+            "event_onset": 8.16,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0120_8.16_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0121.wav": [
+        {
+            "file": "test_snipped_scene_0121.wav",
+            "event_onset": 0.96,
+            "event_offset": 2.88,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0121_0.96_2.88.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0122.wav": [
+        {
+            "file": "test_snipped_scene_0122.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.16,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0122_4.80_8.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0123.wav": [
+        {
+            "file": "test_snipped_scene_0123.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.6,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0123_6.24_9.60.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0124.wav": [
+        {
+            "file": "test_snipped_scene_0124.wav",
+            "event_onset": 2.4,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0124_2.40_5.28.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0125.wav": [
+        {
+            "file": "test_snipped_scene_0125.wav",
+            "event_onset": 9.6,
+            "event_offset": 11.52,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0125_9.60_11.52.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0126.wav": [
+        {
+            "file": "test_snipped_scene_0126.wav",
+            "event_onset": 8.64,
+            "event_offset": 11.52,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0126_8.64_11.52.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0127.wav": [
+        {
+            "file": "test_snipped_scene_0127.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0127_3.84_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0128.wav": [
+        {
+            "file": "test_snipped_scene_0128.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0128_6.24_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0129.wav": [
+        {
+            "file": "test_snipped_scene_0129.wav",
+            "event_onset": 8.16,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0129_8.16_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0130.wav": [
+        {
+            "file": "test_snipped_scene_0130.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0130_6.24_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0131.wav": [
+        {
+            "file": "test_snipped_scene_0131.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0131_6.24_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0132.wav": [
+        {
+            "file": "test_snipped_scene_0132.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0132_5.28_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0133.wav": [
+        {
+            "file": "test_snipped_scene_0133.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0133_9.60_12.96.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0134.wav": [
+        {
+            "file": "test_snipped_scene_0134.wav",
+            "event_onset": 9.12,
+            "event_offset": 13.44,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0134_9.12_13.44.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0135.wav": [
+        {
+            "file": "test_snipped_scene_0135.wav",
+            "event_onset": 6.72,
+            "event_offset": 8.64,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0135_6.72_8.64.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0136.wav": [
+        {
+            "file": "test_snipped_scene_0136.wav",
+            "event_onset": 9.12,
+            "event_offset": 13.44,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0136_9.12_13.44.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0137.wav": [
+        {
+            "file": "test_snipped_scene_0137.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0137_4.32_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0138.wav": [
+        {
+            "file": "test_snipped_scene_0138.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.48,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0138_9.60_12.48.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0139.wav": [
+        {
+            "file": "test_snipped_scene_0139.wav",
+            "event_onset": 1.92,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0139_1.92_12.96.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0140.wav": [
+        {
+            "file": "test_snipped_scene_0140.wav",
+            "event_onset": 1.44,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0140_1.44_5.76.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0141.wav": [
+        {
+            "file": "test_snipped_scene_0141.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0141_5.76_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0142.wav": [
+        {
+            "file": "test_snipped_scene_0142.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0142_4.32_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0143.wav": [
+        {
+            "file": "test_snipped_scene_0143.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0143_8.16_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0144.wav": [
+        {
+            "file": "test_snipped_scene_0144.wav",
+            "event_onset": 0.48,
+            "event_offset": 2.4,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0144_0.48_2.40.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0145.wav": [
+        {
+            "file": "test_snipped_scene_0145.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0145_7.20_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0146.wav": [
+        {
+            "file": "test_snipped_scene_0146.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0146_9.60_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0147.wav": [
+        {
+            "file": "test_snipped_scene_0147.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0147_7.20_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0148.wav": [
+        {
+            "file": "test_snipped_scene_0148.wav",
+            "event_onset": 7.68,
+            "event_offset": 10.08,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0148_7.68_10.08.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0149.wav": [
+        {
+            "file": "test_snipped_scene_0149.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0149_3.84_7.68.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0150.wav": [
+        {
+            "file": "test_snipped_scene_0150.wav",
+            "event_onset": 0.0,
+            "event_offset": 3.36,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0150_0.00_3.36.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0151.wav": [
+        {
+            "file": "test_snipped_scene_0151.wav",
+            "event_onset": 9.6,
+            "event_offset": 14.399999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0151_9.60_14.40.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0152.wav": [
+        {
+            "file": "test_snipped_scene_0152.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0152_4.80_5.28.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0152.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0152_7.68_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0153.wav": [
+        {
+            "file": "test_snipped_scene_0153.wav",
+            "event_onset": 4.32,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0153_4.32_6.72.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0154.wav": [
+        {
+            "file": "test_snipped_scene_0154.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 6.24,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0154_5.28_6.24.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0155.wav": [
+        {
+            "file": "test_snipped_scene_0155.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0155_7.68_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0156.wav": [
+        {
+            "file": "test_snipped_scene_0156.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0156_3.84_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0157.wav": [
+        {
+            "file": "test_snipped_scene_0157.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0157_4.80_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0158.wav": [
+        {
+            "file": "test_snipped_scene_0158.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0158_7.68_12.00.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0159.wav": [],
+    "test_snipped_scene_0160.wav": [
+        {
+            "file": "test_snipped_scene_0160.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0160_3.36_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0161.wav": [
+        {
+            "file": "test_snipped_scene_0161.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.92,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0161_10.08_13.92.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0162.wav": [
+        {
+            "file": "test_snipped_scene_0162.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0162_9.12_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0163.wav": [
+        {
+            "file": "test_snipped_scene_0163.wav",
+            "event_onset": 4.32,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0163_4.32_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0164.wav": [
+        {
+            "file": "test_snipped_scene_0164.wav",
+            "event_onset": 9.12,
+            "event_offset": 10.08,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0164_9.12_10.08.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0165.wav": [
+        {
+            "file": "test_snipped_scene_0165.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0165_6.72_10.56.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0166.wav": [
+        {
+            "file": "test_snipped_scene_0166.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0166_3.84_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0167.wav": [
+        {
+            "file": "test_snipped_scene_0167.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.8,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0167_3.84_4.80.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0168.wav": [
+        {
+            "file": "test_snipped_scene_0168.wav",
+            "event_onset": 1.44,
+            "event_offset": 4.8,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0168_1.44_4.80.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0169.wav": [
+        {
+            "file": "test_snipped_scene_0169.wav",
+            "event_onset": 3.36,
+            "event_offset": 3.84,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0169_3.36_3.84.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0170.wav": [
+        {
+            "file": "test_snipped_scene_0170.wav",
+            "event_onset": 6.72,
+            "event_offset": 9.6,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0170_6.72_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0171.wav": [
+        {
+            "file": "test_snipped_scene_0171.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0171_7.68_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0172.wav": [
+        {
+            "file": "test_snipped_scene_0172.wav",
+            "event_onset": 10.08,
+            "event_offset": 14.879999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0172_10.08_14.88.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0173.wav": [
+        {
+            "file": "test_snipped_scene_0173.wav",
+            "event_onset": 2.4,
+            "event_offset": 4.8,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0173_2.40_4.80.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0174.wav": [
+        {
+            "file": "test_snipped_scene_0174.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.32,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0174_3.84_4.32.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0175.wav": [
+        {
+            "file": "test_snipped_scene_0175.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.12,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0175_5.76_9.12.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0176.wav": [
+        {
+            "file": "test_snipped_scene_0176.wav",
+            "event_onset": 3.84,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0176_3.84_5.28.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0176.wav",
+            "event_onset": 5.76,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0176_5.76_7.20.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0177.wav": [
+        {
+            "file": "test_snipped_scene_0177.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0177_7.20_8.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0178.wav": [
+        {
+            "file": "test_snipped_scene_0178.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0178_6.24_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0179.wav": [
+        {
+            "file": "test_snipped_scene_0179.wav",
+            "event_onset": 10.08,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0179_10.08_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0180.wav": [
+        {
+            "file": "test_snipped_scene_0180.wav",
+            "event_onset": 0.96,
+            "event_offset": 3.36,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0180_0.96_3.36.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0181.wav": [
+        {
+            "file": "test_snipped_scene_0181.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0181_4.80_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0182.wav": [
+        {
+            "file": "test_snipped_scene_0182.wav",
+            "event_onset": 6.24,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0182_6.24_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0183.wav": [
+        {
+            "file": "test_snipped_scene_0183.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0183_6.24_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0184.wav": [
+        {
+            "file": "test_snipped_scene_0184.wav",
+            "event_onset": 0.48,
+            "event_offset": 2.88,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0184_0.48_2.88.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0185.wav": [
+        {
+            "file": "test_snipped_scene_0185.wav",
+            "event_onset": 1.44,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0185_1.44_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0186.wav": [
+        {
+            "file": "test_snipped_scene_0186.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0186_4.80_7.68.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0187.wav": [
+        {
+            "file": "test_snipped_scene_0187.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0187_8.16_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0188.wav": [
+        {
+            "file": "test_snipped_scene_0188.wav",
+            "event_onset": 9.6,
+            "event_offset": 10.08,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0188_9.60_10.08.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0189.wav": [
+        {
+            "file": "test_snipped_scene_0189.wav",
+            "event_onset": 7.68,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0189_7.68_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0190.wav": [
+        {
+            "file": "test_snipped_scene_0190.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0190_5.28_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0191.wav": [
+        {
+            "file": "test_snipped_scene_0191.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0191_4.32_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0192.wav": [
+        {
+            "file": "test_snipped_scene_0192.wav",
+            "event_onset": 2.88,
+            "event_offset": 6.72,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0192_2.88_6.72.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0193.wav": [
+        {
+            "file": "test_snipped_scene_0193.wav",
+            "event_onset": 3.84,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0193_3.84_5.28.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0194.wav": [
+        {
+            "file": "test_snipped_scene_0194.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0194_7.68_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0195.wav": [
+        {
+            "file": "test_snipped_scene_0195.wav",
+            "event_onset": 1.92,
+            "event_offset": 2.4,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0195_1.92_2.40.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0196.wav": [
+        {
+            "file": "test_snipped_scene_0196.wav",
+            "event_onset": 9.6,
+            "event_offset": 13.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0196_9.60_13.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0197.wav": [
+        {
+            "file": "test_snipped_scene_0197.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0197_6.24_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0198.wav": [
+        {
+            "file": "test_snipped_scene_0198.wav",
+            "event_onset": 2.4,
+            "event_offset": 3.36,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0198_2.40_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0199.wav": [
+        {
+            "file": "test_snipped_scene_0199.wav",
+            "event_onset": 8.64,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0199_8.64_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0200.wav": [
+        {
+            "file": "test_snipped_scene_0200.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0200_3.84_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0201.wav": [
+        {
+            "file": "test_snipped_scene_0201.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0201_4.32_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0202.wav": [
+        {
+            "file": "test_snipped_scene_0202.wav",
+            "event_onset": 0.96,
+            "event_offset": 3.84,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0202_0.96_3.84.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0203.wav": [
+        {
+            "file": "test_snipped_scene_0203.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.04,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0203_7.68_11.04.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0204.wav": [
+        {
+            "file": "test_snipped_scene_0204.wav",
+            "event_onset": 0.48,
+            "event_offset": 4.32,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0204_0.48_4.32.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0205.wav": [
+        {
+            "file": "test_snipped_scene_0205.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0205_6.72_7.68.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0206.wav": [
+        {
+            "file": "test_snipped_scene_0206.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.48,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0206_9.60_12.48.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0207.wav": [
+        {
+            "file": "test_snipped_scene_0207.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 9.6,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0207_7.20_9.60.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0208.wav": [
+        {
+            "file": "test_snipped_scene_0208.wav",
+            "event_onset": 2.4,
+            "event_offset": 4.32,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0208_2.40_4.32.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0209.wav": [
+        {
+            "file": "test_snipped_scene_0209.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0209_3.84_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0210.wav": [
+        {
+            "file": "test_snipped_scene_0210.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0210_4.80_5.76.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0211.wav": [
+        {
+            "file": "test_snipped_scene_0211.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0211_6.24_10.56.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0212.wav": [
+        {
+            "file": "test_snipped_scene_0212.wav",
+            "event_onset": 4.8,
+            "event_offset": 6.24,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0212_4.80_6.24.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0213.wav": [
+        {
+            "file": "test_snipped_scene_0213.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.84,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0213_2.88_3.84.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0214.wav": [
+        {
+            "file": "test_snipped_scene_0214.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0214_4.80_5.76.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0215.wav": [
+        {
+            "file": "test_snipped_scene_0215.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0215_4.80_8.64.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0216.wav": [
+        {
+            "file": "test_snipped_scene_0216.wav",
+            "event_onset": 1.44,
+            "event_offset": 3.36,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0216_1.44_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0217.wav": [
+        {
+            "file": "test_snipped_scene_0217.wav",
+            "event_onset": 7.68,
+            "event_offset": 10.08,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0217_7.68_10.08.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0218.wav": [
+        {
+            "file": "test_snipped_scene_0218.wav",
+            "event_onset": 6.72,
+            "event_offset": 9.6,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0218_6.72_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0219.wav": [
+        {
+            "file": "test_snipped_scene_0219.wav",
+            "event_onset": 9.6,
+            "event_offset": 13.92,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0219_9.60_13.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0220.wav": [
+        {
+            "file": "test_snipped_scene_0220.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0220_4.80_7.20.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0221.wav": [
+        {
+            "file": "test_snipped_scene_0221.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.48,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0221_8.64_12.48.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0222.wav": [
+        {
+            "file": "test_snipped_scene_0222.wav",
+            "event_onset": 1.44,
+            "event_offset": 2.88,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0222_1.44_2.88.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0223.wav": [
+        {
+            "file": "test_snipped_scene_0223.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.76,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0223_1.92_5.76.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0224.wav": [
+        {
+            "file": "test_snipped_scene_0224.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0224_9.12_12.96.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0225.wav": [
+        {
+            "file": "test_snipped_scene_0225.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0225_3.36_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0226.wav": [
+        {
+            "file": "test_snipped_scene_0226.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0226_4.80_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0227.wav": [
+        {
+            "file": "test_snipped_scene_0227.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0227_4.80_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0228.wav": [
+        {
+            "file": "test_snipped_scene_0228.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.32,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0228_3.84_4.32.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0229.wav": [
+        {
+            "file": "test_snipped_scene_0229.wav",
+            "event_onset": 0.96,
+            "event_offset": 6.24,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0229_0.96_6.24.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0230.wav": [
+        {
+            "file": "test_snipped_scene_0230.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0230_4.80_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0231.wav": [
+        {
+            "file": "test_snipped_scene_0231.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0231_4.80_5.28.wav",
+            "event_label": "car_horn"
+        },
+        {
+            "file": "test_snipped_scene_0231.wav",
+            "event_onset": 5.76,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0231_5.76_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0232.wav": [
+        {
+            "file": "test_snipped_scene_0232.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0232_4.32_8.16.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0233.wav": [
+        {
+            "file": "test_snipped_scene_0233.wav",
+            "event_onset": 10.559999999999999,
+            "event_offset": 13.92,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0233_10.56_13.92.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0234.wav": [
+        {
+            "file": "test_snipped_scene_0234.wav",
+            "event_onset": 10.08,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0234_10.08_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0235.wav": [
+        {
+            "file": "test_snipped_scene_0235.wav",
+            "event_onset": 2.4,
+            "event_offset": 3.36,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0235_2.40_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0236.wav": [
+        {
+            "file": "test_snipped_scene_0236.wav",
+            "event_onset": 6.24,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0236_6.24_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0237.wav": [
+        {
+            "file": "test_snipped_scene_0237.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.36,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0237_2.88_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0238.wav": [
+        {
+            "file": "test_snipped_scene_0238.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0238_7.20_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0239.wav": [
+        {
+            "file": "test_snipped_scene_0239.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0239_6.72_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0240.wav": [
+        {
+            "file": "test_snipped_scene_0240.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.44,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0240_0.48_1.44.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0241.wav": [
+        {
+            "file": "test_snipped_scene_0241.wav",
+            "event_onset": 1.44,
+            "event_offset": 6.24,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0241_1.44_6.24.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0242.wav": [
+        {
+            "file": "test_snipped_scene_0242.wav",
+            "event_onset": 1.44,
+            "event_offset": 2.4,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0242_1.44_2.40.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0243.wav": [
+        {
+            "file": "test_snipped_scene_0243.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0243_6.24_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0244.wav": [
+        {
+            "file": "test_snipped_scene_0244.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0244_3.84_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0245.wav": [
+        {
+            "file": "test_snipped_scene_0245.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0245_3.84_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0246.wav": [
+        {
+            "file": "test_snipped_scene_0246.wav",
+            "event_onset": 8.64,
+            "event_offset": 9.12,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0246_8.64_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0247.wav": [
+        {
+            "file": "test_snipped_scene_0247.wav",
+            "event_onset": 8.64,
+            "event_offset": 11.04,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0247_8.64_11.04.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0248.wav": [
+        {
+            "file": "test_snipped_scene_0248.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0248_4.32_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0249.wav": [
+        {
+            "file": "test_snipped_scene_0249.wav",
+            "event_onset": 4.32,
+            "event_offset": 4.8,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0249_4.32_4.80.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0250.wav": [
+        {
+            "file": "test_snipped_scene_0250.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0250_3.84_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0251.wav": [
+        {
+            "file": "test_snipped_scene_0251.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.44,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0251_10.08_13.44.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0252.wav": [
+        {
+            "file": "test_snipped_scene_0252.wav",
+            "event_onset": 4.32,
+            "event_offset": 5.76,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0252_4.32_5.76.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0253.wav": [
+        {
+            "file": "test_snipped_scene_0253.wav",
+            "event_onset": 8.16,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0253_8.16_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0254.wav": [
+        {
+            "file": "test_snipped_scene_0254.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.6,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0254_5.76_9.60.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0255.wav": [
+        {
+            "file": "test_snipped_scene_0255.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0255_4.80_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0256.wav": [
+        {
+            "file": "test_snipped_scene_0256.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.84,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0256_2.88_3.84.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0257.wav": [
+        {
+            "file": "test_snipped_scene_0257.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.48,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0257_8.64_12.48.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0258.wav": [
+        {
+            "file": "test_snipped_scene_0258.wav",
+            "event_onset": 3.36,
+            "event_offset": 9.12,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0258_3.36_9.12.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0259.wav": [
+        {
+            "file": "test_snipped_scene_0259.wav",
+            "event_onset": 3.36,
+            "event_offset": 4.32,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0259_3.36_4.32.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0260.wav": [
+        {
+            "file": "test_snipped_scene_0260.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.8,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0260_3.84_4.80.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0261.wav": [
+        {
+            "file": "test_snipped_scene_0261.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.08,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0261_6.24_10.08.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0262.wav": [
+        {
+            "file": "test_snipped_scene_0262.wav",
+            "event_onset": 2.88,
+            "event_offset": 6.24,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0262_2.88_6.24.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0263.wav": [
+        {
+            "file": "test_snipped_scene_0263.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0263_5.28_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0264.wav": [
+        {
+            "file": "test_snipped_scene_0264.wav",
+            "event_onset": 9.6,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0264_9.60_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0265.wav": [
+        {
+            "file": "test_snipped_scene_0265.wav",
+            "event_onset": 4.32,
+            "event_offset": 6.72,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0265_4.32_6.72.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0266.wav": [
+        {
+            "file": "test_snipped_scene_0266.wav",
+            "event_onset": 6.72,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0266_6.72_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0267.wav": [
+        {
+            "file": "test_snipped_scene_0267.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0267_4.80_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0268.wav": [
+        {
+            "file": "test_snipped_scene_0268.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0268_8.16_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0269.wav": [
+        {
+            "file": "test_snipped_scene_0269.wav",
+            "event_onset": 6.24,
+            "event_offset": 6.72,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0269_6.24_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0270.wav": [
+        {
+            "file": "test_snipped_scene_0270.wav",
+            "event_onset": 9.12,
+            "event_offset": 13.44,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0270_9.12_13.44.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0271.wav": [
+        {
+            "file": "test_snipped_scene_0271.wav",
+            "event_onset": 6.72,
+            "event_offset": 11.04,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0271_6.72_11.04.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0272.wav": [
+        {
+            "file": "test_snipped_scene_0272.wav",
+            "event_onset": 8.64,
+            "event_offset": 13.44,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0272_8.64_13.44.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0273.wav": [
+        {
+            "file": "test_snipped_scene_0273.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0273_4.32_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0274.wav": [
+        {
+            "file": "test_snipped_scene_0274.wav",
+            "event_onset": 7.68,
+            "event_offset": 9.12,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0274_7.68_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0275.wav": [
+        {
+            "file": "test_snipped_scene_0275.wav",
+            "event_onset": 0.96,
+            "event_offset": 4.8,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0275_0.96_4.80.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0276.wav": [
+        {
+            "file": "test_snipped_scene_0276.wav",
+            "event_onset": 4.32,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0276_4.32_5.28.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0277.wav": [
+        {
+            "file": "test_snipped_scene_0277.wav",
+            "event_onset": 10.08,
+            "event_offset": 20.16,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0277_10.08_20.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0278.wav": [
+        {
+            "file": "test_snipped_scene_0278.wav",
+            "event_onset": 7.68,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0278_7.68_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0279.wav": [
+        {
+            "file": "test_snipped_scene_0279.wav",
+            "event_onset": 7.68,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0279_7.68_10.56.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0280.wav": [
+        {
+            "file": "test_snipped_scene_0280.wav",
+            "event_onset": 10.08,
+            "event_offset": 11.04,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0280_10.08_11.04.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0281.wav": [
+        {
+            "file": "test_snipped_scene_0281.wav",
+            "event_onset": 10.08,
+            "event_offset": 12.48,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0281_10.08_12.48.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0282.wav": [
+        {
+            "file": "test_snipped_scene_0282.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0282_7.68_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0283.wav": [
+        {
+            "file": "test_snipped_scene_0283.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0283_8.16_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0284.wav": [
+        {
+            "file": "test_snipped_scene_0284.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0284_3.36_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0285.wav": [
+        {
+            "file": "test_snipped_scene_0285.wav",
+            "event_onset": 1.44,
+            "event_offset": 5.76,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0285_1.44_5.76.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0286.wav": [
+        {
+            "file": "test_snipped_scene_0286.wav",
+            "event_onset": 8.64,
+            "event_offset": 9.12,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0286_8.64_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0287.wav": [
+        {
+            "file": "test_snipped_scene_0287.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0287_1.92_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0288.wav": [
+        {
+            "file": "test_snipped_scene_0288.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0288_4.80_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0289.wav": [
+        {
+            "file": "test_snipped_scene_0289.wav",
+            "event_onset": 2.88,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0289_2.88_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0290.wav": [
+        {
+            "file": "test_snipped_scene_0290.wav",
+            "event_onset": 2.4,
+            "event_offset": 5.76,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0290_2.40_5.76.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0291.wav": [
+        {
+            "file": "test_snipped_scene_0291.wav",
+            "event_onset": 6.24,
+            "event_offset": 9.12,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0291_6.24_9.12.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0292.wav": [
+        {
+            "file": "test_snipped_scene_0292.wav",
+            "event_onset": 3.36,
+            "event_offset": 4.8,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0292_3.36_4.80.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0293.wav": [
+        {
+            "file": "test_snipped_scene_0293.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0293_4.80_7.68.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0294.wav": [
+        {
+            "file": "test_snipped_scene_0294.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0294_9.60_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0295.wav": [
+        {
+            "file": "test_snipped_scene_0295.wav",
+            "event_onset": 10.08,
+            "event_offset": 14.399999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0295_10.08_14.40.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0296.wav": [
+        {
+            "file": "test_snipped_scene_0296.wav",
+            "event_onset": 2.4,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0296_2.40_7.68.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0297.wav": [
+        {
+            "file": "test_snipped_scene_0297.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.8,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0297_3.84_4.80.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0298.wav": [
+        {
+            "file": "test_snipped_scene_0298.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0298_5.28_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0299.wav": [
+        {
+            "file": "test_snipped_scene_0299.wav",
+            "event_onset": 8.64,
+            "event_offset": 12.0,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0299_8.64_12.00.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0300.wav": [
+        {
+            "file": "test_snipped_scene_0300.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0300_3.36_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0301.wav": [
+        {
+            "file": "test_snipped_scene_0301.wav",
+            "event_onset": 2.4,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0301_2.40_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0302.wav": [],
+    "test_snipped_scene_0303.wav": [
+        {
+            "file": "test_snipped_scene_0303.wav",
+            "event_onset": 3.84,
+            "event_offset": 6.24,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0303_3.84_6.24.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0304.wav": [
+        {
+            "file": "test_snipped_scene_0304.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0304_6.72_10.56.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0305.wav": [
+        {
+            "file": "test_snipped_scene_0305.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0305_2.40_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0306.wav": [
+        {
+            "file": "test_snipped_scene_0306.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0306_7.68_12.00.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0307.wav": [
+        {
+            "file": "test_snipped_scene_0307.wav",
+            "event_onset": 9.6,
+            "event_offset": 13.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0307_9.60_13.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0308.wav": [
+        {
+            "file": "test_snipped_scene_0308.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0308_0.96_1.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0309.wav": [],
+    "test_snipped_scene_0310.wav": [
+        {
+            "file": "test_snipped_scene_0310.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0310_6.72_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0311.wav": [
+        {
+            "file": "test_snipped_scene_0311.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0311_2.40_6.24.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0312.wav": [
+        {
+            "file": "test_snipped_scene_0312.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0312_7.20_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0313.wav": [
+        {
+            "file": "test_snipped_scene_0313.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.92,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0313_0.96_1.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0314.wav": [
+        {
+            "file": "test_snipped_scene_0314.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0314_4.80_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0315.wav": [
+        {
+            "file": "test_snipped_scene_0315.wav",
+            "event_onset": 3.84,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0315_3.84_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0316.wav": [
+        {
+            "file": "test_snipped_scene_0316.wav",
+            "event_onset": 3.36,
+            "event_offset": 8.16,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0316_3.36_8.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0317.wav": [
+        {
+            "file": "test_snipped_scene_0317.wav",
+            "event_onset": 2.4,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0317_2.40_5.28.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0318.wav": [
+        {
+            "file": "test_snipped_scene_0318.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0318_8.16_12.96.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0319.wav": [
+        {
+            "file": "test_snipped_scene_0319.wav",
+            "event_onset": 3.36,
+            "event_offset": 4.8,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0319_3.36_4.80.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0320.wav": [
+        {
+            "file": "test_snipped_scene_0320.wav",
+            "event_onset": 0.96,
+            "event_offset": 4.8,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0320_0.96_4.80.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0321.wav": [
+        {
+            "file": "test_snipped_scene_0321.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.64,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0321_4.80_8.64.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0322.wav": [
+        {
+            "file": "test_snipped_scene_0322.wav",
+            "event_onset": 0.48,
+            "event_offset": 2.4,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0322_0.48_2.40.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0323.wav": [
+        {
+            "file": "test_snipped_scene_0323.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0323_7.68_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0324.wav": [
+        {
+            "file": "test_snipped_scene_0324.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0324_4.80_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0325.wav": [
+        {
+            "file": "test_snipped_scene_0325.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.92,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0325_0.48_1.92.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0326.wav": [
+        {
+            "file": "test_snipped_scene_0326.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.36,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0326_2.88_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0327.wav": [
+        {
+            "file": "test_snipped_scene_0327.wav",
+            "event_onset": 4.8,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0327_4.80_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0328.wav": [
+        {
+            "file": "test_snipped_scene_0328.wav",
+            "event_onset": 0.96,
+            "event_offset": 3.36,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0328_0.96_3.36.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0329.wav": [
+        {
+            "file": "test_snipped_scene_0329.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0329_3.84_7.68.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0330.wav": [
+        {
+            "file": "test_snipped_scene_0330.wav",
+            "event_onset": 0.48,
+            "event_offset": 0.96,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0330_0.48_0.96.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0331.wav": [
+        {
+            "file": "test_snipped_scene_0331.wav",
+            "event_onset": 10.08,
+            "event_offset": 14.399999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0331_10.08_14.40.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0332.wav": [
+        {
+            "file": "test_snipped_scene_0332.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0332_4.32_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0333.wav": [
+        {
+            "file": "test_snipped_scene_0333.wav",
+            "event_onset": 2.4,
+            "event_offset": 2.88,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0333_2.40_2.88.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0334.wav": [
+        {
+            "file": "test_snipped_scene_0334.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0334_9.60_12.96.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0335.wav": [
+        {
+            "file": "test_snipped_scene_0335.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.92,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0335_0.96_1.92.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0336.wav": [
+        {
+            "file": "test_snipped_scene_0336.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0336_8.16_9.60.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0337.wav": [
+        {
+            "file": "test_snipped_scene_0337.wav",
+            "event_onset": 4.8,
+            "event_offset": 9.12,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0337_4.80_9.12.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0338.wav": [
+        {
+            "file": "test_snipped_scene_0338.wav",
+            "event_onset": 10.559999999999999,
+            "event_offset": 11.52,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0338_10.56_11.52.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0338.wav",
+            "event_onset": 12.0,
+            "event_offset": 13.92,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0338_12.00_13.92.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0339.wav": [
+        {
+            "file": "test_snipped_scene_0339.wav",
+            "event_onset": 3.36,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0339_3.36_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0340.wav": [
+        {
+            "file": "test_snipped_scene_0340.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0340_6.72_7.20.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0341.wav": [
+        {
+            "file": "test_snipped_scene_0341.wav",
+            "event_onset": 6.24,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0341_6.24_7.20.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0342.wav": [
+        {
+            "file": "test_snipped_scene_0342.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0342_4.80_7.68.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0343.wav": [
+        {
+            "file": "test_snipped_scene_0343.wav",
+            "event_onset": 0.0,
+            "event_offset": 1.44,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0343_0.00_1.44.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0344.wav": [
+        {
+            "file": "test_snipped_scene_0344.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 12.48,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0344_7.20_12.48.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0345.wav": [
+        {
+            "file": "test_snipped_scene_0345.wav",
+            "event_onset": 7.68,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0345_7.68_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0346.wav": [
+        {
+            "file": "test_snipped_scene_0346.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0346_6.24_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0347.wav": [
+        {
+            "file": "test_snipped_scene_0347.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.12,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0347_5.76_9.12.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0348.wav": [
+        {
+            "file": "test_snipped_scene_0348.wav",
+            "event_onset": 5.76,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0348_5.76_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0349.wav": [
+        {
+            "file": "test_snipped_scene_0349.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0349_4.80_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0350.wav": [
+        {
+            "file": "test_snipped_scene_0350.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0350_7.20_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0351.wav": [
+        {
+            "file": "test_snipped_scene_0351.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0351_4.80_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0352.wav": [
+        {
+            "file": "test_snipped_scene_0352.wav",
+            "event_onset": 9.12,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0352_9.12_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0353.wav": [
+        {
+            "file": "test_snipped_scene_0353.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0353_6.24_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0354.wav": [
+        {
+            "file": "test_snipped_scene_0354.wav",
+            "event_onset": 0.48,
+            "event_offset": 2.4,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0354_0.48_2.40.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0355.wav": [
+        {
+            "file": "test_snipped_scene_0355.wav",
+            "event_onset": 8.16,
+            "event_offset": 10.08,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0355_8.16_10.08.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0356.wav": [
+        {
+            "file": "test_snipped_scene_0356.wav",
+            "event_onset": 8.64,
+            "event_offset": 10.08,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0356_8.64_10.08.wav",
+            "event_label": "siren"
+        },
+        {
+            "file": "test_snipped_scene_0356.wav",
+            "event_onset": 12.959999999999999,
+            "event_offset": 13.44,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0356_12.96_13.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0357.wav": [
+        {
+            "file": "test_snipped_scene_0357.wav",
+            "event_onset": 8.64,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0357_8.64_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0358.wav": [
+        {
+            "file": "test_snipped_scene_0358.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.04,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0358_7.68_11.04.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0359.wav": [
+        {
+            "file": "test_snipped_scene_0359.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 13.92,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0359_7.20_13.92.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0360.wav": [
+        {
+            "file": "test_snipped_scene_0360.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0360_6.24_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0361.wav": [
+        {
+            "file": "test_snipped_scene_0361.wav",
+            "event_onset": 2.88,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0361_2.88_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0362.wav": [
+        {
+            "file": "test_snipped_scene_0362.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0362_0.96_1.44.wav",
+            "event_label": "dog_bark"
+        },
+        {
+            "file": "test_snipped_scene_0362.wav",
+            "event_onset": 2.4,
+            "event_offset": 4.8,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0362_2.40_4.80.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0363.wav": [
+        {
+            "file": "test_snipped_scene_0363.wav",
+            "event_onset": 1.44,
+            "event_offset": 3.84,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0363_1.44_3.84.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0364.wav": [
+        {
+            "file": "test_snipped_scene_0364.wav",
+            "event_onset": 4.8,
+            "event_offset": 9.12,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0364_4.80_9.12.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0365.wav": [
+        {
+            "file": "test_snipped_scene_0365.wav",
+            "event_onset": 8.64,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0365_8.64_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0366.wav": [
+        {
+            "file": "test_snipped_scene_0366.wav",
+            "event_onset": 4.32,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0366_4.32_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0367.wav": [
+        {
+            "file": "test_snipped_scene_0367.wav",
+            "event_onset": 2.4,
+            "event_offset": 2.88,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0367_2.40_2.88.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0368.wav": [
+        {
+            "file": "test_snipped_scene_0368.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.0,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0368_9.12_12.00.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0369.wav": [
+        {
+            "file": "test_snipped_scene_0369.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0369_7.68_12.00.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0370.wav": [
+        {
+            "file": "test_snipped_scene_0370.wav",
+            "event_onset": 8.64,
+            "event_offset": 9.6,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0370_8.64_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0371.wav": [
+        {
+            "file": "test_snipped_scene_0371.wav",
+            "event_onset": 4.8,
+            "event_offset": 6.24,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0371_4.80_6.24.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0372.wav": [
+        {
+            "file": "test_snipped_scene_0372.wav",
+            "event_onset": 16.32,
+            "event_offset": 18.72,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0372_16.32_18.72.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0373.wav": [
+        {
+            "file": "test_snipped_scene_0373.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.12,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0373_5.76_9.12.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0374.wav": [
+        {
+            "file": "test_snipped_scene_0374.wav",
+            "event_onset": 8.64,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0374_8.64_11.52.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0375.wav": [
+        {
+            "file": "test_snipped_scene_0375.wav",
+            "event_onset": 2.4,
+            "event_offset": 4.32,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0375_2.40_4.32.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0376.wav": [
+        {
+            "file": "test_snipped_scene_0376.wav",
+            "event_onset": 10.08,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0376_10.08_10.56.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0377.wav": [
+        {
+            "file": "test_snipped_scene_0377.wav",
+            "event_onset": 3.84,
+            "event_offset": 4.32,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0377_3.84_4.32.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0378.wav": [],
+    "test_snipped_scene_0379.wav": [
+        {
+            "file": "test_snipped_scene_0379.wav",
+            "event_onset": 4.32,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0379_4.32_7.20.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0380.wav": [
+        {
+            "file": "test_snipped_scene_0380.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0380_6.72_10.56.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0381.wav": [
+        {
+            "file": "test_snipped_scene_0381.wav",
+            "event_onset": 9.6,
+            "event_offset": 13.92,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0381_9.60_13.92.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0382.wav": [
+        {
+            "file": "test_snipped_scene_0382.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.04,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0382_7.20_11.04.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0383.wav": [
+        {
+            "file": "test_snipped_scene_0383.wav",
+            "event_onset": 5.76,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0383_5.76_7.20.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0384.wav": [
+        {
+            "file": "test_snipped_scene_0384.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 10.08,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0384_7.20_10.08.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0385.wav": [
+        {
+            "file": "test_snipped_scene_0385.wav",
+            "event_onset": 8.64,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0385_8.64_10.56.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0386.wav": [
+        {
+            "file": "test_snipped_scene_0386.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0386_8.16_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0387.wav": [
+        {
+            "file": "test_snipped_scene_0387.wav",
+            "event_onset": 6.72,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0387_6.72_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0388.wav": [
+        {
+            "file": "test_snipped_scene_0388.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0388_1.92_5.28.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0389.wav": [
+        {
+            "file": "test_snipped_scene_0389.wav",
+            "event_onset": 1.44,
+            "event_offset": 3.36,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0389_1.44_3.36.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0390.wav": [
+        {
+            "file": "test_snipped_scene_0390.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0390_9.60_12.96.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0391.wav": [
+        {
+            "file": "test_snipped_scene_0391.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.08,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0391_6.24_10.08.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0392.wav": [
+        {
+            "file": "test_snipped_scene_0392.wav",
+            "event_onset": 9.6,
+            "event_offset": 10.08,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0392_9.60_10.08.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0393.wav": [
+        {
+            "file": "test_snipped_scene_0393.wav",
+            "event_onset": 7.68,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0393_7.68_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0394.wav": [
+        {
+            "file": "test_snipped_scene_0394.wav",
+            "event_onset": 6.72,
+            "event_offset": 12.48,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0394_6.72_12.48.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0395.wav": [
+        {
+            "file": "test_snipped_scene_0395.wav",
+            "event_onset": 9.12,
+            "event_offset": 11.52,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0395_9.12_11.52.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0396.wav": [
+        {
+            "file": "test_snipped_scene_0396.wav",
+            "event_onset": 4.32,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0396_4.32_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0397.wav": [
+        {
+            "file": "test_snipped_scene_0397.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.16,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0397_6.24_8.16.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0398.wav": [
+        {
+            "file": "test_snipped_scene_0398.wav",
+            "event_onset": 3.36,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0398_3.36_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0399.wav": [
+        {
+            "file": "test_snipped_scene_0399.wav",
+            "event_onset": 0.96,
+            "event_offset": 4.32,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0399_0.96_4.32.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0400.wav": [
+        {
+            "file": "test_snipped_scene_0400.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0400_9.12_12.96.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0401.wav": [
+        {
+            "file": "test_snipped_scene_0401.wav",
+            "event_onset": 6.24,
+            "event_offset": 6.72,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0401_6.24_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0402.wav": [
+        {
+            "file": "test_snipped_scene_0402.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0402_2.40_6.24.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0403.wav": [],
+    "test_snipped_scene_0404.wav": [
+        {
+            "file": "test_snipped_scene_0404.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.52,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0404_7.68_11.52.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0405.wav": [
+        {
+            "file": "test_snipped_scene_0405.wav",
+            "event_onset": 5.76,
+            "event_offset": 9.6,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0405_5.76_9.60.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0406.wav": [
+        {
+            "file": "test_snipped_scene_0406.wav",
+            "event_onset": 1.92,
+            "event_offset": 11.52,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0406_1.92_11.52.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0407.wav": [
+        {
+            "file": "test_snipped_scene_0407.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.04,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0407_7.20_11.04.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0408.wav": [
+        {
+            "file": "test_snipped_scene_0408.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.52,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0408_7.68_11.52.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0409.wav": [
+        {
+            "file": "test_snipped_scene_0409.wav",
+            "event_onset": 3.36,
+            "event_offset": 6.24,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0409_3.36_6.24.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0410.wav": [
+        {
+            "file": "test_snipped_scene_0410.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.72,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0410_2.40_6.72.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0411.wav": [
+        {
+            "file": "test_snipped_scene_0411.wav",
+            "event_onset": 8.64,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0411_8.64_10.56.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0412.wav": [
+        {
+            "file": "test_snipped_scene_0412.wav",
+            "event_onset": 8.16,
+            "event_offset": 17.28,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0412_8.16_17.28.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0413.wav": [
+        {
+            "file": "test_snipped_scene_0413.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0413_6.72_10.56.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0414.wav": [
+        {
+            "file": "test_snipped_scene_0414.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.04,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0414_7.20_11.04.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0415.wav": [
+        {
+            "file": "test_snipped_scene_0415.wav",
+            "event_onset": 4.32,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0415_4.32_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0416.wav": [
+        {
+            "file": "test_snipped_scene_0416.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.44,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0416_0.48_1.44.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0417.wav": [
+        {
+            "file": "test_snipped_scene_0417.wav",
+            "event_onset": 10.08,
+            "event_offset": 11.04,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0417_10.08_11.04.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0418.wav": [
+        {
+            "file": "test_snipped_scene_0418.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 11.04,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0418_7.20_11.04.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0419.wav": [
+        {
+            "file": "test_snipped_scene_0419.wav",
+            "event_onset": 4.8,
+            "event_offset": 13.92,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0419_4.80_13.92.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0420.wav": [
+        {
+            "file": "test_snipped_scene_0420.wav",
+            "event_onset": 2.4,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0420_2.40_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0421.wav": [
+        {
+            "file": "test_snipped_scene_0421.wav",
+            "event_onset": 8.16,
+            "event_offset": 15.36,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0421_8.16_15.36.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0422.wav": [
+        {
+            "file": "test_snipped_scene_0422.wav",
+            "event_onset": 0.96,
+            "event_offset": 5.76,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0422_0.96_5.76.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0423.wav": [
+        {
+            "file": "test_snipped_scene_0423.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.76,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0423_1.92_5.76.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0424.wav": [
+        {
+            "file": "test_snipped_scene_0424.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0424_3.36_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0425.wav": [
+        {
+            "file": "test_snipped_scene_0425.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0425_0.48_1.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0426.wav": [
+        {
+            "file": "test_snipped_scene_0426.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0426_5.28_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0427.wav": [
+        {
+            "file": "test_snipped_scene_0427.wav",
+            "event_onset": 1.44,
+            "event_offset": 4.32,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0427_1.44_4.32.wav",
+            "event_label": "gun_shot"
+        },
+        {
+            "file": "test_snipped_scene_0427.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0427_4.80_5.28.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0428.wav": [
+        {
+            "file": "test_snipped_scene_0428.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 9.6,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0428_5.28_9.60.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0429.wav": [
+        {
+            "file": "test_snipped_scene_0429.wav",
+            "event_onset": 6.24,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0429_6.24_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0430.wav": [
+        {
+            "file": "test_snipped_scene_0430.wav",
+            "event_onset": 2.88,
+            "event_offset": 5.76,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0430_2.88_5.76.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0431.wav": [
+        {
+            "file": "test_snipped_scene_0431.wav",
+            "event_onset": 1.92,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0431_1.92_7.68.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0432.wav": [
+        {
+            "file": "test_snipped_scene_0432.wav",
+            "event_onset": 1.44,
+            "event_offset": 1.92,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0432_1.44_1.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0433.wav": [
+        {
+            "file": "test_snipped_scene_0433.wav",
+            "event_onset": 2.88,
+            "event_offset": 3.84,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0433_2.88_3.84.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0434.wav": [
+        {
+            "file": "test_snipped_scene_0434.wav",
+            "event_onset": 9.12,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0434_9.12_12.96.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0435.wav": [
+        {
+            "file": "test_snipped_scene_0435.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.76,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0435_1.92_5.76.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0436.wav": [
+        {
+            "file": "test_snipped_scene_0436.wav",
+            "event_onset": 6.72,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0436_6.72_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0437.wav": [
+        {
+            "file": "test_snipped_scene_0437.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0437_5.28_7.20.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0438.wav": [],
+    "test_snipped_scene_0439.wav": [
+        {
+            "file": "test_snipped_scene_0439.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0439_7.20_10.56.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0440.wav": [
+        {
+            "file": "test_snipped_scene_0440.wav",
+            "event_onset": 1.92,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0440_1.92_5.28.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0441.wav": [
+        {
+            "file": "test_snipped_scene_0441.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0441_2.40_6.24.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0442.wav": [
+        {
+            "file": "test_snipped_scene_0442.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 10.08,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0442_7.20_10.08.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0443.wav": [
+        {
+            "file": "test_snipped_scene_0443.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0443_8.16_9.60.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0444.wav": [
+        {
+            "file": "test_snipped_scene_0444.wav",
+            "event_onset": 0.48,
+            "event_offset": 4.32,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0444_0.48_4.32.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0445.wav": [
+        {
+            "file": "test_snipped_scene_0445.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 13.44,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0445_5.28_13.44.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0446.wav": [
+        {
+            "file": "test_snipped_scene_0446.wav",
+            "event_onset": 6.72,
+            "event_offset": 8.64,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0446_6.72_8.64.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0447.wav": [
+        {
+            "file": "test_snipped_scene_0447.wav",
+            "event_onset": 8.16,
+            "event_offset": 9.6,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0447_8.16_9.60.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0448.wav": [
+        {
+            "file": "test_snipped_scene_0448.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0448_7.20_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0449.wav": [
+        {
+            "file": "test_snipped_scene_0449.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0449_4.80_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0450.wav": [
+        {
+            "file": "test_snipped_scene_0450.wav",
+            "event_onset": 6.72,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0450_6.72_10.56.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0451.wav": [
+        {
+            "file": "test_snipped_scene_0451.wav",
+            "event_onset": 9.6,
+            "event_offset": 12.959999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0451_9.60_12.96.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0452.wav": [
+        {
+            "file": "test_snipped_scene_0452.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0452_5.28_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0453.wav": [
+        {
+            "file": "test_snipped_scene_0453.wav",
+            "event_onset": 6.24,
+            "event_offset": 12.0,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0453_6.24_12.00.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0454.wav": [
+        {
+            "file": "test_snipped_scene_0454.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.68,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0454_3.36_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0455.wav": [
+        {
+            "file": "test_snipped_scene_0455.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0455_4.80_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0456.wav": [
+        {
+            "file": "test_snipped_scene_0456.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.44,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0456_0.48_1.44.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0457.wav": [
+        {
+            "file": "test_snipped_scene_0457.wav",
+            "event_onset": 7.199999999999999,
+            "event_offset": 9.12,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0457_7.20_9.12.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0458.wav": [
+        {
+            "file": "test_snipped_scene_0458.wav",
+            "event_onset": 2.4,
+            "event_offset": 6.24,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0458_2.40_6.24.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0459.wav": [
+        {
+            "file": "test_snipped_scene_0459.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0459_6.72_7.68.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0460.wav": [
+        {
+            "file": "test_snipped_scene_0460.wav",
+            "event_onset": 0.48,
+            "event_offset": 4.32,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0460_0.48_4.32.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0461.wav": [
+        {
+            "file": "test_snipped_scene_0461.wav",
+            "event_onset": 3.36,
+            "event_offset": 7.68,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0461_3.36_7.68.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0462.wav": [
+        {
+            "file": "test_snipped_scene_0462.wav",
+            "event_onset": 4.8,
+            "event_offset": 7.68,
+            "ground_truth": "cough",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0462_4.80_7.68.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0463.wav": [
+        {
+            "file": "test_snipped_scene_0463.wav",
+            "event_onset": 10.08,
+            "event_offset": 11.52,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0463_10.08_11.52.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0464.wav": [
+        {
+            "file": "test_snipped_scene_0464.wav",
+            "event_onset": 6.24,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0464_6.24_10.56.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0465.wav": [
+        {
+            "file": "test_snipped_scene_0465.wav",
+            "event_onset": 2.88,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0465_2.88_7.20.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0466.wav": [
+        {
+            "file": "test_snipped_scene_0466.wav",
+            "event_onset": 8.16,
+            "event_offset": 12.48,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0466_8.16_12.48.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0467.wav": [
+        {
+            "file": "test_snipped_scene_0467.wav",
+            "event_onset": 10.559999999999999,
+            "event_offset": 11.52,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0467_10.56_11.52.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0468.wav": [
+        {
+            "file": "test_snipped_scene_0468.wav",
+            "event_onset": 9.6,
+            "event_offset": 11.04,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0468_9.60_11.04.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0469.wav": [
+        {
+            "file": "test_snipped_scene_0469.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 8.64,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0469_5.28_8.64.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0470.wav": [
+        {
+            "file": "test_snipped_scene_0470.wav",
+            "event_onset": 0.96,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0470_0.96_5.28.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0471.wav": [
+        {
+            "file": "test_snipped_scene_0471.wav",
+            "event_onset": 1.92,
+            "event_offset": 3.36,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0471_1.92_3.36.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0472.wav": [
+        {
+            "file": "test_snipped_scene_0472.wav",
+            "event_onset": 7.68,
+            "event_offset": 8.64,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0472_7.68_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0473.wav": [
+        {
+            "file": "test_snipped_scene_0473.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.52,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0473_7.68_11.52.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0474.wav": [
+        {
+            "file": "test_snipped_scene_0474.wav",
+            "event_onset": 1.44,
+            "event_offset": 4.8,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0474_1.44_4.80.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0475.wav": [
+        {
+            "file": "test_snipped_scene_0475.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "dog_bark",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0475_3.84_7.68.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0476.wav": [
+        {
+            "file": "test_snipped_scene_0476.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0476_3.84_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0477.wav": [
+        {
+            "file": "test_snipped_scene_0477.wav",
+            "event_onset": 3.84,
+            "event_offset": 8.64,
+            "ground_truth": "siren",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0477_3.84_8.64.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0478.wav": [
+        {
+            "file": "test_snipped_scene_0478.wav",
+            "event_onset": 6.72,
+            "event_offset": 7.199999999999999,
+            "ground_truth": "gun_shot",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0478_6.72_7.20.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0479.wav": [
+        {
+            "file": "test_snipped_scene_0479.wav",
+            "event_onset": 2.88,
+            "event_offset": 6.72,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0479_2.88_6.72.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0480.wav": [
+        {
+            "file": "test_snipped_scene_0480.wav",
+            "event_onset": 3.84,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0480_3.84_7.68.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0481.wav": [
+        {
+            "file": "test_snipped_scene_0481.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 7.68,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0481_5.28_7.68.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0482.wav": [
+        {
+            "file": "test_snipped_scene_0482.wav",
+            "event_onset": 5.76,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0482_5.76_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0483.wav": [
+        {
+            "file": "test_snipped_scene_0483.wav",
+            "event_onset": 5.279999999999999,
+            "event_offset": 8.16,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0483_5.28_8.16.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0484.wav": [
+        {
+            "file": "test_snipped_scene_0484.wav",
+            "event_onset": 0.48,
+            "event_offset": 1.44,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0484_0.48_1.44.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0485.wav": [
+        {
+            "file": "test_snipped_scene_0485.wav",
+            "event_onset": 0.48,
+            "event_offset": 0.96,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0485_0.48_0.96.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0486.wav": [
+        {
+            "file": "test_snipped_scene_0486.wav",
+            "event_onset": 0.96,
+            "event_offset": 1.92,
+            "ground_truth": "car_horn",
+            "match": false,
+            "extracted_audio_filename": "test_snipped_scene_0486_0.96_1.92.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0487.wav": [
+        {
+            "file": "test_snipped_scene_0487.wav",
+            "event_onset": 8.16,
+            "event_offset": 13.44,
+            "ground_truth": "cough",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0487_8.16_13.44.wav",
+            "event_label": "cough"
+        }
+    ],
+    "test_snipped_scene_0488.wav": [
+        {
+            "file": "test_snipped_scene_0488.wav",
+            "event_onset": 4.8,
+            "event_offset": 5.76,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0488_4.80_5.76.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0489.wav": [
+        {
+            "file": "test_snipped_scene_0489.wav",
+            "event_onset": 10.08,
+            "event_offset": 13.92,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0489_10.08_13.92.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0490.wav": [
+        {
+            "file": "test_snipped_scene_0490.wav",
+            "event_onset": 4.32,
+            "event_offset": 7.68,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0490_4.32_7.68.wav",
+            "event_label": "gun_shot"
+        }
+    ],
+    "test_snipped_scene_0491.wav": [
+        {
+            "file": "test_snipped_scene_0491.wav",
+            "event_onset": 3.84,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0491_3.84_5.28.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0492.wav": [
+        {
+            "file": "test_snipped_scene_0492.wav",
+            "event_onset": 1.44,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0492_1.44_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0493.wav": [
+        {
+            "file": "test_snipped_scene_0493.wav",
+            "event_onset": 6.24,
+            "event_offset": 8.16,
+            "ground_truth": "siren",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0493_6.24_8.16.wav",
+            "event_label": "siren"
+        }
+    ],
+    "test_snipped_scene_0494.wav": [
+        {
+            "file": "test_snipped_scene_0494.wav",
+            "event_onset": 4.8,
+            "event_offset": 8.16,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0494_4.80_8.16.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0495.wav": [
+        {
+            "file": "test_snipped_scene_0495.wav",
+            "event_onset": 4.32,
+            "event_offset": 5.279999999999999,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0495_4.32_5.28.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0496.wav": [
+        {
+            "file": "test_snipped_scene_0496.wav",
+            "event_onset": 7.68,
+            "event_offset": 11.04,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0496_7.68_11.04.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0497.wav": [
+        {
+            "file": "test_snipped_scene_0497.wav",
+            "event_onset": 3.36,
+            "event_offset": 4.32,
+            "ground_truth": "car_horn",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0497_3.36_4.32.wav",
+            "event_label": "car_horn"
+        }
+    ],
+    "test_snipped_scene_0498.wav": [
+        {
+            "file": "test_snipped_scene_0498.wav",
+            "event_onset": 2.88,
+            "event_offset": 5.76,
+            "ground_truth": "dog_bark",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0498_2.88_5.76.wav",
+            "event_label": "dog_bark"
+        }
+    ],
+    "test_snipped_scene_0499.wav": [
+        {
+            "file": "test_snipped_scene_0499.wav",
+            "event_onset": 8.16,
+            "event_offset": 10.559999999999999,
+            "ground_truth": "gun_shot",
+            "match": true,
+            "extracted_audio_filename": "test_snipped_scene_0499_8.16_10.56.wav",
+            "event_label": "gun_shot"
+        }
+    ]
+}
