@@ -20,33 +20,11 @@ from src.config import (
     DETECTION_TEST_PATH,
     YAMNET_EXTRACTED_AUDIO_PATH,
 )
-from src.utils.audio_to_spectrograms import create_spectrogram_pkl
 from src.utils.cut_audio import cut_events_from_audio
 from src.utils.generate_ground_truth import generate_gt_events_dict
 
-
-def generate_gt_events_dict():
-    # check if gt pkl file is created
-    gt_pkl_path = "data/processed/yamnet/spectrograms_test_list.pkl"
-    if not (os.path.exists(gt_pkl_path)):
-        create_spectrogram_pkl()
-
-    # get gt events to use for all models
-    gt_events = pickle.load(open(gt_pkl_path, "rb"))
-    gt_event_dict = {
-        ref_event["file"]: [
-            {
-                "file": ref_event["file"],
-                "event_onset": ref_event["onset"],
-                "event_offset": ref_event["offset"],
-                "event_label": ref_event["event_label"],
-            }
-        ]
-        for ref_event in gt_events
-    }
-    return gt_event_dict
-
 GT_EVENT_DICT = generate_gt_events_dict()
+
 
 def calculate_metrics(
     pred_event_dict, gt_event_dict=GT_EVENT_DICT, time_resolution=1.0, t_collar=0.25
