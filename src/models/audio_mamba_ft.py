@@ -7,7 +7,7 @@ This demonstrates how to:
 3. The classification head is automatically re-initialized when num_classes differs
 """
 
-# import sys
+import sys
 import os
 
 # # Add the parent directory to the path
@@ -20,6 +20,8 @@ from torch.utils.data import DataLoader
 from loguru import logger
 from tqdm import tqdm
 
+# audio_mamba_path = os.path.join(os.path.dirname(__file__), "../../external/audio_mamba")
+# sys.path.insert(0, audio_mamba_path)
 import external.audio_mamba.src.models as models
 
 from external.audio_mamba.src import dataloader
@@ -30,8 +32,8 @@ from src.utils.audio_mamba_metadata_generator import generate_audio_mamba_metada
 CONFIG = {
     # Model settings
     "model_type": "base",  # base, small, or tiny
-    "pretrained_path": "external/audio_mamba/examples/inference/models/aum-base_audioset-vggsound.pth",
-    # "pretrained_path": "checkpoints/audio_mamba_ft.pth",
+    "pretrained_path": "external/audio_mamba/examples/inference/models/aum-base_audioset-vggsound.pth",  # For classification fine-tune
+    # "pretrained_path": "checkpoints/audio_mamba_ft.pth",  # For use with YAMNet or detection fine-tune
     "pretrained_fstride": 16,
     "pretrained_tstride": 16,
     # Your dataset settings
@@ -40,16 +42,16 @@ CONFIG = {
     "patch_size": (16, 16),
     "strides": (16, 16),
     # Data settings
-    "train_json": "data/processed/audio_mamba/train_data.json",
-    "val_json": "data/processed/audio_mamba/val_data.json",
-    # "val_json": "data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",
+    "train_json": "data/processed/audio_mamba/train_data_noisy.json",
+    "val_json": "data/processed/audio_mamba/val_data_noisy.json",  # For classification fine-tune
+    # "val_json": "data/processed/yamnet/extracted_audio/audio_mamba_metadata.json",  # For use with YAMNet
     "label_csv": "data/processed/audio_mamba/class_labels_indices.csv",
-    "dataset_mean": -5.0767093,  # TODO: Modify per dataset
-    "dataset_std": 4.4533687,
+    "dataset_mean": -0.8207,  # TODO: Modify per dataset: (-3.3689575, 4.3596820) - snipped, (-0.8207, 2.15) - noisy
+    "dataset_std": 2.15,
     # Training settings
     "batch_size": 64,
-    "learning_rate": 1e-5,  # Lower LR for fine-tuning
-    "num_epochs": 2,
+    "learning_rate": 1e-4,  # Lower LR for fine-tuning
+    "num_epochs": 3,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
 }
 
@@ -213,31 +215,38 @@ def validate_model(model, val_loader, config):
     model.eval()
     total_correct = 0
     total_samples = 0
-    preds_gt_list = []
+    path_pred_dict = {}
 
     with torch.no_grad():
         for audio_input, labels, paths in val_loader:
+            # Remove breakpoint() for production
             audio_input = audio_input.to(config["device"])
             labels = labels.to(config["device"])
 
             output = model(audio_input)
-            predictions = torch.sigmoid(output) > 0.5  # For multi-label
+            predictions = torch.argmax(output, dim=1)  # Single-label prediction
+            labels = torch.argmax(labels, dim=1)  # Convert one-hot to class index
 
-            # Simple accuracy calculation (adjust for your metric)
-            total_correct += (predictions == labels).all(dim=1).sum().item()
+            # Exact match accuracy (all classes must match)
+            total_correct += (predictions == labels).sum().item()
             total_samples += labels.size(0)
 
-            for pred, gt in zip(predictions, labels):
-                # Convert to the actual class label
-                pred_label = str(CLASSES[pred.int().argmax()])
-                gt_label = str(CLASSES[gt.argmax()])
-                if pred_label == gt_label:
-                    preds_gt_list.append((pred_label, gt_label, True))
-                else:
-                    preds_gt_list.append((pred_label, gt_label, False))
+            # For per-sample tracking
+            for pred, gt, path in zip(predictions, labels, paths):
+                pred_class = CLASSES[pred.item()]
+                gt_class = CLASSES[gt.item()]
+
+                # Check if predictions match ground truth exactly
+                match = pred_class == gt_class
+                path_pred_dict[os.path.basename(path)] = {
+                    "pred_class": pred_class,
+                    "gt_class": gt_class,
+                    "match": match,
+                }
 
     accuracy = total_correct / total_samples
     logger.info(f"Validation Accuracy: {accuracy:.4f}")
+    return path_pred_dict
     # model.train()
 
 
@@ -253,13 +262,14 @@ def audio_mamba_inference(checkpoint_path, val_json_path):
     model.load_state_dict(checkpoint)
     model = model.to(CONFIG["device"])
     _, val_loader = create_dataloaders(CONFIG)
-    validate_model(model, val_loader, CONFIG)
+    path_pred_dict = validate_model(model, val_loader, CONFIG)
+    return path_pred_dict
 
 
 if __name__ == "__main__":
     # Only train if the checkpoint doesn't exist
     checkpoint_path = "checkpoints/audio_mamba_ft.pth"
-    retrain_model = False
+    retrain_model = True
 
     if not os.path.exists(checkpoint_path) or retrain_model:
         # Regenerate the Audio Mamba metadata
@@ -297,6 +307,7 @@ if __name__ == "__main__":
     else:
         # Just running validation
         logger.info(f"Checkpoint found at {checkpoint_path}, skipping training")
+        CONFIG["pretrained_path"] = checkpoint_path
         model = create_model(CONFIG)
         checkpoint = torch.load(checkpoint_path, map_location=CONFIG["device"])
         model.load_state_dict(checkpoint)
