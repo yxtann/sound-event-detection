@@ -85,6 +85,7 @@ class Trainer:
         self.classes = CLASSES
         self.n_classes = len(self.classes) + 1 # class for no events
         self.mode = kwargs.pop("mode", 'train')
+        self.extra_layer = kwargs.pop("extra_layer", False)
 
         if self.mode == 'train':
             self.train_steps = len(train_files) // self.batch_size
@@ -122,8 +123,11 @@ class Trainer:
 
     def build_model(self):
         embeddings = keras.Input(shape=(None, 1024), dtype=tf.float32)
-        x = keras.layers.TimeDistributed(keras.layers.Dense(256, activation='relu'))(embeddings)
-        x = keras.layers.Dropout(0.3)(x)
+        if self.extra_layer:
+            x = keras.layers.TimeDistributed(keras.layers.Dense(256, activation='relu'))(embeddings)
+            x = keras.layers.Dropout(0.3)(x)
+        else:
+            x = keras.layers.Dropout(0.3)(embeddings)
         output = keras.layers.TimeDistributed(keras.layers.Dense(self.n_classes, activation='softmax'))(x)
         self.model = keras.Model(inputs=embeddings, outputs=output)
 
@@ -145,7 +149,7 @@ class Trainer:
         self.model.save(self.checkpoint_path, include_optimizer=False)
         print("Saved model to", self.checkpoint_path)
 
-    def load_model(self, checkpoint_path=YAMNET_SINGLE_STAGE_CHECKPOINT):
+    def load_model(self, checkpoint_path=None):
         """
         Load a previously saved model into self.model
         """
