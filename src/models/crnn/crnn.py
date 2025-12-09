@@ -10,9 +10,9 @@ import pprint
 import json
 import math
 
-from sklearn.metrics import confusion_matrix
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.model_selection import train_test_split
+from scipy.ndimage import gaussian_filter1d
 from tqdm import tqdm
 
 import torch
@@ -159,7 +159,7 @@ class CRNN(nn.Module):
 #######################################################################################
 # MAIN SCRIPT STARTS HERE
 #######################################################################################
-def run_crnn(create_data: bool = False, retrain: bool = false):
+def run_crnn(create_data: bool = False):
 
     if create_data:
         from src.models.crnn.process_audio import run_audio_processing
@@ -304,7 +304,8 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     f1_overall_1sec_list, er_overall_1sec_list = [0] * nb_epoch, [0] * nb_epoch
     posterior_thresh = 0.5
 
-    if retrain:
+    checkpoint_path = os.path.join(checkpoints_dir, checkpoint_name)
+    if not os.path.exists(checkpoint_path):
         for i in tqdm(range(nb_epoch)):
             print("Epoch : {} ".format(i), end="")
 
@@ -400,10 +401,9 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     # FINAL EVALUATION ON UNSEEN TEST SET
     # -----------------------------------------------------------------
 
-    # Load best model
-    best_model_path = os.path.join(checkpoints_dir, checkpoint_name)
+    # Load from checkpoint
 
-    model.load_state_dict(torch.load(best_model_path))
+    model.load_state_dict(torch.load(checkpoint_path))
     model.eval()
 
     all_test_preds = []
@@ -414,6 +414,14 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
             all_test_preds.append(outputs.cpu().numpy())
 
     test_probs = np.concatenate(all_test_preds, axis=0)
+    
+    test_probs = gaussian_filter1d(
+        input=test_probs, 
+        sigma=3,
+        axis=1,
+        mode='nearest'
+    )
+
     test_pred_thresh = (test_probs > posterior_thresh).astype(int)
 
     # Calculate metrics on Test Data
@@ -482,5 +490,5 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
 
 
 if __name__ == "__main__":
-    formatted_results = run_crnn(create_data=False, retrain=True)
+    formatted_results = run_crnn(create_data=False)
     print(formatted_results)

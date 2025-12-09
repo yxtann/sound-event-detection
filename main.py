@@ -71,7 +71,7 @@ def run_pipeline(args):
             events_list = run_yamnet_singlestage(test_files)
         elif args.combined_model == "crnn":
             from src.models.crnn.crnn import run_crnn
-            events_list = run_crnn(create_data=False, retrain=True)
+            events_list = run_crnn(create_data=False)
         elif args.combined_model == "htsat":
             from src.models.htsat.combined import run_htsat_combined
 
