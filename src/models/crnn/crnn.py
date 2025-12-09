@@ -175,11 +175,11 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     nb_ch = 1 if is_mono else 2
     batch_size = 64
     nb_epoch = 1000
-    patience = int(0.25 * nb_epoch)
+    patience = 5
     sr = 44100
     nfft = 2048
-    frames_1_sec = int(sr / (nfft / 2.0))
-    seq_len = int(math.ceil(20 * frames_1_sec)) + 1
+    frames_1_sec = (sr * 1.0) / (nfft / 2.0)
+    seq_len = int(math.ceil(20 * frames_1_sec))
 
     print("\n\nUNIQUE ID: {}".format(fig_name))
     print(
@@ -299,7 +299,7 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     # TRAINING LOOP
     # -----------------------------------------------------------------
 
-    best_epoch, pat_cnt, best_er, f1_for_best_er = 0, 0, 99999, 0.0
+    best_epoch, pat_cnt, best_er, f1_for_best_er, best_val_loss = 0, 0, 99999, 0.0, 9999
     tr_loss, val_loss = [0] * nb_epoch, [0] * nb_epoch
     f1_overall_1sec_list, er_overall_1sec_list = [0] * nb_epoch, [0] * nb_epoch
     posterior_thresh = 0.5
@@ -341,25 +341,28 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
             val_loss[i] = running_val_loss / len(val_loader)
 
             # Metrics calculation on VALIDATION set
-            val_probs = np.concatenate(all_preds, axis=0)
-            val_thresh = (val_probs > posterior_thresh).astype(int)
+            # val_probs = np.concatenate(all_preds, axis=0)
+            # val_thresh = (val_probs > posterior_thresh).astype(int)
 
             # Using Y_val here, not Y_test
-            score_list = compute_scores(
-                pred=val_thresh,
-                y=Y_val,
-                pred_probs=val_probs,  # Passed for mAP calculation
-                frames_in_1_sec=frames_1_sec,
-            )
+            # score_list = compute_scores(
+            #     pred=val_thresh,
+            #     y=Y_val,
+            #     pred_probs=val_probs,  # Passed for mAP calculation
+            #     frames_in_1_sec=frames_1_sec,
+            # )
 
-            f1_overall_1sec_list[i] = score_list["f1_overall_1sec"]
-            er_overall_1sec_list[i] = score_list["er_overall_1sec"]
+            # f1_overall_1sec_list[i] = score_list["f1_overall_1sec"]
+            # er_overall_1sec_list[i] = score_list["er_overall_1sec"]
             pat_cnt = pat_cnt + 1
 
             # Early Stopping Logic
-            if er_overall_1sec_list[i] < best_er:
-                best_er = er_overall_1sec_list[i]
-                f1_for_best_er = f1_overall_1sec_list[i]
+            # if er_overall_1sec_list[i] < best_er:
+            if val_loss[i] < best_val_loss:
+            
+                # best_er = er_overall_1sec_list[i]
+                # f1_for_best_er = f1_overall_1sec_list[i]
+                best_val_loss = val_loss[i]
 
                 # Save the best model
                 torch.save(
@@ -369,26 +372,24 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
                 pat_cnt = 0
 
             print(
-                "tr Loss : {:.4f}, val Loss : {:.4f}, F1 : {:.4f}, ER : {:.4f} | Best ER : {:.4f}, best_epoch: {}".format(
+                "tr Loss : {:.4f}, val Loss : {:.4f}, Best val loss : {:.4f}, best_epoch: {}".format(
                     tr_loss[i],
                     val_loss[i],
-                    f1_overall_1sec_list[i],
-                    er_overall_1sec_list[i],
-                    best_er,
+                    best_val_loss,
                     best_epoch,
                 )
             )
 
-            plot_functions(
-                checkpoints_dir,
-                fig_name,
-                nb_epoch,
-                tr_loss,
-                val_loss,
-                f1_overall_1sec_list,
-                er_overall_1sec_list,
-                "_main",
-            )
+            # plot_functions(
+            #     checkpoints_dir,
+            #     fig_name,
+            #     nb_epoch,
+            #     tr_loss,
+            #     val_loss,
+            #     f1_overall_1sec_list,
+            #     er_overall_1sec_list,
+            #     "_main",
+            # )
 
             if pat_cnt > patience:
                 print("Early stopping.")
@@ -416,21 +417,21 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
     test_pred_thresh = (test_probs > posterior_thresh).astype(int)
 
     # Calculate metrics on Test Data
-    test_scores = compute_scores(
-        pred=test_pred_thresh,
-        y=Y_test,
-        pred_probs=test_probs,  # Important: Pass raw probs for mAP
-        frames_in_1_sec=frames_1_sec,
-    )
+    # test_scores = compute_scores(
+    #     pred=test_pred_thresh,
+    #     y=Y_test,
+    #     pred_probs=test_probs,  # Important: Pass raw probs for mAP
+    #     frames_in_1_sec=frames_1_sec,
+    # )
 
-    print(f"Final Test F1 Score (1-sec block): {test_scores['f1_overall_1sec']:.4f}")
-    print(f"Final Test Error Rate (1-sec block): {test_scores['er_overall_1sec']:.4f}")
+    # print(f"Final Test F1 Score (1-sec block): {test_scores['f1_overall_1sec']:.4f}")
+    # print(f"Final Test Error Rate (1-sec block): {test_scores['er_overall_1sec']:.4f}")
 
     # Check if 'iou_macro' and 'map_macro' exist in keys (Safety check)
-    if "iou_macro" in test_scores:
-        print(f"Final Test IoU (Macro): {test_scores['iou_macro']:.4f}")
-    if "map_macro" in test_scores:
-        print(f"Final Test mAP (Macro): {test_scores['map_macro']:.4f}")
+    # if "iou_macro" in test_scores:
+    #     print(f"Final Test IoU (Macro): {test_scores['iou_macro']:.4f}")
+    # if "map_macro" in test_scores:
+    #     print(f"Final Test mAP (Macro): {test_scores['map_macro']:.4f}")
 
     ## Output Standard Format for metrics calculation
     idx_to_label = {0: "car_horn", 1: "cough", 2: "dog_bark", 3: "siren", 4: "gun_shot"}
@@ -439,6 +440,7 @@ def run_crnn(create_data: bool = False, retrain: bool = false):
 
     test_seq_file_indices = F_test_seq[:, 0].astype(int)
     test_filenames = [test_filenames_list[i] for i in test_seq_file_indices]
+
 
     print("Decoding events from predictions...")
     formatted_results = decode_predictions(
