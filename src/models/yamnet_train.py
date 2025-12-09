@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 import pickle
 import os
+from scipy.ndimage import median_filter
 import pandas as pd
 
 from loguru import logger
@@ -51,9 +52,10 @@ def preprocess_and_cache_features(file_list, cache_dir="data/cache/yamnet_embedd
 
     return cache_dir
 
-
-def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48):
+def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48, med_filter=True):
     """Convert framewise probabilities into onset/offset pairs"""
+    if med_filter:
+        preds = median_filter(preds, size=3)
     events = preds > threshold
     changes = np.diff(events.astype(int))
     onsets = (
@@ -67,7 +69,6 @@ def detect_onsets_offsets(preds, threshold=0.5, hop_time=0.48):
     elif len(offsets) > len(onsets):
         onsets = np.append(0, onsets)
     return onsets, offsets
-
 
 class YAMNetSEDDataset(Dataset):
     def __init__(self, file_list, onset_list, offset_list, cache_dir, hop_time=0.48):
@@ -118,6 +119,7 @@ class Solver(object):
         self.sr = kwargs.pop("sr", 16000)
         self.device = kwargs.pop("device", "cpu")
         self.mode = kwargs.pop("mode", "train")
+        self.batch_size = kwargs.pop("batch_size", 16)
 
         self.train_path = kwargs.pop(
             "train_path", "data/processed/yamnet/spectrograms_train.pkl"
@@ -152,7 +154,7 @@ class Solver(object):
                 data["offset"][train_idx],
                 self.cache_dir,
             )
-            self.trainloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+            self.trainloader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
 
             # Validation
             test_idx = [
@@ -165,8 +167,8 @@ class Solver(object):
                 data["offset"][test_idx],
                 self.cache_dir,
             )
-            self.testloader = DataLoader(test_dataset, batch_size=1, shuffle=True)
-
+            self.testloader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=True)
+        
             self.criterion = nn.BCELoss().to(self.device)
             self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
 
@@ -217,9 +219,7 @@ class Solver(object):
         torch.save(self.model.state_dict(), self.checkpoint_path)
         logger.info(f"Saved model to {self.checkpoint_path}")
 
-    def inference(
-        self, test_files, threshold=0.5
-    ):  # , plot_detection_viz=False, output_folder=None):
+    def inference(self, test_files, threshold=0.5, med_filter=True):#, plot_detection_viz=False, output_folder=None):
         events_dict = {}
         self.cache_dir = preprocess_and_cache_features(test_files)
         annots_df = pd.read_csv("data/processed/detection/test/annotations.csv")
@@ -248,7 +248,7 @@ class Solver(object):
                 preds = outputs[:, 0].cpu().numpy()
 
             onsets, offsets = detect_onsets_offsets(
-                preds, threshold=threshold, hop_time=self.hop_time
+                preds, threshold=threshold, hop_time=self.hop_time, med_filter=med_filter
             )
 
             """if plot_detection_viz:
@@ -387,7 +387,7 @@ def run_yamnet(
         )
         trained_solver.load_model(checkpoint_path)
 
-    events_list = trained_solver.inference(test_files)
+    events_list = trained_solver.inference(test_files,med_filter=True)
     return events_list
 
 
