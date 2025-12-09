@@ -115,7 +115,7 @@ def _vectorized_block_max(data, block_size):
         
     # Find number of full blocks (truncates excess frames)
     n_full_blocks = data.shape[0] // block_size
-    truncated_frames = n_full_blocks * block_size
+    truncated_frames = int(n_full_blocks * block_size)
     
     # Truncate array to be a multiple of block_size
     data_trunc = data[:truncated_frames, :]
